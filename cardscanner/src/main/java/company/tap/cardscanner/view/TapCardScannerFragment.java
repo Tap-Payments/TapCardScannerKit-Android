@@ -1,0 +1,29 @@
+package company.tap.cardscanner.view;
+
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import company.tap.cardscanner.R;
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class TapCardScannerFragment extends Fragment {
+
+    public TapCardScannerFragment() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_tap_card_scanner, container, false);
+    }
+}
