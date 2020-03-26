@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TapCardScannerKit-Android</string>
+    <string name="full_screen_scanner">Full screen scanner</string>
+    <string name="inline_scanner">Inline scanner</string>
 </resources>
