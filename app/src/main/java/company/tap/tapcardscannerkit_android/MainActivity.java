@@ -7,10 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import company.tap.cardscanner.view.TapCardScannerActivity;
 import company.tap.cardscanner.view.TapCardScannerFragment;
 
 public class MainActivity extends AppCompatActivity {
-
+    static final int REQUEST_CODE_SCAN_CARD = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void openFullScreenScanner(View view) {
         //TODO open TapCardScannerActivity
+        Intent intent = new Intent(this,TapCardScannerActivity.class);
+        startActivityForResult(intent,REQUEST_CODE_SCAN_CARD);
     }
 
     public void openOnlineScanner(View view) {

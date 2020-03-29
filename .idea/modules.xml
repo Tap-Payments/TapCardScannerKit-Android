@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TapCardScannerKit-Android.iml" filepath="$PROJECT_DIR$/TapCardScannerKit-Android.iml" group="TapCardScannerKit-Android" />
+      <module fileurl="file://$PROJECT_DIR$/TapScannerCardKit-TapCardScannerKit-Android.iml" filepath="$PROJECT_DIR$/TapScannerCardKit-TapCardScannerKit-Android.iml" group="TapCardScannerKit-Android" />
+      <module fileurl="file://$PROJECT_DIR$/app/TapScannerCardKit-app.iml" filepath="$PROJECT_DIR$/app/TapScannerCardKit-app.iml" group="TapCardScannerKit-Android/app" />
+      <module fileurl="file://$PROJECT_DIR$/cardscanner/TapScannerCardKit-cardscanner.iml" filepath="$PROJECT_DIR$/cardscanner/TapScannerCardKit-cardscanner.iml" group="TapCardScannerKit-Android/cardscanner" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="TapCardScannerKit-Android/app" />
       <module fileurl="file://$PROJECT_DIR$/cardscanner/cardscanner.iml" filepath="$PROJECT_DIR$/cardscanner/cardscanner.iml" group="TapCardScannerKit-Android/cardscanner" />
     </modules>
