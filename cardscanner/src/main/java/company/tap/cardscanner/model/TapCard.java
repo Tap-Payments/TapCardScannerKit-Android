@@ -1,45 +1,42 @@
 package company.tap.cardscanner.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 
 /**
  * Created by Mario Gamal on 3/26/20
  * Copyright © 2020 Tap Payments. All rights reserved.
  */
-public class TapCard implements  Serializable {
+public class TapCard implements Serializable {
 
     private String cardNumber;
     private String cardHoldername;
-    private String cardExpiryDate;
+    private String cardExpirydate;
 
-    public TapCard(String cardNumber, String cardHolder, String cardExpiryDate) {
+    public TapCard(String cardNumber, String cardHoldername, String cardExpirydate) {
         this.cardNumber = cardNumber;
-        this.cardHoldername = cardHolder;
-        this.cardExpiryDate = cardExpiryDate;
+        this.cardHoldername = cardHoldername;
+        this.cardExpirydate = cardExpirydate;
     }
-
-
-    protected TapCard(Parcel in) {
-        cardNumber = in.readString();
-        cardHoldername = in.readString();
-        cardExpiryDate = in.readString();
-    }
-
-
-
+    /**
+     *
+     * @return cardNumber
+     */
     public String getCardNumber() {
         return cardNumber;
     }
-
+    /**
+     *
+     * @return cardHoldername
+     */
     public String getCardHolder() {
         return cardHoldername;
     }
-
+    /**
+     *
+     * @return cardHoldername
+     */
     public String getCardExpiryDate() {
-        return cardExpiryDate;
+        return cardExpirydate;
     }
 
 }

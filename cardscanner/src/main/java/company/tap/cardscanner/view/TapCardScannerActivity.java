@@ -51,6 +51,7 @@ public class TapCardScannerActivity extends AppCompatActivity {
                 finishActivityWithResultCodeOK(tapCard);
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Log.i(TAG, "Scan canceled");
+                finishActivityWithResultCancelled("scan cancelled");
             } else {
                 Log.i(TAG, "Scan failed");
             }
@@ -59,6 +60,11 @@ public class TapCardScannerActivity extends AppCompatActivity {
 
     private void finishActivityWithResultCodeOK(TapCard tapCard) {
         setResult(RESULT_OK,new Intent().putExtra("tapcard", tapCard));
+        finish();
+    }
+
+    private void finishActivityWithResultCancelled(String error) {
+        setResult(RESULT_CANCELED,new Intent().putExtra("error", error));
         finish();
     }
 }

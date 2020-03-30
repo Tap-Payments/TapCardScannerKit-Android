@@ -18,6 +18,12 @@
         android:onClick="openOnlineScanner"
         android:text="@string/inline_scanner" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/scannedresult_Textview"/>
+
     <FrameLayout
         android:id="@+id/inline_container"
         android:layout_width="match_parent"
