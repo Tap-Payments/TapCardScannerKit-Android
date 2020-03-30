@@ -1,0 +1,7 @@
+Executable : /Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja
+arguments : 
+-C
+/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/debug/armeabi-v7a
+cardrecognizer
+jvmArgs : 
+

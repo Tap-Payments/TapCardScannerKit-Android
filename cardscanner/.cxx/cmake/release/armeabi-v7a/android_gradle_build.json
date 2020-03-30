@@ -1,0 +1,719 @@
+{
+  "stringTable": {
+    "0": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/armeabi-v7a",
+    "1": "--target=armv7-none-linux-androideabi19 --gcc-toolchain=/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dcardrecognizer_EXPORTS -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CaffePredictor -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CV -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Include -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Include/NeuralNetwork -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Include/Public -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Include/Recognizer -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Include/Torch -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Recognizer -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Torch -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/jniImpl -isystem /Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/include -isystem /Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/include/opencv -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -Oz -DNDEBUG -fPIC",
+    "2": "--target=armv7-none-linux-androideabi19 --gcc-toolchain=/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -Oz -DNDEBUG -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -frtti -fno-exceptions -Wno-enum-compare-switch -Wno-error=return-type -Wno-null-conversion -Wno-sign-compare -Wno-sign-promo -Wno-tautological-constant-compare -Wno-tautological-undefined-compare -Wno-unused-parameter -std=c++11",
+    "3": "--target=armv7-none-linux-androideabi19 --gcc-toolchain=/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DCPU_ONLY -DUSE_EIGEN -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/include -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/eigen -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/eigen/Eigen -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -Oz -DNDEBUG -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -mfpu=neon -marm -Wno-unused-command-line-argument -frtti -fexceptions -O3",
+    "4": "--target=armv7-none-linux-androideabi19 --gcc-toolchain=/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DLIBYUV_NEON -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -Oz -DNDEBUG -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -fno-exceptions -fno-rtti -Wall -O3",
+    "5": "--target=armv7-none-linux-androideabi19 --gcc-toolchain=/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DLIBYUV_NEON -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -Oz -DNDEBUG -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -fno-exceptions -fno-rtti -Wall -O3 -mfpu=neon",
+    "6": "--target=armv7-none-linux-androideabi19 --gcc-toolchain=/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DCPU_ONLY -DUSE_EIGEN -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CaffePredictor -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CV -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Include -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Include/NeuralNetwork -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Include/Public -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Include/Recognizer -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Include/Torch -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Recognizer -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Torch -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/jniImpl -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/eigen -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/eigen/Eigen -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/include -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf -I/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/include -isystem /Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/include -isystem /Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/include/opencv -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -Oz -DNDEBUG -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -mfpu=neon -marm -Wno-unused-command-line-argument -frtti -fexceptions -O3 -std=c++11"
+  },
+  "buildFiles": [
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/armneon2x86sse/cmake/Config.cmake.in",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/CMakeLists.txt",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/abi-armeabi-v7a/OpenCVConfig.cmake",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/armneon2x86sse/CMakeLists.txt",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/OpenCVConfig.cmake",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/CMakeLists.txt",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CMakeLists.txt",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/abi-armeabi-v7a/OpenCVModules-release.cmake",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/abi-armeabi-v7a/OpenCVModules.cmake",
+    "/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/build/cmake/android.toolchain.cmake",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/eigen/CMakeLists.txt",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/OpenCVConfig-version.cmake",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/CMakeLists.txt",
+    "/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/build/cmake/platforms.cmake",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/armeabi-v7a\" clean"
+  ],
+  "buildTargetsCommand": "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/armeabi-v7a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "protobuf-Release-armeabi-v7a": {
+      "buildCommand": "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/armeabi-v7a\" protobuf",
+      "buildType": "release",
+      "toolchain": "2474875162",
+      "abi": "armeabi-v7a",
+      "artifactName": "protobuf",
+      "files": [
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/descriptor.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/descriptor_database.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/descriptor.pb.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/dynamic_message.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/extension_set.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/extension_set_heavy.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/generated_message_reflection.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/generated_message_util.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/io/coded_stream.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/io/gzip_stream.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/io/printer.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/io/tokenizer.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/io/zero_copy_stream.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/io/zero_copy_stream_impl.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/io/zero_copy_stream_impl_lite.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/message.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/message_lite.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/reflection_ops.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/repeated_field.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/service.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/stubs/common.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/stubs/once.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/stubs/structurally_valid.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/stubs/strutil.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/stubs/substitute.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/text_format.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/unknown_field_set.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/wire_format.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/GoogleProtobuf/google/protobuf/wire_format_lite.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/armeabi-v7a/protobuf/libprotobuf.a"
+    },
+    "crossplatform-Release-armeabi-v7a": {
+      "buildCommand": "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/armeabi-v7a\" crossplatform",
+      "buildType": "release",
+      "toolchain": "2474875162",
+      "abi": "armeabi-v7a",
+      "artifactName": "crossplatform",
+      "files": [
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CaffePredictor/CaffeDatum.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CaffePredictor/CaffeDatumList.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CaffePredictor/CaffeNeuralNetwork.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CaffePredictor/CaffeObjectFactory.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CaffePredictor/CaffeResult.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CaffePredictor/CaffeResultList.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CV/canny.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CV/hough.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/CV/warp.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Recognizer/DateRecognizer.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Recognizer/EdgesDetector.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Recognizer/FrameStorage.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Recognizer/NameRecognizer.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Recognizer/NumberRecognizer.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Recognizer/RecognitionCore.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Recognizer/RecognitionResult.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Recognizer/Utils.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/ServiceContainer.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CrossPlatform/Torch/TorchManager.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/jniImpl/RecognitionCoreDelegate.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/jniImpl/TorchDelegate.cpp",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/armeabi-v7a/crossplatform/libcrossplatform.a"
+    },
+    "cardrecognizer-Release-armeabi-v7a": {
+      "buildCommand": "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/armeabi-v7a\" cardrecognizer",
+      "buildType": "release",
+      "toolchain": "2474875162",
+      "abi": "armeabi-v7a",
+      "artifactName": "cardrecognizer",
+      "files": [
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/CardRecognizer-jni.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/build/intermediates/cmake/release/obj/armeabi-v7a/libcardrecognizer.so"
+    },
+    "caffe-Release-armeabi-v7a": {
+      "buildCommand": "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/armeabi-v7a\" caffe",
+      "buildType": "release",
+      "toolchain": "2474875162",
+      "abi": "armeabi-v7a",
+      "artifactName": "caffe",
+      "files": [
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/blob.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/common.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layer_factory.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/base_conv_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/base_data_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/bnll_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/concat_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/conv_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/eltwise_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/flatten_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/im2col_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/inner_product_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/loss_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/lrn_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/memory_data_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/neuron_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/pooling_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/power_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/relu_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/sigmoid_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/softmax_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/softmax_loss_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/split_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/layers/tanh_layer.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/net.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/proto/caffe.pb.cc",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/syncedmem.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/util/im2col.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/util/insert_splits.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/util/io.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/util/math_functions.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/Caffe/util/upgrade_proto.cpp",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/armeabi-v7a/caffe/libcaffe.a"
+    },
+    "libyuv-Release-armeabi-v7a": {
+      "buildCommand": "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/armeabi-v7a\" libyuv",
+      "buildType": "release",
+      "toolchain": "2474875162",
+      "abi": "armeabi-v7a",
+      "artifactName": "libyuv",
+      "files": [
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/compare_neon.cc",
+          "flagsOrdinal": 5,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/rotate_neon.cc",
+          "flagsOrdinal": 5,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/row_neon.cc",
+          "flagsOrdinal": 5,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/scale_neon.cc",
+          "flagsOrdinal": 5,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/compare.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/compare_common.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/compare_gcc.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/compare_mmi.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/compare_msa.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/compare_neon64.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/convert.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/convert_argb.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/convert_from.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/convert_from_argb.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/convert_to_argb.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/convert_to_i420.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/cpu_id.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/planar_functions.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/rotate.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/rotate_any.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/rotate_argb.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/rotate_common.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/rotate_gcc.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/rotate_mmi.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/rotate_msa.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/rotate_neon64.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/row_any.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/row_common.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/row_gcc.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/row_mmi.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/row_msa.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/row_neon64.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/scale.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/scale_any.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/scale_argb.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/scale_common.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/scale_gcc.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/scale_mmi.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/scale_msa.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/scale_neon64.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/source/video_common.cc",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/armeabi-v7a/libyuv/liblibyuv.a"
+    }
+  },
+  "toolchains": {
+    "2474875162": {
+      "cppCompilerExecutable": "/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cc",
+    "cpp"
+  ]
+}

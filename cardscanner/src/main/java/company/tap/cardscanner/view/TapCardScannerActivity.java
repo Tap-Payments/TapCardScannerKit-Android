@@ -6,11 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
+
+import java.io.Serializable;
 
 import cards.pay.paycardsrecognizer.sdk.Card;
 import cards.pay.paycardsrecognizer.sdk.ScanCardIntent;
 import company.tap.cardscanner.R;
+import company.tap.cardscanner.model.TapCard;
 
 public class TapCardScannerActivity extends AppCompatActivity {
 
@@ -42,11 +46,19 @@ public class TapCardScannerActivity extends AppCompatActivity {
                         + "Card holder: " + card.getCardHolderName() + "\n"
                         + "Card expiration date: " + card.getExpirationDate();
                 Log.i(TAG, "Card info: " + cardData);
+                TapCard tapCard = new TapCard(card.getCardNumber(),card.getCardHolderName(),card.getExpirationDate());
+
+                finishActivityWithResultCodeOK(tapCard);
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Log.i(TAG, "Scan canceled");
             } else {
                 Log.i(TAG, "Scan failed");
             }
         }
+    }
+
+    private void finishActivityWithResultCodeOK(TapCard tapCard) {
+        setResult(RESULT_OK,new Intent().putExtra("tapcard", tapCard));
+        finish();
     }
 }

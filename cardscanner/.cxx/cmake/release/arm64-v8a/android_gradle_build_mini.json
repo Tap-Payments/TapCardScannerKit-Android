@@ -1,0 +1,55 @@
+{
+  "buildFiles": [
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/armneon2x86sse/cmake/Config.cmake.in",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/abi-arm64-v8a/OpenCVModules.cmake",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/libyuv/CMakeLists.txt",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/abi-arm64-v8a/OpenCVModules-release.cmake",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/armneon2x86sse/CMakeLists.txt",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/OpenCVConfig.cmake",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/CMakeLists.txt",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/crossplatform/CMakeLists.txt",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/abi-arm64-v8a/OpenCVConfig.cmake",
+    "/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/build/cmake/android.toolchain.cmake",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/eigen/CMakeLists.txt",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2/sdk/native/jni/OpenCVConfig-version.cmake",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/caffe/CMakeLists.txt",
+    "/Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/build/cmake/platforms.cmake",
+    "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/protobuf/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/arm64-v8a\" clean"
+  ],
+  "buildTargetsCommand": "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/arm64-v8a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "protobuf-Release-arm64-v8a": {
+      "artifactName": "protobuf",
+      "buildCommand": "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/arm64-v8a\" protobuf",
+      "abi": "arm64-v8a",
+      "output": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/arm64-v8a/protobuf/libprotobuf.a"
+    },
+    "caffe-Release-arm64-v8a": {
+      "artifactName": "caffe",
+      "buildCommand": "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/arm64-v8a\" caffe",
+      "abi": "arm64-v8a",
+      "output": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/arm64-v8a/caffe/libcaffe.a"
+    },
+    "cardrecognizer-Release-arm64-v8a": {
+      "artifactName": "cardrecognizer",
+      "buildCommand": "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/arm64-v8a\" cardrecognizer",
+      "abi": "arm64-v8a",
+      "output": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/build/intermediates/cmake/release/obj/arm64-v8a/libcardrecognizer.so"
+    },
+    "libyuv-Release-arm64-v8a": {
+      "artifactName": "libyuv",
+      "buildCommand": "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/arm64-v8a\" libyuv",
+      "abi": "arm64-v8a",
+      "output": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/arm64-v8a/libyuv/liblibyuv.a"
+    },
+    "crossplatform-Release-arm64-v8a": {
+      "artifactName": "crossplatform",
+      "buildCommand": "/Users/a.kazi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/arm64-v8a\" crossplatform",
+      "abi": "arm64-v8a",
+      "output": "/Users/a.kazi/Documents/TapProjects/TapKits2020/TapScannerCardKit/cardscanner/.cxx/cmake/release/arm64-v8a/crossplatform/libcrossplatform.a"
+    }
+  }
+}

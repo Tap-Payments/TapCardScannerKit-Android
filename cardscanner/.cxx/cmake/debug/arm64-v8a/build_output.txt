@@ -1,0 +1,14 @@
+Check for working C compiler: /Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang
+Check for working C compiler: /Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang -- works
+Detecting C compiler ABI info
+Detecting C compiler ABI info - done
+Detecting C compile features
+Detecting C compile features - done
+Check for working CXX compiler: /Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++
+Check for working CXX compiler: /Users/a.kazi/Library/Android/sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ -- works
+Detecting CXX compiler ABI info
+Detecting CXX compiler ABI info - done
+Detecting CXX compile features
+Detecting CXX compile features - done
+Found OpenCV: /Users/a.kazi/Documents/TapProjects/TapKits2020/TapPayCard/sdk/src/main/cpp/opencv2 (found version "3.4.3") found components:  opencv_objdetect opencv_imgcodecs opencv_imgproc opencv_ml opencv_core 
+Configuring done
