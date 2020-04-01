@@ -2,4 +2,9 @@
     <string name="app_name">TapCardScannerKit-Android</string>
     <string name="full_screen_scanner">Full screen scanner</string>
     <string name="inline_scanner">Inline scanner</string>
+    <string name="pick_image_intent_text">Pick image</string>
+    <string name="image_decoder">Image Decoder</string>
+    <string name="card_number">Card Number</string>
+    <string name="holder_name">Holder Name</string>
+    <string name="exp_date">Exp. Date</string>
 </resources>

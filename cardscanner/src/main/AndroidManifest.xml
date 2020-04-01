@@ -3,7 +3,9 @@
     package="company.tap.cardscanner">
 
     <application>
-        <activity android:name=".view.TapCardScannerActivity"></activity>
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="ocr" />
     </application>
 
 </manifest>

@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "727014706011",
+    "firebase_url": "https://tapcardscanner.firebaseio.com",
+    "project_id": "tapcardscanner",
+    "storage_bucket": "tapcardscanner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727014706011:android:b59edc3b3b16aac6fce87e",
+        "android_client_info": {
+          "package_name": "cards.pay.sample.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727014706011-e0o81iuhaps5s66g9bh7ss0jbdmhiqib.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgC6BySNCB2pWSQexJH0eRsz2tncWqMdw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727014706011-e0o81iuhaps5s66g9bh7ss0jbdmhiqib.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "727014706011-buerlu3jl4ns2opr4v4mol85e32l7k2s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "company.tap.TapCardScannerExample"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727014706011:android:63d25dcad831d588fce87e",
+        "android_client_info": {
+          "package_name": "company.tap.tapcardscannerkit_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727014706011-ecg2d1ba4t7e66e4d5d5li8llh361k5f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "company.tap.tapcardscannerkit_android",
+            "certificate_hash": "045ab8d8afaef5a194ddd855ae4437a890870064"
+          }
+        },
+        {
+          "client_id": "727014706011-e0o81iuhaps5s66g9bh7ss0jbdmhiqib.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgC6BySNCB2pWSQexJH0eRsz2tncWqMdw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727014706011-e0o81iuhaps5s66g9bh7ss0jbdmhiqib.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "727014706011-buerlu3jl4ns2opr4v4mol85e32l7k2s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "company.tap.TapCardScannerExample"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
