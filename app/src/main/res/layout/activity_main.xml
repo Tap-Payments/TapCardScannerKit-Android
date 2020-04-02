@@ -5,7 +5,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/card_Layout"
+    android:visibility="gone"
+    android:background="@drawable/card_bg"
+    >
     <EditText
         android:id="@+id/card_number"
         android:layout_width="match_parent"
@@ -13,12 +24,16 @@
         android:hint="@string/card_number"
         android:importantForAutofill="no"
         android:inputType="number"
+        android:paddingLeft="35dp"
+        android:textColor="@android:color/white"
+        android:background="@android:color/transparent"
         android:maxLines="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="30dp">
 
         <EditText
             android:id="@+id/card_holder"
@@ -28,6 +43,8 @@
             android:hint="@string/holder_name"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"
             android:maxLines="1" />
 
         <EditText
@@ -38,10 +55,12 @@
             android:hint="@string/exp_date"
             android:importantForAutofill="no"
             android:inputType="date"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"
             android:maxLines="1" />
 
     </LinearLayout>
-
+</LinearLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     private static final int SCAN_CARD_ID = 101;
     private static final int PICK_IMAGE_ID = 102;
     private TapTextRecognitionML textRecognitionML;
+    private LinearLayout cardLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         cardHolder = findViewById(R.id.card_holder);
         cardNumber = findViewById(R.id.card_number);
         expirationDate = findViewById(R.id.expiration_date);
+        cardLayout = findViewById(R.id.card_Layout);
         textRecognitionML = new TapTextRecognitionML(this);
     }
     /***
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
                     cardNumber.setText(card.getCardNumber());
                     cardHolder.setText(card.getCardHolderName());
                     expirationDate.setText(card.getExpirationDate());
+                    cardLayout.setVisibility(View.VISIBLE);
                 }
                 break;
             case PICK_IMAGE_ID:
@@ -95,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         cardNumber.setText(card.getCardNumber());
         cardHolder.setText(card.getCardHolder());
         expirationDate.setText(card.getExpirationDate());
+        cardLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -113,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         cardNumber.setText(card.getCardNumber());
         cardHolder.setText(card.getCardHolderName());
         expirationDate.setText(card.getExpirationDate());
+        cardLayout.setVisibility(View.VISIBLE);
     }
 
     private void removeInlineScanner(){
@@ -121,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
                     remove(getSupportFragmentManager().findFragmentById(R.id.inline_container))
                     .commit();
             isInlineOpened = false;
+            cardLayout.setVisibility(View.GONE);
         }
     }
 }
