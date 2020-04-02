@@ -38,13 +38,19 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         expirationDate = findViewById(R.id.expiration_date);
         textRecognitionML = new TapTextRecognitionML(this);
     }
-
+    /***
+     *
+     * Open the scanner in fullView
+     */
     public void openFullScreenScanner(View view) {
         removeInlineScanner();
         Intent intent = new ScanCardIntent.Builder(this).build();
         startActivityForResult(intent, SCAN_CARD_ID);
     }
-
+    /***
+     *
+     * Open the scanner in InlineView
+     */
     public void openOnlineScanner(View view) {
         getSupportFragmentManager()
                 .beginTransaction()
@@ -52,7 +58,10 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
                 .commit();
         isInlineOpened = true;
     }
-
+    /***
+     *
+     * Pick the Image from the gallery
+     */
     public void openImagePicker(View view) {
         removeInlineScanner();
         Intent chooseImageIntent = ImagePicker.getPickImageIntent(this);

@@ -9,7 +9,11 @@ public class TapCard {
     private String cardNumber;
     private String cardHolder;
     private String expirationDate;
-
+    /**
+     * Gets cardNumber.
+     *
+     * @return the card Number.
+     */
     public String getCardNumber() {
         return cardNumber;
     }
@@ -18,6 +22,11 @@ public class TapCard {
         this.cardNumber = cardNumber;
     }
 
+    /**
+     * Gets cardHolder.
+     *
+     * @return the card Holder.
+     */
     public String getCardHolder() {
         return cardHolder;
     }
@@ -26,6 +35,11 @@ public class TapCard {
         this.cardHolder = cardHolder;
     }
 
+    /**
+     * Gets expiration Date.
+     *
+     * @return the expiration Date.
+     */
     public String getExpirationDate() {
         return expirationDate;
     }

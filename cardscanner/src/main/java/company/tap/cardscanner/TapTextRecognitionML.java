@@ -19,7 +19,12 @@ import java.util.List;
  * Copyright © 2020 Tap Payments. All rights reserved.
  */
 public class TapTextRecognitionML {
-
+    /***
+     * TapTextRecognitionML uses FirebaseML kit
+     * Text recognition can automate reading of credit cards, you can also extract text from pictures of documents,
+     * which you can use to increase accessibility of documents.
+     *
+     */
     private TapTextRecognitionCallBack textRecognitionCallBack;
 
     public TapTextRecognitionML(TapTextRecognitionCallBack textRecognitionCallBack) {
@@ -27,7 +32,14 @@ public class TapTextRecognitionML {
     }
 
     public void decodeImage(Bitmap imageBitmap) {
+        /*
+         FirebaseVisionImage represents an image object that can be used for on-device detectors.
+         */
         FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(imageBitmap);
+        /*
+         FirebaseVisionTextRecognizer  is a Text recognizer for performing optical character
+         recognition(OCR) on an input image.
+         */
         FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
         Task<FirebaseVisionText> result = detector.processImage(image)
                 .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
@@ -43,7 +55,9 @@ public class TapTextRecognitionML {
                     }
                 });
     }
-
+    /*
+     Processes the FirebaseVisionText to identify cardNumber,cardHolder,cardexpirationDate
+     */
     private void processText(FirebaseVisionText firebaseVisionText) {
         List<FirebaseVisionText.TextBlock> blocks = firebaseVisionText.getTextBlocks();
         TapCard card = new TapCard();

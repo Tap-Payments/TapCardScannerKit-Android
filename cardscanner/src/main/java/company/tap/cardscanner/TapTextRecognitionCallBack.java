@@ -5,6 +5,9 @@ package company.tap.cardscanner;
  * Copyright © 2020 Tap Payments. All rights reserved.
  */
 public interface TapTextRecognitionCallBack {
+    /***
+     * Provides an interface to handle success and failure.
+     */
     void onRecognitionSuccess(TapCard card);
     void onRecognitionFailure(String error);
 }
