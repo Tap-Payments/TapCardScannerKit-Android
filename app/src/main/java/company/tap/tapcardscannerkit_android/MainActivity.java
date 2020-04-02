@@ -17,10 +17,11 @@ import cards.pay.paycardsrecognizer.sdk.ScanCardIntent;
 import cards.pay.paycardsrecognizer.sdk.ui.InlineViewCallback;
 import cards.pay.paycardsrecognizer.sdk.ui.InlineViewFragment;
 import company.tap.cardscanner.TapCard;
+import company.tap.cardscanner.TapCountDownTimer;
 import company.tap.cardscanner.TapTextRecognitionCallBack;
 import company.tap.cardscanner.TapTextRecognitionML;
 
-public class MainActivity extends AppCompatActivity implements TapTextRecognitionCallBack, InlineViewCallback {
+public class MainActivity extends AppCompatActivity implements TapTextRecognitionCallBack, InlineViewCallback{
 
     private EditText cardNumber;
     private EditText cardHolder;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     private static final int PICK_IMAGE_ID = 102;
     private TapTextRecognitionML textRecognitionML;
     private LinearLayout cardLayout;
+    private TapCountDownTimer tapCountDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         expirationDate = findViewById(R.id.expiration_date);
         cardLayout = findViewById(R.id.card_Layout);
         textRecognitionML = new TapTextRecognitionML(this);
+
+
     }
     /***
      *
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
      * Open the scanner in InlineView
      */
     public void openOnlineScanner(View view) {
+        tapCountDownTimer = (TapCountDownTimer) new TapCountDownTimer(20000,1000,this).start();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.inline_container, new InlineViewFragment())
@@ -130,4 +135,5 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
             cardLayout.setVisibility(View.GONE);
         }
     }
+
 }

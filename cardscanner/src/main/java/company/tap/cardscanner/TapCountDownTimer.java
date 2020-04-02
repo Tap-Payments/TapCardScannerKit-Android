@@ -1,0 +1,41 @@
+package company.tap.cardscanner;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.CountDownTimer;
+import android.widget.Toast;
+
+
+/**
+ * Created by AhlaamK on 4/2/20.
+ * <p>
+ * Copyright (c) 2020    Tap Payments.
+ * All rights reserved.
+ **/
+public class TapCountDownTimer extends CountDownTimer {
+   private  Activity context;
+    /**
+     * @param millisInFuture    The number of millis in the future from the call
+     *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
+     *                          is called.
+     * @param countDownInterval The interval along the way to receive
+     *                          {@link #onTick(long)} callbacks.
+     */
+    public TapCountDownTimer(long millisInFuture, long countDownInterval, Activity context) {
+        super(millisInFuture, countDownInterval);
+        this.context = context;
+    }
+
+    @Override
+    public void onTick(long millisUntilFinished) {
+        Toast.makeText(context, "Seconds remaining:"+millisUntilFinished / 1000, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFinish() {
+        Toast.makeText(context, "Timed out", Toast.LENGTH_SHORT).show();
+        context.setResult(Activity.RESULT_CANCELED);
+        context.finish();
+    }
+
+}
