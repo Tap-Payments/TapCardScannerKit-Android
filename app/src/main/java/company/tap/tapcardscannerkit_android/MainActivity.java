@@ -42,8 +42,6 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         expirationDate = findViewById(R.id.expiration_date);
         cardLayout = findViewById(R.id.card_Layout);
         textRecognitionML = new TapTextRecognitionML(this);
-
-
     }
     /***
      *

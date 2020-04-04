@@ -28,7 +28,6 @@ public class TapCountDownTimer extends CountDownTimer {
 
     @Override
     public void onTick(long millisUntilFinished) {
-        Toast.makeText(context, "Seconds remaining:"+millisUntilFinished / 1000, Toast.LENGTH_SHORT).show();
     }
 
     @Override
