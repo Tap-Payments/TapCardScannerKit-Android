@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -17,7 +18,6 @@ import cards.pay.paycardsrecognizer.sdk.ScanCardIntent;
 import cards.pay.paycardsrecognizer.sdk.ui.InlineViewCallback;
 import cards.pay.paycardsrecognizer.sdk.ui.InlineViewFragment;
 import company.tap.cardscanner.TapCard;
-import company.tap.cardscanner.TapCountDownTimer;
 import company.tap.cardscanner.TapTextRecognitionCallBack;
 import company.tap.cardscanner.TapTextRecognitionML;
 
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     private static final int PICK_IMAGE_ID = 102;
     private TapTextRecognitionML textRecognitionML;
     private LinearLayout cardLayout;
-    private TapCountDownTimer tapCountDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +90,6 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
                 Bitmap bitmap = ImagePicker.getImageFromResult(this, resultCode, data);
                 textRecognitionML.decodeImage(bitmap);
                 break;
-            case Activity.RESULT_CANCELED:
-                removeInlineScanner();
-                break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -136,15 +132,15 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         }
     }
     private void setTapCountDownTimer(){
-        tapCountDownTimer = (TapCountDownTimer) new TapCountDownTimer(20000, 1000) {
+        new CountDownTimer(20000, 1000) {
+            @Override
             public void onTick(long millisUntilFinished) {
-
             }
+            @Override
             public void onFinish() {
                 Toast.makeText(MainActivity.this, "Timed out", Toast.LENGTH_SHORT).show();
                 removeInlineScanner();
             }
         }.start();
     }
-
 }
