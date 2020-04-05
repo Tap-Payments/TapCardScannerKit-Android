@@ -91,7 +91,9 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
                 Bitmap bitmap = ImagePicker.getImageFromResult(this, resultCode, data);
                 textRecognitionML.decodeImage(bitmap);
                 break;
-
+            case Activity.RESULT_CANCELED:
+                removeInlineScanner();
+                break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
