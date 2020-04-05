@@ -24,9 +24,9 @@ public class TapCountDownTimer extends CountDownTimer {
      * @param countDownInterval The interval along the way to receive
      *                          {@link #onTick(long)} callbacks.
      */
-    public TapCountDownTimer(long millisInFuture, long countDownInterval, Activity context) {
+    public TapCountDownTimer(long millisInFuture, long countDownInterval) {
         super(millisInFuture, countDownInterval);
-        this.context = context;
+      //  this.context = context;
     }
 
     @Override
@@ -35,8 +35,8 @@ public class TapCountDownTimer extends CountDownTimer {
 
     @Override
     public void onFinish() {
-        Toast.makeText(context, "Timed out", Toast.LENGTH_SHORT).show();
-            context.setResult(Activity.RESULT_CANCELED);
+       // Toast.makeText(context, "Timed out", Toast.LENGTH_SHORT).show();
+        //    context.setResult(Activity.RESULT_CANCELED);
     }
 
 }

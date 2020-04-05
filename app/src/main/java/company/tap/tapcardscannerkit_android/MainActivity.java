@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
      * Open the scanner in InlineView
      */
     public void openOnlineScanner(View view) {
-        tapCountDownTimer = (TapCountDownTimer) new TapCountDownTimer(20000,1000,this).start();
+        setTapCountDownTimer();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.inline_container, new InlineViewFragment())
@@ -134,6 +134,17 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
             isInlineOpened = false;
             cardLayout.setVisibility(View.GONE);
         }
+    }
+    private void setTapCountDownTimer(){
+        tapCountDownTimer = (TapCountDownTimer) new TapCountDownTimer(20000, 1000) {
+            public void onTick(long millisUntilFinished) {
+
+            }
+            public void onFinish() {
+                Toast.makeText(MainActivity.this, "Timed out", Toast.LENGTH_SHORT).show();
+                removeInlineScanner();
+            }
+        }.start();
     }
 
 }
