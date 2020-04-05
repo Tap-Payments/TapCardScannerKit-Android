@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -20,7 +21,7 @@ import company.tap.cardscanner.TapCard;
 import company.tap.cardscanner.TapTextRecognitionCallBack;
 import company.tap.cardscanner.TapTextRecognitionML;
 
-public class MainActivity extends AppCompatActivity implements TapTextRecognitionCallBack, InlineViewCallback {
+public class MainActivity extends AppCompatActivity implements TapTextRecognitionCallBack, InlineViewCallback{
 
     private EditText cardNumber;
     private EditText cardHolder;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
      * Open the scanner in InlineView
      */
     public void openOnlineScanner(View view) {
+        setTapCountDownTimer();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.inline_container, new InlineViewFragment())
@@ -88,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
                 Bitmap bitmap = ImagePicker.getImageFromResult(this, resultCode, data);
                 textRecognitionML.decodeImage(bitmap);
                 break;
-
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -129,5 +130,17 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
             isInlineOpened = false;
             cardLayout.setVisibility(View.GONE);
         }
+    }
+    private void setTapCountDownTimer(){
+        new CountDownTimer(20000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+            @Override
+            public void onFinish() {
+                Toast.makeText(MainActivity.this, "Timed out", Toast.LENGTH_SHORT).show();
+                removeInlineScanner();
+            }
+        }.start();
     }
 }
