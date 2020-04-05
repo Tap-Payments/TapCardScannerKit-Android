@@ -27,7 +27,7 @@ To use the SDK the following requirements must be met:
     ```java
         include ':cardscanner', ':YourAppName'
     ```
-3. Setup your project to include goSellSDK as a dependency Module.
+3. Setup your project to include cardscanner as a dependency Module.
    1. File -> Project Structure -> Modules -> << your project name >>
    2. Dependencies -> click on **+** icon in the screen bottom -> add Module Dependency
    3. select cardscanner library
