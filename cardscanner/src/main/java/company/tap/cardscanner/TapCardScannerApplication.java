@@ -1,4 +1,4 @@
-package company.tap.tapcardscannerkit_android;
+package company.tap.cardscanner;
 
 import android.app.Application;
 import android.util.Log;
@@ -6,7 +6,7 @@ import android.util.Log;
 import com.flurry.android.FlurryAgent;
 import com.flurry.android.FlurryPerformance;
 
-public class MyApplication extends Application {
+public class TapCardScannerApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -17,6 +17,6 @@ public class MyApplication extends Application {
                 .withIncludeBackgroundSessionsInMetrics(true)
                 .withLogLevel(Log.VERBOSE)
                 .withPerformanceMetrics(FlurryPerformance.ALL)
-                .build(this, "87SBKCH7W7MD6S7P4DNQ");
+                .build(this, BuildConfig.FLURRY_API_KEY);
     }
 }

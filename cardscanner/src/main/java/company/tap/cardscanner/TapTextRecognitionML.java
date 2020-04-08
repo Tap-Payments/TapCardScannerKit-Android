@@ -32,6 +32,7 @@ public class TapTextRecognitionML {
     }
 
     public void decodeImage(Bitmap imageBitmap) {
+        AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_DECODE_IMAGE,null,true);
         /*
          FirebaseVisionImage represents an image object that can be used for on-device detectors.
          */

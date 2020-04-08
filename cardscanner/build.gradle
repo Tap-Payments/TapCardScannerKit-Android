@@ -12,6 +12,12 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(file('config.properties')))
+        def propertiesFlurrykey = versionProps['FLURRY_API_KEY']
+        buildTypes.each {
+            it.buildConfigField 'String', 'FLURRY_API_KEY', propertiesFlurrykey
+        }
     }
 
     buildTypes {
@@ -34,4 +40,5 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'com.google.android.gms:play-services-base:17.2.1'
 }
