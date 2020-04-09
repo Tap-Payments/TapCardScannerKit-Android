@@ -4,6 +4,7 @@ package company.tap.tapcardscannerkit_android;
  * Created by Mario Gamal on 4/1/20
  * Copyright © 2020 Tap Payments. All rights reserved.
  */
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -47,8 +48,8 @@ class ImagePicker {
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePhotoIntent.putExtra("return-data", true);
-        takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT,  FileProvider
-                .getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider",getTempFile(context)));
+        takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider
+                .getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", getTempFile(context)));
         takePhotoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intentList = addIntentsToList(context, intentList, pickIntent);
         intentList = addIntentsToList(context, intentList, takePhotoIntent);
@@ -83,7 +84,7 @@ class ImagePicker {
         if (resultCode == Activity.RESULT_OK) {
             Uri selectedImage;
             boolean isCamera = (imageReturnedIntent == null ||
-                    imageReturnedIntent.getData() == null  ||
+                    imageReturnedIntent.getData() == null ||
                     imageReturnedIntent.getData().toString().contains(imageFile.toString()));
             if (isCamera) {     /* CAMERA **/
                 selectedImage = Uri.fromFile(imageFile);

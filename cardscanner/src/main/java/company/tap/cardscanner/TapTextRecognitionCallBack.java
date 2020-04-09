@@ -9,5 +9,6 @@ public interface TapTextRecognitionCallBack {
      * Provides an interface to handle success and failure.
      */
     void onRecognitionSuccess(TapCard card);
+
     void onRecognitionFailure(String error);
 }
