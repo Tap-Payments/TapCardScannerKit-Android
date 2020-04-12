@@ -12,7 +12,9 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Mario Gamal on 4/1/20
@@ -32,6 +34,11 @@ public class TapTextRecognitionML {
     }
 
     public void decodeImage(Bitmap imageBitmap) {
+        // Capture image & SDK version
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("bitmap", String.valueOf(imageBitmap));
+        parameters.put("sdk", BuildConfig.VERSION_NAME);
+        AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_DECODE_IMAGE, parameters, true);
         /*
          FirebaseVisionImage represents an image object that can be used for on-device detectors.
          */
@@ -55,6 +62,7 @@ public class TapTextRecognitionML {
                     }
                 });
     }
+
     /*
      Processes the FirebaseVisionText to identify cardNumber,cardHolder,cardexpirationDate
      */
@@ -83,12 +91,12 @@ public class TapTextRecognitionML {
     private boolean isHolderName(String text) {
         return isUpperCase(text)
                 && text.length() > 9
-                && text.split("\\s+").length >1;
+                && text.split("\\s+").length > 1;
     }
 
     private boolean isUpperCase(String text) {
-        char [] characters = text.replace(" ", "").toCharArray();
-        for (Character character: characters) {
+        char[] characters = text.replace(" ", "").toCharArray();
+        for (Character character : characters) {
             if (!Character.isUpperCase(character) && !character.equals('\'') && !character.equals('.'))
                 return false;
         }

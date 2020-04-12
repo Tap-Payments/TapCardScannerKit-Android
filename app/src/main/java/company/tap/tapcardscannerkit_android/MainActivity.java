@@ -21,7 +21,7 @@ import company.tap.cardscanner.TapCard;
 import company.tap.cardscanner.TapTextRecognitionCallBack;
 import company.tap.cardscanner.TapTextRecognitionML;
 
-public class MainActivity extends AppCompatActivity implements TapTextRecognitionCallBack, InlineViewCallback{
+public class MainActivity extends AppCompatActivity implements TapTextRecognitionCallBack, InlineViewCallback {
 
     private EditText cardNumber;
     private EditText cardHolder;
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         cardLayout = findViewById(R.id.card_Layout);
         textRecognitionML = new TapTextRecognitionML(this);
     }
+
     /***
      *
      * Open the scanner in fullView
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         Intent intent = new ScanCardIntent.Builder(this).build();
         startActivityForResult(intent, SCAN_CARD_ID);
     }
+
     /***
      *
      * Open the scanner in InlineView
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
                 .commit();
         isInlineOpened = true;
     }
+
     /***
      *
      * Pick the Image from the gallery
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         cardLayout.setVisibility(View.VISIBLE);
     }
 
-    private void removeInlineScanner(){
+    private void removeInlineScanner() {
         if (isInlineOpened) {
             getSupportFragmentManager().beginTransaction().
                     remove(getSupportFragmentManager().findFragmentById(R.id.inline_container))
@@ -131,11 +134,13 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
             cardLayout.setVisibility(View.GONE);
         }
     }
-    private void setTapCountDownTimer(){
+
+    private void setTapCountDownTimer() {
         new CountDownTimer(20000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
             }
+
             @Override
             public void onFinish() {
                 Toast.makeText(MainActivity.this, "Timed out", Toast.LENGTH_SHORT).show();
