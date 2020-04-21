@@ -42,13 +42,17 @@ public class TapTextRecognitionML {
         /*
          FirebaseVisionImage represents an image object that can be used for on-device detectors.
          */
+        // TODO: 4/21/20 rename image >> firebaseImage
         FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(imageBitmap);
         /*
          FirebaseVisionTextRecognizer  is a Text recognizer for performing optical character
          recognition(OCR) on an input image.
          */
         FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
-        Task<FirebaseVisionText> result = detector.processImage(image)
+        // TODO: 4/21/20 no need to save result in a variable
+
+        detector.processImage(image)
+                // TODO: 4/21/20 use lambda
                 .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
                     @Override
                     public void onSuccess(FirebaseVisionText firebaseVisionText) {
@@ -61,15 +65,21 @@ public class TapTextRecognitionML {
                         textRecognitionCallBack.onRecognitionFailure(e.getMessage());
                     }
                 });
+
+
     }
 
+    // TODO: 4/21/20 use proper method documentatioins
     /*
      Processes the FirebaseVisionText to identify cardNumber,cardHolder,cardexpirationDate
      */
+
     private void processText(FirebaseVisionText firebaseVisionText) {
         List<FirebaseVisionText.TextBlock> blocks = firebaseVisionText.getTextBlocks();
         TapCard card = new TapCard();
+        // TODO: 4/21/20 we can replace for with foreach
         for (int i = 0; i < blocks.size(); i++) {
+            // TODO: 4/21/20 secure code by checking if not null  blocks.get(i) >> may result null
             String word = blocks.get(i).getText();
 
             if (isHolderName(word))
@@ -89,12 +99,14 @@ public class TapTextRecognitionML {
     }
 
     private boolean isHolderName(String text) {
+        // TODO: 4/21/20 secure your code by checking if text!=null
         return isUpperCase(text)
                 && text.length() > 9
                 && text.split("\\s+").length > 1;
     }
 
     private boolean isUpperCase(String text) {
+        // TODO: 4/21/20 secure your code by checking if text!=null
         char[] characters = text.replace(" ", "").toCharArray();
         for (Character character : characters) {
             if (!Character.isUpperCase(character) && !character.equals('\'') && !character.equals('.'))

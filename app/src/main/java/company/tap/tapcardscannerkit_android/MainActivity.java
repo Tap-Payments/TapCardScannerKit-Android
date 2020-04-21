@@ -23,6 +23,7 @@ import company.tap.cardscanner.TapTextRecognitionML;
 
 public class MainActivity extends AppCompatActivity implements TapTextRecognitionCallBack, InlineViewCallback {
 
+    // TODO: 4/21/20   we can replace multi line variable declerations with one line decleration for same data types.
     private EditText cardNumber;
     private EditText cardHolder;
     private EditText expirationDate;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         cardNumber = findViewById(R.id.card_number);
         expirationDate = findViewById(R.id.expiration_date);
         cardLayout = findViewById(R.id.card_Layout);
+        // TODO: 4/21/20 reuse same instance if exist instead of instantiating one each time configuration changes
+        // if(textRecognitionML!=null)textRecognitionML = new TapTextRecognitionML(this);
         textRecognitionML = new TapTextRecognitionML(this);
     }
 
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
      *
      * Open the scanner in InlineView
      */
+    // TODO: 4/21/20 fix method name to be openInlineScanner
     public void openOnlineScanner(View view) {
         setTapCountDownTimer();
         getSupportFragmentManager()
@@ -83,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
             case SCAN_CARD_ID:
                 if (resultCode == Activity.RESULT_OK) {
                     Card card = data.getParcelableExtra(ScanCardIntent.RESULT_PAYCARDS_CARD);
+                    // TODO: 4/21/20 secure code by checking card!=null
                     cardNumber.setText(card.getCardNumber());
                     cardHolder.setText(card.getCardHolderName());
                     expirationDate.setText(card.getExpirationDate());
@@ -119,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     @Override
     public void onScanCardFinished(Card card, byte[] cardImage) {
         removeInlineScanner();
+        // TODO: 4/21/20 secure code by checking if card!=null
         cardNumber.setText(card.getCardNumber());
         cardHolder.setText(card.getCardHolderName());
         expirationDate.setText(card.getExpirationDate());
@@ -127,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
 
     private void removeInlineScanner() {
         if (isInlineOpened) {
+            // TODO: 4/21/20 Secure null ini the following code  
             getSupportFragmentManager().beginTransaction().
                     remove(getSupportFragmentManager().findFragmentById(R.id.inline_container))
                     .commit();
