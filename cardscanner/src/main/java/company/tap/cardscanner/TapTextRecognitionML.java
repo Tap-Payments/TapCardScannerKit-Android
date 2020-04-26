@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
@@ -42,8 +41,8 @@ public class TapTextRecognitionML {
         /*
          FirebaseVisionImage represents an image object that can be used for on-device detectors.
          */
-        // TODO: 4/21/20 rename image >> firebaseImage
-        FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(imageBitmap);
+
+        FirebaseVisionImage firebaseImage = FirebaseVisionImage.fromBitmap(imageBitmap);
         /*
          FirebaseVisionTextRecognizer  is a Text recognizer for performing optical character
          recognition(OCR) on an input image.
@@ -51,7 +50,7 @@ public class TapTextRecognitionML {
         FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
         // TODO: 4/21/20 no need to save result in a variable
 
-        detector.processImage(image)
+        detector.processImage(firebaseImage)
                 // TODO: 4/21/20 use lambda
                 .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
                     @Override
@@ -68,10 +67,11 @@ public class TapTextRecognitionML {
 
 
     }
-
-    // TODO: 4/21/20 use proper method documentatioins
     /*
-     Processes the FirebaseVisionText to identify cardNumber,cardHolder,cardexpirationDate
+     public class FirebaseVisionText extends Object
+     A hierarchical representation of texts.A FirebaseVisionText contains a list of FirebaseVisionText.TextBlock,
+     and a FirebaseVisionText.TextBlock contains a list of FirebaseVisionText.Line which is composed of a list of
+     FirebaseVisionText.Element.
      */
 
     private void processText(FirebaseVisionText firebaseVisionText) {
@@ -79,18 +79,19 @@ public class TapTextRecognitionML {
         TapCard card = new TapCard();
         // TODO: 4/21/20 we can replace for with foreach
         for (int i = 0; i < blocks.size(); i++) {
-            // TODO: 4/21/20 secure code by checking if not null  blocks.get(i) >> may result null
-            String word = blocks.get(i).getText();
+            if (blocks.get(i) != null) {
+                String word = blocks.get(i).getText();
 
-            if (isHolderName(word))
-                card.setCardHolder(word);
+                if (isHolderName(word))
+                    card.setCardHolder(word);
 
-            if (word.matches("^(0[1-9]|1[0-2]|[1-9])/(1[4-9]|[2-9][0-9]|20[1-9][1-9])$"))
-                card.setExpirationDate(word);
+                if (word.matches("^(0[1-9]|1[0-2]|[1-9])/(1[4-9]|[2-9][0-9]|20[1-9][1-9])$"))
+                    card.setExpirationDate(word);
 
-            if (word.replace(" ", "")
-                    .matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$"))
-                card.setCardNumber(word);
+                if (word.replace(" ", "")
+                        .matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$"))
+                    card.setCardNumber(word);
+            }
         }
         if (card.getCardNumber() != null)
             textRecognitionCallBack.onRecognitionSuccess(card);
@@ -106,13 +107,13 @@ public class TapTextRecognitionML {
     }
 
     private boolean isUpperCase(String text) {
-        // TODO: 4/21/20 secure your code by checking if text!=null
-        char[] characters = text.replace(" ", "").toCharArray();
-        for (Character character : characters) {
-            if (!Character.isUpperCase(character) && !character.equals('\'') && !character.equals('.'))
-                return false;
+        if (text != null) {
+            char[] characters = text.replace(" ", "").toCharArray();
+            for (Character character : characters) {
+                if (!Character.isUpperCase(character) && !character.equals('\'') && !character.equals('.'))
+                    return false;
+            }
         }
         return true;
     }
-
 }

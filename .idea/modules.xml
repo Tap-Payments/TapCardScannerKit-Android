@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/TapCardScannerKit-Android.iml" filepath="$PROJECT_DIR$/TapCardScannerKit-Android.iml" group="TapCardScannerKit-Android" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="TapCardScannerKit-Android/app" />
+      <module fileurl="file://$PROJECT_DIR$/cardscanner/cardscanner.iml" filepath="$PROJECT_DIR$/cardscanner/cardscanner.iml" group="TapCardScannerKit-Android/cardscanner" />
+    </modules>
+  </component>
+</project>
