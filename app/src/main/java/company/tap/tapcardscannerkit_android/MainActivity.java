@@ -143,13 +143,10 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     private void setTapCountDownTimer() {
         final TapCountDownTimer counter = new TapCountDownTimer(this);
         counter.setTimer(10000, 1000);
-        counter.start(new TapCountDownTimer.OnCounterFinishedListener() {
-            @Override
-            public void onCounterFinished() {
-                Toast.makeText(MainActivity.this, "Timed out", Toast.LENGTH_SHORT).show();
-                removeInlineScanner();
+        counter.start(() -> {
+            Toast.makeText(MainActivity.this, "Timed out", Toast.LENGTH_SHORT).show();
+            removeInlineScanner();
 
-            }
         });
     }
 
