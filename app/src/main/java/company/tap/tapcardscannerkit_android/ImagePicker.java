@@ -6,6 +6,7 @@ package company.tap.tapcardscannerkit_android;
  */
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -53,9 +54,8 @@ class ImagePicker {
         takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider
                 .getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", getTempFile(context)));
         takePhotoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        // TODO: 4/21/20 no need to assign return value to intentList, since u accessing the same reference
-        intentList = addIntentsToList(context, intentList, pickIntent);
-        intentList = addIntentsToList(context, intentList, takePhotoIntent);
+        addIntentsToList(context, intentList, pickIntent);
+        addIntentsToList(context, intentList, takePhotoIntent);
 
         if (intentList.size() > 0) {
             chooserIntent = Intent.createChooser(intentList.remove(intentList.size() - 1),
@@ -160,7 +160,6 @@ class ImagePicker {
     private static int getRotationFromCamera(Context context, Uri imageFile) {
         int rotate = 0;
         try {
-
             context.getContentResolver().notifyChange(imageFile, null);
             ExifInterface exif = new ExifInterface(imageFile.getPath());
             int orientation = exif.getAttributeInt(

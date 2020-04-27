@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         expirationDate = findViewById(R.id.expiration_date);
         cardLayout = findViewById(R.id.card_Layout);
         // TODO: 4/21/20 reuse same instance if exist instead of instantiating one each time configuration changes
-        // if(textRecognitionML!=null)textRecognitionML = new TapTextRecognitionML(this);
         textRecognitionML = new TapTextRecognitionML(this);
     }
 
@@ -93,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
                 break;
             case PICK_IMAGE_ID:
                 Bitmap bitmap = ImagePicker.getImageFromResult(this, resultCode, data);
+                if(bitmap!=null)
                 textRecognitionML.decodeImage(bitmap);
                 break;
             default:
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
 
     private void setTapCountDownTimer() {
         final TapCountDownTimer counter = new TapCountDownTimer(this);
-        counter.setTimer(3000, 1000);
+        counter.setTimer(10000, 1000);
         counter.start(new TapCountDownTimer.OnCounterFinishedListener() {
             @Override
             public void onCounterFinished() {
