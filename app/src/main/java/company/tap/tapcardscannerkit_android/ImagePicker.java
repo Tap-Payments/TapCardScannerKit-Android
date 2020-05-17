@@ -26,7 +26,12 @@ import androidx.core.content.FileProvider;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import company.tap.cardscanner.AnalyticsHelper;
+import company.tap.cardscanner.BuildConfig;
 
 /**
  * Author: Mario Velasco Casquero
@@ -56,7 +61,6 @@ class ImagePicker {
         takePhotoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         addIntentsToList(context, intentList, pickIntent);
         addIntentsToList(context, intentList, takePhotoIntent);
-
         if (intentList.size() > 0) {
             chooserIntent = Intent.createChooser(intentList.remove(intentList.size() - 1),
                     context.getString(R.string.pick_image_intent_text));

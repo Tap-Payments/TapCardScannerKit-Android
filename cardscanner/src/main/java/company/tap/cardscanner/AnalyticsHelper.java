@@ -12,6 +12,9 @@ import java.util.Map;
  **/
 public class AnalyticsHelper {
     public static final String EVENT_DECODE_IMAGE = "decode_image";
+    public static final String EVENT_INLINE_CALLED = "inline_called";
+    public static final String EVENT_FULLSCREEN_CALLED = "fullscreen_called";
+    public static final String EVENT_CAN_SCAN_CALLED = "can_scan_called";
 
     /**
      * Logs an event for analytics.
