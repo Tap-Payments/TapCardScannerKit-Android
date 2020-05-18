@@ -12,10 +12,15 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import cards.pay.paycardsrecognizer.sdk.Card;
 import cards.pay.paycardsrecognizer.sdk.ScanCardIntent;
 import cards.pay.paycardsrecognizer.sdk.ui.InlineViewCallback;
 import cards.pay.paycardsrecognizer.sdk.ui.InlineViewFragment;
+import company.tap.cardscanner.AnalyticsHelper;
+import company.tap.cardscanner.BuildConfig;
 import company.tap.cardscanner.TapCard;
 import company.tap.cardscanner.TapCountDownTimer;
 import company.tap.cardscanner.TapTextRecognitionCallBack;
@@ -48,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
      */
     public void openFullScreenScanner(View view) {
         removeInlineScanner();
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("sdk", BuildConfig.VERSION_NAME);
+        AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_FULLSCREEN_CALLED, parameters, true);
         Intent intent = new ScanCardIntent.Builder(this).build();
         startActivityForResult(intent, SCAN_CARD_ID);
     }
@@ -57,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
      * Open the scanner in InlineView
      */
     public void openInlineScanner(View view) {
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("sdk", BuildConfig.VERSION_NAME);
+        AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_INLINE_CALLED, parameters, true);
         setTapCountDownTimer();
         getSupportFragmentManager()
                 .beginTransaction()
