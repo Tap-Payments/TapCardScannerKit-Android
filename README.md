@@ -170,3 +170,15 @@ which generates methods as below:
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 ```
+### Configure TapCountDownTimer (Optional)
+This feature allows user to close the view automatically without manual interaction.
+The user can set the timer as per the choice as below:
+```
+final TapCountDownTimer counter = new TapCountDownTimer(this);
+        counter.setTimer(15000, 1000);
+        counter.start(() -> {
+            Toast.makeText(MainActivity.this, "Timed out", Toast.LENGTH_SHORT).show();
+            removeInlineScanner();
+            finishActivity(SCAN_CARD_ID);
+        });
+```
