@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -34,17 +35,27 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     private static final int PICK_IMAGE_ID = 102;
     private TapTextRecognitionML textRecognitionML;
     private LinearLayout cardLayout;
+    private Button btnFullscreen, btnInline,btnImagedecoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initializeViews();
+
+        // TODO: 4/21/20 reuse same instance if exist instead of instantiating one each time configuration changes
+        textRecognitionML = new TapTextRecognitionML(this);
+    }
+
+    private void initializeViews() {
         cardHolder = findViewById(R.id.card_holder);
         cardNumber = findViewById(R.id.card_number);
         expirationDate = findViewById(R.id.expiration_date);
         cardLayout = findViewById(R.id.card_Layout);
-        // TODO: 4/21/20 reuse same instance if exist instead of instantiating one each time configuration changes
-        textRecognitionML = new TapTextRecognitionML(this);
+        btnFullscreen = findViewById(R.id.btn_fullscanner);
+        btnInline = findViewById(R.id.btn_inlinescanner);
+        btnImagedecoder = findViewById(R.id.btn_imagescanner);
+
     }
 
     /***
@@ -58,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_FULLSCREEN_CALLED, parameters, true);
         Intent intent = new ScanCardIntent.Builder(this).build();
         startActivityForResult(intent, SCAN_CARD_ID);
+        setTapCountDownTimer();
     }
 
     /***
@@ -98,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
                         cardHolder.setText(card.getCardHolderName());
                         expirationDate.setText(card.getExpirationDate());
                         cardLayout.setVisibility(View.VISIBLE);
+                        btnImagedecoder.setVisibility(View.GONE);
+                        btnFullscreen.setVisibility(View.GONE);
+                        btnInline.setVisibility(View.GONE);
                     }
                 }
                 break;
@@ -117,6 +132,9 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         cardHolder.setText(card.getCardHolder());
         expirationDate.setText(card.getExpirationDate());
         cardLayout.setVisibility(View.VISIBLE);
+        btnImagedecoder.setVisibility(View.GONE);
+        btnFullscreen.setVisibility(View.GONE);
+        btnInline.setVisibility(View.GONE);
     }
 
     @Override
@@ -137,6 +155,9 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
             cardHolder.setText(card.getCardHolderName());
             expirationDate.setText(card.getExpirationDate());
             cardLayout.setVisibility(View.VISIBLE);
+            btnImagedecoder.setVisibility(View.GONE);
+            btnFullscreen.setVisibility(View.GONE);
+            btnInline.setVisibility(View.GONE);
         }
     }
 
@@ -148,17 +169,28 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
                         .commit();
             isInlineOpened = false;
             cardLayout.setVisibility(View.GONE);
+            btnImagedecoder.setVisibility(View.VISIBLE);
+            btnFullscreen.setVisibility(View.VISIBLE);
+            btnInline.setVisibility(View.VISIBLE);
+
         }
     }
 
     private void setTapCountDownTimer() {
         final TapCountDownTimer counter = new TapCountDownTimer(this);
-        counter.setTimer(10000, 1000);
+        counter.setTimer(15000, 1000);
         counter.start(() -> {
             Toast.makeText(MainActivity.this, "Timed out", Toast.LENGTH_SHORT).show();
             removeInlineScanner();
-
+            finishActivity(SCAN_CARD_ID);
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        cardLayout.setVisibility(View.GONE);
+        btnImagedecoder.setVisibility(View.VISIBLE);
+        btnFullscreen.setVisibility(View.VISIBLE);
+        btnInline.setVisibility(View.VISIBLE);
+    }
 }

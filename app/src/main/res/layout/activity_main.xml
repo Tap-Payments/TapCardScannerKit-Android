@@ -15,6 +15,7 @@
     android:layout_marginBottom="10dp"
     android:id="@+id/card_Layout"
     android:visibility="gone"
+    android:layout_gravity="center_horizontal"
     android:background="@drawable/card_bg"
     >
     <EditText
@@ -62,18 +63,21 @@
     </LinearLayout>
 </LinearLayout>
     <Button
+        android:id="@+id/btn_fullscanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="openFullScreenScanner"
         android:text="@string/full_screen_scanner" />
 
     <Button
+        android:id="@+id/btn_inlinescanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="openInlineScanner"
         android:text="@string/inline_scanner" />
 
     <Button
+        android:id="@+id/btn_imagescanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="openImagePicker"
