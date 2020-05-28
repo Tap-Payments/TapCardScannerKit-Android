@@ -1,5 +1,6 @@
 package company.tap.cardscanner;
 
+import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,6 +34,7 @@ public class TapTextRecognitionML {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("bitmap", String.valueOf(imageBitmap));
         parameters.put("sdk", BuildConfig.VERSION_NAME);
+        parameters.put("appId", BuildConfig.LIBRARY_PACKAGE_NAME);
         AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_DECODE_IMAGE, parameters, true);
         /*
          public class FirebaseVisionImage extends Object
