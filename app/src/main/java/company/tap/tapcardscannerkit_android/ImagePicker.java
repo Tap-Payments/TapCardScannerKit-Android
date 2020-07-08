@@ -43,7 +43,7 @@ class ImagePicker {
     private static final int DEFAULT_MIN_WIDTH_QUALITY = 400;        // min pixels
     private static final String TAG = "ImagePicker";
     private static final String TEMP_IMAGE_NAME = "tempImage";
-
+    public static Frame frame = null;
 
     static Intent getPickImageIntent(Context context) {
         Intent chooserIntent = null;
@@ -54,7 +54,7 @@ class ImagePicker {
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
+        frame = new Frame(context);
         takePhotoIntent.putExtra("return-data", true);
         takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider
                 .getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", getTempFile(context)));
@@ -77,6 +77,7 @@ class ImagePicker {
             Intent targetedIntent = new Intent(intent);
             targetedIntent.setPackage(packageName);
             list.add(targetedIntent);
+
             Log.d(TAG, "Intent: " + intent.getAction() + " package: " + packageName);
         }
         return list;

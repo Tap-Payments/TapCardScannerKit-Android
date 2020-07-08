@@ -3,6 +3,7 @@ package company.tap.tapcardscannerkit_android;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import cards.pay.paycardsrecognizer.sdk.Card;
+import cards.pay.paycardsrecognizer.sdk.FrameManager;
 import cards.pay.paycardsrecognizer.sdk.ScanCardIntent;
 import cards.pay.paycardsrecognizer.sdk.ui.InlineViewCallback;
 import cards.pay.paycardsrecognizer.sdk.ui.InlineViewFragment;
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         parameters.put("sdk", BuildConfig.VERSION_NAME);
         AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_INLINE_CALLED, parameters, true);
         setTapCountDownTimer();
+        FrameManager.getInstance().setFrameColor(Color.YELLOW);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.inline_container, new InlineViewFragment())
