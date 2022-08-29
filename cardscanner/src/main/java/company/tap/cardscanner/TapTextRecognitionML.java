@@ -33,9 +33,9 @@ public class TapTextRecognitionML {
         // Capture image & SDK version
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("bitmap", String.valueOf(imageBitmap));
-        parameters.put("sdk", BuildConfig.VERSION_NAME);
-        parameters.put("appId", BuildConfig.LIBRARY_PACKAGE_NAME);
-        AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_DECODE_IMAGE, parameters, true);
+     //   parameters.put("sdk", BuildConfig.VERSION_NAME);
+     //   parameters.put("appId", BuildConfig.LIBRARY_PACKAGE_NAME);
+      //  AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_DECODE_IMAGE, parameters, true);
         /*
          public class FirebaseVisionImage extends Object
          Represents an image object that can be used for both on-device and cloud API detectors.

@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     public void openFullScreenScanner(View view) {
         removeInlineScanner();
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("sdk", BuildConfig.VERSION_NAME);
+       // parameters.put("sdk", BuildConfig.VERSION_NAME);
         AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_FULLSCREEN_CALLED, parameters, true);
         Intent intent = new ScanCardIntent.Builder(this).build();
         startActivityForResult(intent, SCAN_CARD_ID);
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
      */
     public void openInlineScanner(View view) {
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("sdk", BuildConfig.VERSION_NAME);
+       // parameters.put("sdk", BuildConfig.VERSION_NAME);
         AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_INLINE_CALLED, parameters, true);
         setTapCountDownTimer();
         FrameManager.getInstance().setFrameColor(Color.YELLOW);
