@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         // TODO: 4/21/20 reuse same instance if exist instead of instantiating one each time configuration changes
         textRecognitionML = new TapTextRecognitionML(this);
         textRecognitionML.addTapScannerCallback(this);
+        textRecognitionML.setFrameColor(Color.BLUE);
 
     }
 

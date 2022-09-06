@@ -1,6 +1,7 @@
 package company.tap.cardscanner;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
@@ -23,6 +24,7 @@ public class TapTextRecognitionML {
      */
     private TapTextRecognitionCallBack textRecognitionCallBack;
     private static TapScannerCallback _tapScannerCallback;
+    private static int frameColor = Color .WHITE;
 
     public TapTextRecognitionML(TapTextRecognitionCallBack textRecognitionCallBack) {
         this.textRecognitionCallBack = textRecognitionCallBack;
@@ -118,4 +120,13 @@ public class TapTextRecognitionML {
     public static TapScannerCallback getListener(){
         return _tapScannerCallback;
     }
+
+    public void setFrameColor(int _frameColor){
+        frameColor = _frameColor;
+    }
+
+    public static int getFrameColor(){
+        return frameColor;
+    }
+
 }

@@ -362,7 +362,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
                 //Drawing rectangle
-                DrawFocusRect(Color.GREEN);
+                DrawFocusRect(TapTextRecognitionML.getFrameColor());
         }
 
         @Override
