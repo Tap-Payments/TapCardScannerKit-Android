@@ -1,9 +1,7 @@
 package company.tap.cardscanner;
 
-import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
@@ -24,10 +22,13 @@ public class TapTextRecognitionML {
      *
      */
     private TapTextRecognitionCallBack textRecognitionCallBack;
+    private static TapScannerCallback _tapScannerCallback;
 
     public TapTextRecognitionML(TapTextRecognitionCallBack textRecognitionCallBack) {
         this.textRecognitionCallBack = textRecognitionCallBack;
+
     }
+
 
     public void decodeImage(Bitmap imageBitmap) {
         // Capture image & SDK version
@@ -51,6 +52,8 @@ public class TapTextRecognitionML {
                 .addOnFailureListener(e -> textRecognitionCallBack.onRecognitionFailure(e.getMessage()));
 
     }
+
+
     /*
      public class FirebaseVisionText extends Object
      A hierarchical representation of texts.A FirebaseVisionText contains a list of FirebaseVisionText.TextBlock,
@@ -63,6 +66,8 @@ public class TapTextRecognitionML {
         TapCard card = new TapCard();
         for (FirebaseVisionText.TextBlock word : blocks
         ) {
+            System.out.println("word is leght>>"+word.getText().length());
+            System.out.println("word is"+word.getText());
             if (isHolderName(word.getText()))
                 card.setCardHolder(word.getText());
 
@@ -70,11 +75,17 @@ public class TapTextRecognitionML {
                 card.setExpirationDate(word.getText());
 
             if (word.getText().replace(" ", "")
-                    .matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$"))
-                card.setCardNumber(word.getText());
+                        .matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$"))
+                    card.setCardNumber(word.getText());
+
+
         }
-        if (card != null)
+        if (card != null){
             textRecognitionCallBack.onRecognitionSuccess(card);
+           // TapTextRecognitionML.getListener().onReadSuccess(card);
+          // _tapScannerCallback.onReadSuccess(card);
+        }
+
         else
             textRecognitionCallBack.onRecognitionFailure("No data founded");
 
@@ -98,5 +109,13 @@ public class TapTextRecognitionML {
             }
         }
         return true;
+    }
+
+    public void addTapScannerCallback(TapScannerCallback tapScannerCallback){
+        _tapScannerCallback = tapScannerCallback;
+    }
+
+    public static TapScannerCallback getListener(){
+        return _tapScannerCallback;
     }
 }
