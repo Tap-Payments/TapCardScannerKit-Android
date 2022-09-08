@@ -3,6 +3,7 @@ package company.tap.cardscanner;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import com.google.android.gms.common.util.NumberUtils;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
@@ -10,6 +11,8 @@ import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Mario Gamal on 4/1/20
@@ -63,23 +66,43 @@ public class TapTextRecognitionML {
      FirebaseVisionText.Element.
      */
 
-    private void processText(FirebaseVisionText firebaseVisionText) {
+    public void processText(FirebaseVisionText firebaseVisionText) {
         List<FirebaseVisionText.TextBlock> blocks = firebaseVisionText.getTextBlocks();
         TapCard card = new TapCard();
         for (FirebaseVisionText.TextBlock word : blocks
         ) {
             System.out.println("word is leght>>"+word.getText().length());
             System.out.println("word is"+word.getText());
+            System.out.println("word is ss"+ word.getLines().size());
+
             if (isHolderName(word.getText()))
                 card.setCardHolder(word.getText());
 
             if (word.getText().matches("^(0[1-9]|1[0-2]|[1-9])/(1[4-9]|[2-9][0-9]|20[1-9][1-9])$"))
                 card.setExpirationDate(word.getText());
 
-            if (word.getText().replace(" ", "")
+         //   if (word.getText().contains(" ")) {
+                if (word.getText().replace(" ", "")
                         .matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$"))
                     card.setCardNumber(word.getText());
 
+         //   }
+               if (isNumeric(word.getText()) && word.getText().length()>=4){
+                   String rere = "";
+                    rere = rere.concat(word.getText());
+                   card.setCardNumber(rere);
+               }
+
+
+
+/*
+       String regex = "^(?:4[0-9]\\w+\n{12}(?:[0-9]\\w+\n{3}))$";
+            if (word.getText().replace(")","").replace("|","").matches(regex) )
+                card.setCardNumber(word.getText());*/
+          /*  if (word.getText().contains(")")||word.getText().contains("|")){
+                card.setCardNumber(word.getText().replace(")","").replace("|",""));
+            }*/
+            card.setCardNumber(word.getText().replace(")","").replace("|",""));
 
         }
         if (card != null){
@@ -128,5 +151,7 @@ public class TapTextRecognitionML {
     public static int getFrameColor(){
         return frameColor;
     }
-
+    public static boolean isNumeric(String str) {
+        return str.matches("\n?\\d+(\\|\\d+)?");  //match a number with optional '-' and decimal.
+    }
 }
