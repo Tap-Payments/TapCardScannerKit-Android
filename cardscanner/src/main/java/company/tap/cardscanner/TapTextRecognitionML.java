@@ -87,22 +87,21 @@ public class TapTextRecognitionML {
                     card.setCardNumber(word.getText());
 
          //   }
-               if (isNumeric(word.getText()) && word.getText().length()>=4){
+               /*if (isNumeric(word.getText()) && word.getText().length()>=4){
                    String rere = "";
                     rere = rere.concat(word.getText());
                    card.setCardNumber(rere);
                }
 
-
+*/
 
 /*
        String regex = "^(?:4[0-9]\\w+\n{12}(?:[0-9]\\w+\n{3}))$";
             if (word.getText().replace(")","").replace("|","").matches(regex) )
                 card.setCardNumber(word.getText());*/
-          /*  if (word.getText().contains(")")||word.getText().contains("|")){
+            if (word.getText().contains(")")||word.getText().contains("|")){
                 card.setCardNumber(word.getText().replace(")","").replace("|",""));
-            }*/
-            card.setCardNumber(word.getText().replace(")","").replace("|",""));
+            }
 
         }
         if (card != null){
