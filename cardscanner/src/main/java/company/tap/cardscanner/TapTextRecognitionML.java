@@ -66,7 +66,7 @@ public class TapTextRecognitionML {
      FirebaseVisionText.Element.
      */
 
-    public void processText(FirebaseVisionText firebaseVisionText) {
+    private void processText(FirebaseVisionText firebaseVisionText) {
         List<FirebaseVisionText.TextBlock> blocks = firebaseVisionText.getTextBlocks();
         TapCard card = new TapCard();
         for (FirebaseVisionText.TextBlock word : blocks
