@@ -7,6 +7,7 @@
         <entry key="cardscanner/src/main/res/drawable/background_camera.xml" value="0.1565" />
         <entry key="cardscanner/src/main/res/drawable/blur_back.xml" value="0.1975" />
         <entry key="cardscanner/src/main/res/layout/activity_camera.xml" value="0.1" />
+        <entry key="cardscanner/src/main/res/layout/fragment_camera.xml" value="0.17239583333333333" />
       </map>
     </option>
   </component>

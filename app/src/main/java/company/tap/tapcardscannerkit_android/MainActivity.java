@@ -37,6 +37,7 @@ import cards.pay.paycardsrecognizer.sdk.ui.InlineViewFragment;
 import company.tap.cardscanner.AnalyticsHelper;
 import company.tap.cardscanner.BuildConfig;
 import company.tap.cardscanner.CameraActivity;
+import company.tap.cardscanner.CameraFragment;
 import company.tap.cardscanner.TapCard;
 import company.tap.cardscanner.TapCountDownTimer;
 import company.tap.cardscanner.TapScannerCallback;
@@ -118,10 +119,12 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
      */
     public void openImagePicker(View view) {
         removeInlineScanner();
-      //  Intent chooseImageIntent = ImagePicker.getPickImageIntent(this);
-        //startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
 
-        Intent chooseImageIntent = new Intent(this, CameraActivity.class);
+      /*  getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.inline_container, new CameraFragment())
+                .commit();*/
+       Intent chooseImageIntent = new Intent(this, CameraActivity.class);
         startActivity(chooseImageIntent);
     }
 
