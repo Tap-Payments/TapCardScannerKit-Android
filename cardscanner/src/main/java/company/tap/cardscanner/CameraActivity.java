@@ -18,7 +18,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
@@ -27,8 +26,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
@@ -36,7 +33,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -52,8 +48,6 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import jp.wasabeef.blurry.Blurry;
 
 
 public class CameraActivity extends AppCompatActivity implements SurfaceHolder.Callback ,TapTextRecognitionCallBack{
@@ -172,11 +166,10 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
                                 int offset = (int) (0.05 * diameter);
                                 diameter -= offset;
 
-
-                                left = width / 2 - diameter / 3;
-                                top = height / 2 - diameter / 3;
-                                right = width / 2 + diameter / 3;
-                                bottom = height / 2 + diameter / 3;
+                                left = (int) (width / 2 - diameter / 2.5);
+                                top = (int) (height / 2 - diameter / 2.5);
+                                right = (int) (width / 2 + diameter / 2.5);
+                                bottom = (int) (height / 2 + diameter / 2.5);
 
                                 xOffset = left;
                                 yOffset = top;
@@ -198,16 +191,21 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
                                                         String text = firebaseVisionText.getText();
                                                         //Setting the decoded text in the texttview
                                                         textView.setText(text);
-                                                        textRecognitionML.decodeImage(bitmap);
+                                                       // textRecognitionML.decodeImage(bitmap);
                                                         //for getting blocks and line elements
                                                         for (FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks()) {
                                                                 String blockText = block.getText();
+                                                               // System.out.println("blockText ll are"+blockText.length());
+                                                              //  System.out.println("blockText are"+blockText);
+                                                               // textRecognitionML.processText(blockText);
+                                                                textRecognitionML.processScannedCardDetails(blockText);
                                                                 for (FirebaseVisionText.Line line : block.getLines()) {
                                                                         String lineText = line.getText();
                                                                         for (FirebaseVisionText.Element element : line.getElements()) {
                                                                                 String elementText = element.getText();
 
                                                                         }
+                                                                        System.out.println("lineText are"+lineText);
                                                                 }
                                                         }
                                                         image.close();
@@ -228,7 +226,9 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
                 });
                 Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
+
         }
+
 
 
         @Override
@@ -251,14 +251,14 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
                 holder.setFormat(PixelFormat.TRANSPARENT);
                 holder.addCallback(this);
                 textRecognitionML = new TapTextRecognitionML(this);
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+              /*  new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
                                 Blurry.with(CameraActivity.this).radius(10).sampling(8).async()
                                         .color(Color.argb(66, 255, 255, 0)).onto(getWindow().getDecorView().findViewById(android.R.id.content));
 
                         }
-                }, 1000);
+                }, 1000);*/
         }
 
         private void blurView(Context context) {
@@ -307,16 +307,17 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
                 paint.setColor(color);
                 paint.setStrokeWidth(5);
 
-                left = width / 2 - diameter / 3;
-                top = height / 2 - diameter / 3;
-                right = width / 2 + diameter / 3;
-                bottom = height / 2 + diameter / 3;
+                left = (int) (width / 2 - diameter / 2.5);
+                top = (int) (height / 2 - diameter / 2.5);
+                right = (int) (width / 2 + diameter / 2.5);
+                bottom = (int) (height / 2 + diameter / 2.5);
 /*
                 left = width / 2 - 500;
                 top = height / 2 - 500;
                 right = width / 2 + 500;
                 bottom = height / 2 + 500;*/
 
+               
                 xOffset = left;
                 yOffset = top;
                 boxHeight = bottom - top;
@@ -373,7 +374,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         @Override
         public void onRecognitionSuccess(TapCard card) {
                 if(card!=null){
-                        if(card.getCardNumber()!=null || card.getCardHolder()!=null || card.getExpirationDate()!=null){
+                        if(card.getCardNumber()!=null && card.getCardHolder()!=null &&  card.getExpirationDate()!=null){
                                 TapTextRecognitionML.getListener().onReadSuccess(card);
                                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardNumber());
                                 Log.e(TAG, "onRecognitionSuccess: "+card.getExpirationDate());

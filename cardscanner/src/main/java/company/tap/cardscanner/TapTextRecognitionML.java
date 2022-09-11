@@ -28,7 +28,8 @@ public class TapTextRecognitionML {
     private TapTextRecognitionCallBack textRecognitionCallBack;
     private static TapScannerCallback _tapScannerCallback;
     private static int frameColor = Color .WHITE;
-
+    TapCard card = new TapCard();
+    public static final String NEW_LINE = System.getProperty("line.separator");
     public TapTextRecognitionML(TapTextRecognitionCallBack textRecognitionCallBack) {
         this.textRecognitionCallBack = textRecognitionCallBack;
 
@@ -99,9 +100,10 @@ public class TapTextRecognitionML {
        String regex = "^(?:4[0-9]\\w+\n{12}(?:[0-9]\\w+\n{3}))$";
             if (word.getText().replace(")","").replace("|","").matches(regex) )
                 card.setCardNumber(word.getText());*/
-            if (word.getText().contains(")")||word.getText().contains("|")){
+          /*  if (word.getText().contains(")")||word.getText().contains("|")){
                 card.setCardNumber(word.getText().replace(")","").replace("|",""));
-            }
+            }*/
+          //  card.setCardNumber(word.getText().replace(")","").replace("|",""));
 
         }
         if (card != null){
@@ -113,6 +115,47 @@ public class TapTextRecognitionML {
         else
             textRecognitionCallBack.onRecognitionFailure("No data founded");
 
+    }
+
+
+    public void processScannedCardDetails(String word){
+        StringBuffer text =null;
+     //   System.out.println("processScannedCardDetails>>>>"+word);
+      //      System.out.println("check words has newline>>>>"+word.contains(NEW_LINE));
+
+        if (isHolderName(word))
+            card.setCardHolder(word);
+
+        if (word.matches("^(0[1-9]|1[0-2]|[1-9])/(1[4-9]|[2-9][0-9]|20[1-9][1-9])$")){
+            card.setExpirationDate(word);
+        }else if (word.matches("^(0[1-9]|1[0-2]|[1-9])-(1[4-9]|[2-9][0-9]|20[1-9][1-9])$")){
+            card.setExpirationDate(word);
+        }
+
+
+        if (word.replace(" ", "")
+                .matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$")){
+            card.setCardNumber(word);
+        }else if(word.contains(NEW_LINE)) {
+            text = new StringBuffer();
+            text.append(word);
+            System.out.println("text is called"+text.toString().replace("\n","").matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$"));
+
+            String cardNumber = text.toString().replace("\n", "").replace("|", "");
+            if (cardNumber.matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$")) {
+                System.out.println("text cardNumber is called"+text.toString().replace("\n", " "));
+                card.setCardNumber(text.toString().replace("\n", " ").replace("|", ""));
+            }
+        }
+
+        if (card != null){
+            if(card.getCardNumber()!=null && card.getCardHolder()!=null &&  card.getExpirationDate()!=null) {
+                textRecognitionCallBack.onRecognitionSuccess(card);
+            }
+        }
+
+        else
+            textRecognitionCallBack.onRecognitionFailure("No data founded");
     }
 
     private boolean isHolderName(String text) {
