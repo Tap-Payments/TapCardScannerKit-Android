@@ -317,10 +317,10 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
                 right = width / 2 + 500;
                 bottom = height / 2 + 500;*/
 
-               
+               // System.out.println("left"+left +"\n"+ "right"+right +"\n"+"top"+top +"\n"+"bottom"+bottom +"\n");
                 xOffset = left;
                 yOffset = top;
-                boxHeight = bottom - top;
+                boxHeight = bottom - top - 200;
                 boxWidth = right - left;
                 //Changing the value of x in diameter/x will change the size of the box ; inversely proportionate to x
                // canvas.drawRect(left, top, right, bottom, paint);
