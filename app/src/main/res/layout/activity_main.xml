@@ -83,6 +83,13 @@
         android:onClick="openImagePicker"
         android:text="@string/image_decoder" />
 
+    <Button
+        android:id="@+id/btn_imageCustom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openInhouseCameraFragment"
+        android:text="@string/image_inhouse" />
+
     <FrameLayout
         android:id="@+id/inline_container"
         android:layout_width="match_parent"

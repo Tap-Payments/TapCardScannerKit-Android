@@ -48,12 +48,13 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
 
     private EditText cardNumber, cardHolder, expirationDate;
     private boolean isInlineOpened = false;
+    private boolean isInlineCameraOpened = false;
     private static final int SCAN_CARD_ID = 101;
     private static final int PICK_IMAGE_ID = 102;
     private TapTextRecognitionML textRecognitionML;
     private TapScannerCallback tapScannerCallback;
     private LinearLayout cardLayout;
-    private Button btnFullscreen, btnInline,btnImagedecoder;
+    private Button btnFullscreen, btnInline,btnImagedecoder ,btncustomCamerar;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 7;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         btnFullscreen = findViewById(R.id.btn_fullscanner);
         btnInline = findViewById(R.id.btn_inlinescanner);
         btnImagedecoder = findViewById(R.id.btn_imagescanner);
+        btncustomCamerar = findViewById(R.id.btn_imageCustom);
 
     }
 
@@ -120,10 +122,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     public void openImagePicker(View view) {
         removeInlineScanner();
 
-      /*  getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.inline_container, new CameraFragment())
-                .commit();*/
+
        Intent chooseImageIntent = new Intent(this, CameraActivity.class);
         startActivity(chooseImageIntent);
     }
@@ -202,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
             btnImagedecoder.setVisibility(View.VISIBLE);
             btnFullscreen.setVisibility(View.VISIBLE);
             btnInline.setVisibility(View.VISIBLE);
+            btncustomCamerar.setVisibility(View.VISIBLE);
 
         }
     }
@@ -221,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         cardLayout.setVisibility(View.GONE);
         btnImagedecoder.setVisibility(View.VISIBLE);
         btnFullscreen.setVisibility(View.VISIBLE);
+        btncustomCamerar.setVisibility(View.VISIBLE);
         btnInline.setVisibility(View.VISIBLE);
     }
 
@@ -328,11 +329,13 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
 
     @Override
     public void onReadSuccess(TapCard card) {
+        removeInlineCameraScanner();
         cardNumber.setText(card.getCardNumber());
         cardHolder.setText(card.getCardHolder());
         expirationDate.setText(card.getExpirationDate());
         cardLayout.setVisibility(View.VISIBLE);
         btnImagedecoder.setVisibility(View.GONE);
+        btncustomCamerar.setVisibility(View.GONE);
         btnFullscreen.setVisibility(View.GONE);
         btnInline.setVisibility(View.GONE);
     }
@@ -340,6 +343,30 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     @Override
     public void onReadFailure(String error) {
 
+    }
+
+    public void openInhouseCameraFragment(View view) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.inline_container, new CameraFragment())
+                .commit();
+        isInlineCameraOpened = true;
+    }
+
+    private void removeInlineCameraScanner() {
+        if (isInlineCameraOpened) {
+            if (getSupportFragmentManager().findFragmentById(R.id.inline_container) != null)
+                getSupportFragmentManager().beginTransaction().
+                        remove(getSupportFragmentManager().findFragmentById(R.id.inline_container))
+                        .commit();
+            isInlineCameraOpened = false;
+            cardLayout.setVisibility(View.GONE);
+            btnImagedecoder.setVisibility(View.VISIBLE);
+            btnFullscreen.setVisibility(View.VISIBLE);
+            btnInline.setVisibility(View.VISIBLE);
+            btncustomCamerar.setVisibility(View.VISIBLE);
+
+        }
     }
 }
 

@@ -156,6 +156,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 Bitmap bmp = images.getBitmap();
                 //Getting the values for cropping
                 DisplayMetrics displaymetrics = new DisplayMetrics();
+                if(getActivity()!=null)
                 getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
                 int height = bmp.getHeight();
                 int width = bmp.getWidth();
@@ -167,7 +168,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                     diameter = height;
                 }
 
-                int offset = (int) (0.05 * diameter);
+                int offset = (int) (0.5 * diameter);
                 diameter -= offset;
 
                 left = (int) (width / 2 - diameter / 2.5);
@@ -209,7 +210,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                                             String elementText = element.getText();
 
                                         }
-                                        System.out.println("lineText are"+lineText);
+                                      //  System.out.println("lineText are"+lineText);
                                     }
                                 }
                                 image.close();
