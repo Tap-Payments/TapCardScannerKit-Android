@@ -367,7 +367,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 Log.e(TAG, "onRecognitionSuccess: "+card.getExpirationDate());
                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardHolder());
                 if(getActivity()!=null){
-                    getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                    getActivity().finish();
                 }
 
             }
