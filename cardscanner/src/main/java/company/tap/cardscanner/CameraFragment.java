@@ -315,6 +315,9 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         holder.unlockCanvasAndPost(canvas);
     }
 
+    /**
+     * Create borders for corner
+     * **/
     private Path createCornersPath(int left, int top, int right, int bottom, int cornerWidth){
         Path path = new Path();
 
@@ -356,6 +359,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         holder.getSurface().release();
+
         holder.removeCallback(this);
 
     }
@@ -368,7 +372,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardNumber());
                 Log.e(TAG, "onRecognitionSuccess: "+card.getExpirationDate());
                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardHolder());
-
+//finish();
 
             }
         }
@@ -391,16 +395,19 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         mCameraView.removeAllViews();
     }
 
-  /*  @SuppressLint("RestrictedApi")
+    @SuppressLint("RestrictedApi")
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (preview != null && preview.getCamera()!=null) {
+
             preview.getCamera().close();
             preview.getCamera().release();
+
             mCameraView.removeAllViews();
             mCameraView.clearAnimation();
             preview = null;
+
         }
-    }*/
+    }
 }

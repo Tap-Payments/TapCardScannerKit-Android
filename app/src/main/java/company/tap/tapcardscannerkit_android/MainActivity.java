@@ -336,7 +336,9 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         cardLayout.setVisibility(View.VISIBLE);
         btnImagedecoder.setVisibility(View.GONE);
         btncustomCamerar.setVisibility(View.GONE);
+
         btnFullscreen.setVisibility(View.GONE);
+
         btnInline.setVisibility(View.GONE);
     }
 
