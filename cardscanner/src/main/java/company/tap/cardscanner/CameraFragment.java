@@ -356,6 +356,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         holder.getSurface().release();
+        holder.removeCallback(this);
+
     }
 
     @Override
