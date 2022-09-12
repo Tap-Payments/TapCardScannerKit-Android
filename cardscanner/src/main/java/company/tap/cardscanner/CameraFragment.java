@@ -131,11 +131,13 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
         preview.setSurfaceProvider(mCameraView.createSurfaceProvider());
 
+        DisplayMetrics metrics = this.getResources().getDisplayMetrics();
+
         //Image Analysis Function
         //Set static size according to your device or write a dynamic function for it
         ImageAnalysis imageAnalysis =
                 new ImageAnalysis.Builder()
-                        .setTargetResolution(new Size(720, 1488))
+                        .setTargetResolution(new Size(metrics.widthPixels, metrics.heightPixels))
                         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                         .build();
 
@@ -171,10 +173,10 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 int offset = (int) (0.5 * diameter);
                 diameter -= offset;
 
-                left = (int) (width / 2 - diameter / 2.5);
-                top = (int) (height / 2 - diameter / 2.5);
-                right = (int) (width / 2 + diameter / 2.5);
-                bottom = (int) (height / 2 + diameter / 2.5);
+                left = (int) (width / 2 - diameter /3);
+                top = (int) (height / 2 - diameter / 3);
+                right = (int) (width / 2 + diameter / 3);
+                bottom = (int) (height / 2 + diameter /3);
 
                 xOffset = left;
                 yOffset = top;
@@ -291,10 +293,10 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         paint.setColor(color);
         paint.setStrokeWidth(5);
 
-        left = (int) (width / 2 - diameter / 2.5);
-        top = (int) (height / 2 - diameter / 2.5);
-        right = (int) (width / 2 + diameter / 2.5);
-        bottom = (int) (height / 2 + diameter / 2.5);
+        left = (int) (width / 2 - diameter / 3);
+        top = (int) (height / 2 - diameter /3);
+        right = (int) (width / 2 + diameter / 3);
+        bottom = (int) (height / 2 + diameter / 3);
 /*
                 left = width / 2 - 500;
                 top = height / 2 - 500;
