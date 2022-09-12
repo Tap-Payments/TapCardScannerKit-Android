@@ -67,8 +67,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     private ExecutorService executor = Executors.newSingleThreadExecutor();
     private TapScannerCallback tapScannerCallback ;
     private static final String TAG = "CameraActivity";
-
-
+    private Preview preview;
+    Camera camera;
     public void setCallBack(TapScannerCallback tapScannerCallback) {
         this.tapScannerCallback = tapScannerCallback;
     }
@@ -122,7 +122,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void bindPreview(ProcessCameraProvider cameraProvider, View view) {
-        Preview preview = new Preview.Builder()
+        preview = new Preview.Builder()
                 .build();
 
         CameraSelector cameraSelector = new CameraSelector.Builder()
@@ -232,7 +232,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
 
         });
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
+         camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
 
     }
     public CameraFragment() {
@@ -352,9 +352,10 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         DrawFocusRect(TapTextRecognitionML.getFrameColor());
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
+       preview.getCamera().release();
     }
 
     @Override
@@ -365,7 +366,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardNumber());
                 Log.e(TAG, "onRecognitionSuccess: "+card.getExpirationDate());
                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardHolder());
-                //finish();
+
+
             }
         }
 
