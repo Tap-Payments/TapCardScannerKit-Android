@@ -366,9 +366,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardNumber());
                 Log.e(TAG, "onRecognitionSuccess: "+card.getExpirationDate());
                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardHolder());
-                if(getActivity()!=null){
-                    getActivity().finish();
-                }
+
 
             }
         }
@@ -391,7 +389,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         mCameraView.removeAllViews();
     }
 
-    @SuppressLint("RestrictedApi")
+  /*  @SuppressLint("RestrictedApi")
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -402,5 +400,5 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
             mCameraView.clearAnimation();
             preview = null;
         }
-    }
+    }*/
 }
