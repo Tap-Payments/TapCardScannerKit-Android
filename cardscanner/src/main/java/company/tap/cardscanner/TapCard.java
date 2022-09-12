@@ -9,13 +9,13 @@ import java.io.Serializable;
  * Created by Mario Gamal on 4/1/20
  * Copyright © 2020 Tap Payments. All rights reserved.
  */
-public class TapCard implements Serializable, Parcelable {
+public class TapCard implements Serializable {
 
     private String cardNumber;
     private String cardHolder;
     private String expirationDate;
 
-    protected TapCard(Parcel in) {
+ /*   protected TapCard(Parcel in) {
         cardNumber = in.readString();
         cardHolder = in.readString();
         expirationDate = in.readString();
@@ -31,7 +31,7 @@ public class TapCard implements Serializable, Parcelable {
         public TapCard[] newArray(int size) {
             return new TapCard[size];
         }
-    };
+    };*/
 
     /**
      * Gets cardNumber.
@@ -72,7 +72,7 @@ public class TapCard implements Serializable, Parcelable {
         this.expirationDate = expirationDate;
     }
 
-    @Override
+  /*  @Override
     public int describeContents() {
         return 0;
     }
@@ -82,5 +82,5 @@ public class TapCard implements Serializable, Parcelable {
         parcel.writeString(this.cardNumber);
         parcel.writeString(this.cardNumber);
         parcel.writeString(this.expirationDate);
-    }
+    }*/
 }
