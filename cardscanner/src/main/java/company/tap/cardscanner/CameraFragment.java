@@ -131,6 +131,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
         preview.setSurfaceProvider(mCameraView.createSurfaceProvider());
 
+        mCameraView.setScaleType(PreviewView.ScaleType.FILL_CENTER);
         DisplayMetrics metrics = this.getResources().getDisplayMetrics();
 
         //Image Analysis Function
@@ -355,7 +356,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     @SuppressLint("RestrictedApi")
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-       preview.getCamera().release();
+
     }
 
     @Override
@@ -387,5 +388,18 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         super.onPause();
         // if you are using MediaRecorder, release it first
         mCameraView.removeAllViews();
+    }
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (preview != null && preview.getCamera()!=null) {
+            preview.getCamera().close();
+            preview.getCamera().release();
+            mCameraView.removeAllViews();
+            mCameraView.clearAnimation();
+            preview = null;
+        }
     }
 }
