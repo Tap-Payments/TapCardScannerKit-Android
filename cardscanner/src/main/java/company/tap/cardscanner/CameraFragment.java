@@ -130,7 +130,6 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 .build();
 
         preview.setSurfaceProvider(mCameraView.createSurfaceProvider());
-
         mCameraView.setScaleType(PreviewView.ScaleType.FILL_CENTER);
         DisplayMetrics metrics = this.getResources().getDisplayMetrics();
 
@@ -356,7 +355,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     @SuppressLint("RestrictedApi")
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
+        holder.getSurface().release();
     }
 
     @Override
