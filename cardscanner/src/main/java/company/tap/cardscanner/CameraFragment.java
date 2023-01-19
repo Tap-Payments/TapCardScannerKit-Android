@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
@@ -155,7 +159,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 final Image mediaImage = image.getImage();
                 FirebaseVisionImage images = FirebaseVisionImage.fromMediaImage(mediaImage, rotationDegrees);
                 //Getting bitmap from FirebaseVisionImage Object
-                Bitmap bmp = images.getBitmap();
+                Bitmap bmp = images.getBitmap();  System.out.println("bmp"+bmp);
                 //Getting the values for cropping
                 DisplayMetrics displaymetrics = new DisplayMetrics();
                 if(getActivity()!=null)
@@ -173,21 +177,28 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 int offset = (int) (0.5 * diameter);
                 diameter -= offset;
 
-                left = (int) (width / 2 - diameter /3);
-                top = (int) (height / 2 - diameter / 3);
-                right = (int) (width / 2 + diameter / 3);
-                bottom = (int) (height / 2 + diameter /3);
+                left = (int) (width / 2 - diameter /2.5);
+                top = (int) (height / 2 - diameter / 2.5);
+                right = (int) (width / 2 + diameter / 2.5);
+                bottom = (int) (height / 2 + diameter /2.5);
 
                 xOffset = left;
                 yOffset = top;
 
+
                 //Creating new cropped bitmap
-                Bitmap bitmap = Bitmap.createBitmap(bmp, left, top, boxWidth, boxHeight);
+            //    Bitmap bitmap = Bitmap.createBitmap(bmp, left, top, boxWidth, boxHeight);
+             //   Rect rectCrop = new Rect(left,top,right,bottom); // TRial below lines
+              //  Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
+              //  Bitmap bitmap = Bitmap.createBitmap(bmp, rectCrop.left, rectCrop.top, rectCrop.width(), rectCrop.height() );
+               // Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
+
+              //  System.out.println("bitmap frag is"+bitmap);
                 //initializing FirebaseVisionTextRecognizer object
                 FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
                         .getOnDeviceTextRecognizer();
                 //Passing FirebaseVisionImage Object created from the cropped bitmap
-                Task<FirebaseVisionText> result = detector.processImage(FirebaseVisionImage.fromBitmap(bitmap))
+                Task<FirebaseVisionText> result = detector.processImage(FirebaseVisionImage.fromBitmap(bmp))
                         .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
                             @Override
                             public void onSuccess(FirebaseVisionText firebaseVisionText) {
@@ -293,10 +304,10 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         paint.setColor(color);
         paint.setStrokeWidth(5);
 
-        left = (int) (width / 2 - diameter / 3);
-        top = (int) (height / 2 - diameter /3);
-        right = (int) (width / 2 + diameter / 3);
-        bottom = (int) (height / 2 + diameter / 3);
+        left = (int) (width / 2 - diameter / 2.5);
+        top = (int) (height / 2 - diameter /2.5);
+        right = (int) (width / 2 + diameter / 2.5);
+        bottom = (int) (height / 2 + diameter / 2.5);
 /*
                 left = width / 2 - 500;
                 top = height / 2 - 500;
@@ -306,12 +317,16 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         // System.out.println("left"+left +"\n"+ "right"+right +"\n"+"top"+top +"\n"+"bottom"+bottom +"\n");
         xOffset = left;
         yOffset = top;
-        boxHeight = bottom - top - 200;
+       // boxHeight = bottom - top - 400;
+        boxHeight = bottom - top;
         boxWidth = right - left;
         //Changing the value of x in diameter/x will change the size of the box ; inversely proportionate to x
         // canvas.drawRect(left, top, right, bottom, paint);
         // canvas.drawPath(createCornersPath(left/2 - 500, top/2 - 500, right/2  +500, bottom/2 + 500, 150), paint);
-        canvas.drawPath(createCornersPath(left,top,right,bottom, 100), paint);
+       // canvas.drawPath(createCornersPath(width/2 - 450, height/2 - 350, width/2  +450, height/2 + 350, 100), paint);
+        canvas.drawPath(createCornersPath(width/2-450, height/2 - 300, width/2+450  , height/2 + 300, 100), paint);
+
+     //   canvas.drawPath(createCornersPath(left,top,right,bottom, 100), paint);
         holder.unlockCanvasAndPost(canvas);
     }
 
@@ -359,7 +374,6 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         holder.getSurface().release();
-
         holder.removeCallback(this);
 
     }
@@ -410,4 +424,5 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
         }
     }
+
 }
