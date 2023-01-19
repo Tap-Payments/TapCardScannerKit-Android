@@ -208,7 +208,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                                 //getting decoded text
                                 String text = firebaseVisionText.getText();
                                 //Setting the decoded text in the texttview
-                                textView.setText(text);
+                                textView.setText(text); // stopped detect text
                                 // textRecognitionML.decodeImage(bitmap);
                                 //for getting blocks and line elements
                                 for (FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks()) {
