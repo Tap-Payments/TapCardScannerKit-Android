@@ -72,6 +72,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     private TapScannerCallback tapScannerCallback ;
     private static final String TAG = "CameraActivity";
     private Preview preview;
+    private int displayMetrics ;
     Camera camera;
     public void setCallBack(TapScannerCallback tapScannerCallback) {
         this.tapScannerCallback = tapScannerCallback;
@@ -282,7 +283,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int height = mCameraView.getHeight();
         int width = mCameraView.getWidth();
-
+        this.displayMetrics =displaymetrics.densityDpi;
         //cameraHeight = height;
         //cameraWidth = width;
 
@@ -321,10 +322,14 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         boxHeight = bottom - top;
         boxWidth = right - left;
         //Changing the value of x in diameter/x will change the size of the box ; inversely proportionate to x
-        // canvas.drawRect(left, top, right, bottom, paint);
+       //  canvas.drawRect(left, top, right, bottom, paint);
+       //  canvas.drawPath(createCornersPath(left, top/2, right, bottom/2, 50), paint);
         // canvas.drawPath(createCornersPath(left/2 - 500, top/2 - 500, right/2  +500, bottom/2 + 500, 150), paint);
        // canvas.drawPath(createCornersPath(width/2 - 450, height/2 - 350, width/2  +450, height/2 + 350, 100), paint);
-        canvas.drawPath(createCornersPath(width/2-450, height/2 - 300, width/2+450  , height/2 + 300, 100), paint);
+     if (displayMetrics == DisplayMetrics.DENSITY_280||displayMetrics == DisplayMetrics.DENSITY_260||displayMetrics == DisplayMetrics.DENSITY_300||displayMetrics == DisplayMetrics.DENSITY_XHIGH || displayMetrics == DisplayMetrics.DENSITY_340||displayMetrics == DisplayMetrics.DENSITY_360) {
+          canvas.drawPath(createCornersPath(width/2-300, height/2 - 160, width/2+300 , height/2 + 160, 50), paint);
+
+    } else canvas.drawPath(createCornersPath(width/2-450, height/2 - 300, width/2+450  , height/2 + 300, 100), paint);
 
      //   canvas.drawPath(createCornersPath(left,top,right,bottom, 100), paint);
         holder.unlockCanvasAndPost(canvas);
