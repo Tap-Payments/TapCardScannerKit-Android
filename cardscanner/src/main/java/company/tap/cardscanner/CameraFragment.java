@@ -209,22 +209,25 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                                 //getting decoded text
                                 String text = firebaseVisionText.getText();
                                 //Setting the decoded text in the texttview
-                                textView.setText(text); // stopped detect text
+                               // textView.setText(text); // stopped detect text
                                 // textRecognitionML.decodeImage(bitmap);
                                 //for getting blocks and line elements
                                 for (FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks()) {
                                     String blockText = block.getText();
                                     // System.out.println("blockText ll are"+blockText.length());
-                                    //  System.out.println("blockText are"+blockText);
+                                   //   System.out.println("blockText are"+blockText);
                                     // textRecognitionML.processText(blockText);
-                                    textRecognitionML.processScannedCardDetails(blockText);
+                                   // textRecognitionML.processScannedCardDetails(blockText);
                                     for (FirebaseVisionText.Line line : block.getLines()) {
                                         String lineText = line.getText();
                                         for (FirebaseVisionText.Element element : line.getElements()) {
                                             String elementText = element.getText();
+                                         //   System.out.println("elementText are"+elementText);
 
                                         }
-                                      //  System.out.println("lineText are"+lineText);
+                                        textRecognitionML.processScannedCardDetails(lineText);
+
+                                        System.out.println("lineText are"+lineText);
                                     }
                                 }
                                 image.close();
