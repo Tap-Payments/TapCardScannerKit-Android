@@ -8,9 +8,11 @@ import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +32,9 @@ public class TapTextRecognitionML {
     private static int frameColor = Color .WHITE;
     TapCard card = new TapCard();
     public static final String NEW_LINE = System.getProperty("line.separator");
+
+    private Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+    StringBuffer text =new StringBuffer();
     public TapTextRecognitionML(TapTextRecognitionCallBack textRecognitionCallBack) {
         this.textRecognitionCallBack = textRecognitionCallBack;
 
@@ -119,7 +124,7 @@ public class TapTextRecognitionML {
 
 
     public void processScannedCardDetails(String word){
-        StringBuffer text =null;
+
      //   System.out.println("processScannedCardDetails>>>>"+word);
       //      System.out.println("check words has newline>>>>"+word.contains(NEW_LINE));
 
@@ -136,12 +141,17 @@ public class TapTextRecognitionML {
         if (word.replace(" ", "")
                 .matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$")){
             card.setCardNumber(word);
-        }else if(word.contains(NEW_LINE)) {
-            text = new StringBuffer();
-            text.append(word);
-            System.out.println("text is called"+text.toString().replace("\n","").matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$"));
+        }else if(word.contains("|") || word.contains(")")|| word.contains("(")|| word.length()<=5|| word.contains(System.lineSeparator()) && isNumeric(word)) {
+           // text = new StringBuffer();
 
-            String cardNumber = text.toString().replace("\n", "").replace("|", "");
+            text.append(word);
+
+           // System.out.println("text is called"+text.toString().replace("\n","").matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$"));
+            System.out.println("text is called"+text);
+
+            String cardNumber = text.toString().replace("\n", "").replace("|", "").replace(")","").replace("(","");
+            System.out.println("cardNumber is called"+cardNumber);
+
             if (cardNumber.matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$")) {
                 System.out.println("text cardNumber is called"+text.toString().replace("\n", " "));
                 card.setCardNumber(text.toString().replace("\n", " ").replace("|", ""));
@@ -196,4 +206,13 @@ public class TapTextRecognitionML {
     public static boolean isNumeric(String str) {
         return str.matches("\n?\\d+(\\|\\d+)?");  //match a number with optional '-' and decimal.
     }
+
+    public boolean isNumerice(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        return pattern.matcher(strNum).matches();
+    }
+
+
 }
