@@ -1,13 +1,16 @@
 package company.tap.cardscanner;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
@@ -67,6 +70,9 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     Paint paint;
     int cameraHeight, cameraWidth, xOffset, yOffset, boxWidth, boxHeight;
     private TapTextRecognitionML textRecognitionML;
+
+    private BitmapDrawable mCornerTopLeftDrawable, mCornerTopRightDrawable,
+            mCornerBottomLeftDrawable, mCornerBottomRightDrawable;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private ExecutorService executor = Executors.newSingleThreadExecutor();
     private TapScannerCallback tapScannerCallback ;
@@ -97,6 +103,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                         "Rotation must be 0, 90, 180, or 270.");
         }
     }
+
+
 
     /**
      * Starting Camera
@@ -275,6 +283,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         holder.setFormat(PixelFormat.TRANSPARENT);
         holder.addCallback(this);
         textRecognitionML = new TapTextRecognitionML(this);
+        initCornerDrawables(requireContext());
         return view;
     }
 
@@ -302,27 +311,48 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
         canvas = holder.lockCanvas();
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+
+      //  final int detectionState = mDetectionState;
+       // mCardGradientDrawable.draw(canvas);
+        mCornerTopLeftDrawable.draw(canvas);
+        mCornerTopRightDrawable.draw(canvas);
+        mCornerBottomLeftDrawable.draw(canvas);
+        mCornerBottomRightDrawable.draw(canvas);
+
+        // Detected edges
+//        if (0 != (detectionState & TOP_EDGE)) {
+//            mLineTopDrawable.draw(canvas);
+//        }
+//        if (0 != (detectionState & LEFT_EDGE)) {
+//            mLineLeftDrawable.draw(canvas);
+//        }
+//        if (0 != (detectionState & RIGHT_EDGE)) {
+//            mLineRightDrawable.draw(canvas);
+//        }
+//        if (0 != (detectionState & BOTTOM_EDGE)) {
+//            mLineBottomDrawable.draw(canvas);
+//        }
         //border's properties
-        paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(color);
-        paint.setStrokeWidth(5);
-
-        left = (int) (width / 2 - diameter / 2.5);
-        top = (int) (height / 2 - diameter /2.5);
-        right = (int) (width / 2 + diameter / 2.5);
-        bottom = (int) (height / 2 + diameter / 2.5);
-
-        xOffset = left;
-        yOffset = top;
-       // boxHeight = bottom - top - 400;
-        boxHeight = bottom - top;
-        boxWidth = right - left;
-
-     if (displayMetrics == DisplayMetrics.DENSITY_280||displayMetrics == DisplayMetrics.DENSITY_260||displayMetrics == DisplayMetrics.DENSITY_300||displayMetrics == DisplayMetrics.DENSITY_XHIGH || displayMetrics == DisplayMetrics.DENSITY_340||displayMetrics == DisplayMetrics.DENSITY_360) {
-          canvas.drawPath(createCornersPath(width/2-300, height/2 - 160, width/2+300 , height/2 + 160, 50), paint);
-
-    } else canvas.drawPath(createCornersPath(width/2-450, height/2 - 300, width/2+450  , height/2 + 300, 100), paint);
+//        paint = new Paint();
+//        paint.setStyle(Paint.Style.STROKE);
+//        paint.setColor(color);
+//        paint.setStrokeWidth(5);
+//
+//        left = (int) (width / 2 - diameter / 2.5);
+//        top = (int) (height / 2 - diameter /2.5);
+//        right = (int) (width / 2 + diameter / 2.5);
+//        bottom = (int) (height / 2 + diameter / 2.5);
+//
+//        xOffset = left;
+//        yOffset = top;
+//       // boxHeight = bottom - top - 400;
+//        boxHeight = bottom - top;
+//        boxWidth = right - left;
+//
+//     if (displayMetrics == DisplayMetrics.DENSITY_280||displayMetrics == DisplayMetrics.DENSITY_260||displayMetrics == DisplayMetrics.DENSITY_300||displayMetrics == DisplayMetrics.DENSITY_XHIGH || displayMetrics == DisplayMetrics.DENSITY_340||displayMetrics == DisplayMetrics.DENSITY_360) {
+//          canvas.drawPath(createCornersPath(width/2-300, height/2 - 160, width/2+300 , height/2 + 160, 50), paint);
+//
+//    } else canvas.drawPath(createCornersPath(width/2-450, height/2 - 300, width/2+450  , height/2 + 300, 100), paint);
 
      //   canvas.drawPath(createCornersPath(left,top,right,bottom, 100), paint);
         holder.unlockCanvasAndPost(canvas);
@@ -352,6 +382,27 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
 
         return path;
+    }
+
+    private void initCornerDrawables(Context context) {
+        mCornerTopLeftDrawable = (BitmapDrawable) context.getResources().getDrawable(R.drawable.wocr_card_frame_rect_corner_top_left);
+
+        Matrix m = new Matrix();
+        Bitmap bitmap = mCornerTopLeftDrawable.getBitmap();
+
+        m.setRotate(90);
+        mCornerTopRightDrawable = new BitmapDrawable(context.getResources(),
+                Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true));
+
+        m.setRotate(180);
+        mCornerBottomRightDrawable = new BitmapDrawable(context.getResources(),
+                Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true));
+
+        m.setRotate(270);
+        mCornerBottomLeftDrawable = new BitmapDrawable(context.getResources(),
+                Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true));
+//        if(FrameManager.getInstance().getFrameColor()!=0)
+//            initCornerColor(FrameManager.getInstance().getFrameColor());
     }
     /**
      * Callback functions for the surface Holder

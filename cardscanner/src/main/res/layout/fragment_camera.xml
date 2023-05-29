@@ -14,13 +14,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <company.tap.cardscanner.BlurringTextureView
+    <cards.pay.paycardsrecognizer.sdk.camera.widget.CardDetectionStateView
+        android:id="@+id/wocr_card_detection_state"
         android:layout_width="match_parent"
-        android:clickable="true"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView"
