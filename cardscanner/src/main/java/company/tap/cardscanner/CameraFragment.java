@@ -312,23 +312,13 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         top = (int) (height / 2 - diameter /2.5);
         right = (int) (width / 2 + diameter / 2.5);
         bottom = (int) (height / 2 + diameter / 2.5);
-/*
-                left = width / 2 - 500;
-                top = height / 2 - 500;
-                right = width / 2 + 500;
-                bottom = height / 2 + 500;*/
 
-        // System.out.println("left"+left +"\n"+ "right"+right +"\n"+"top"+top +"\n"+"bottom"+bottom +"\n");
         xOffset = left;
         yOffset = top;
        // boxHeight = bottom - top - 400;
         boxHeight = bottom - top;
         boxWidth = right - left;
-        //Changing the value of x in diameter/x will change the size of the box ; inversely proportionate to x
-       //  canvas.drawRect(left, top, right, bottom, paint);
-       //  canvas.drawPath(createCornersPath(left, top/2, right, bottom/2, 50), paint);
-        // canvas.drawPath(createCornersPath(left/2 - 500, top/2 - 500, right/2  +500, bottom/2 + 500, 150), paint);
-       // canvas.drawPath(createCornersPath(width/2 - 450, height/2 - 350, width/2  +450, height/2 + 350, 100), paint);
+
      if (displayMetrics == DisplayMetrics.DENSITY_280||displayMetrics == DisplayMetrics.DENSITY_260||displayMetrics == DisplayMetrics.DENSITY_300||displayMetrics == DisplayMetrics.DENSITY_XHIGH || displayMetrics == DisplayMetrics.DENSITY_340||displayMetrics == DisplayMetrics.DENSITY_360) {
           canvas.drawPath(createCornersPath(width/2-300, height/2 - 160, width/2+300 , height/2 + 160, 50), paint);
 

@@ -90,6 +90,7 @@
         android:onClick="openInhouseCameraFragment"
         android:text="@string/image_inhouse" />
 
+
     <FrameLayout
         android:id="@+id/inline_container"
         android:layout_width="match_parent"

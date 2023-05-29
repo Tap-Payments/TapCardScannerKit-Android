@@ -1,3 +1,4 @@
 rootProject.name='TapCardScannerKit-Android'
 include ':app'
 include ':cardscanner'
+include ':sdk'

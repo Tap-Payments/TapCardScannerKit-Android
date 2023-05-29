@@ -44,7 +44,7 @@ import company.tap.cardscanner.TapScannerCallback;
 import company.tap.cardscanner.TapTextRecognitionCallBack;
 import company.tap.cardscanner.TapTextRecognitionML;
 
-public class MainActivity extends AppCompatActivity implements TapTextRecognitionCallBack, InlineViewCallback ,TapScannerCallback , Serializable {
+public class MainActivity extends AppCompatActivity implements TapTextRecognitionCallBack, InlineViewCallback, TapScannerCallback, Serializable {
 
     private EditText cardNumber, cardHolder, expirationDate;
     private boolean isInlineOpened = false;
@@ -54,8 +54,9 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     private TapTextRecognitionML textRecognitionML;
     private TapScannerCallback tapScannerCallback;
     private LinearLayout cardLayout;
-    private Button btnFullscreen, btnInline,btnImagedecoder ,btncustomCamerar;
+    private Button btnFullscreen, btnInline, btnImagedecoder, btncustomCamerar;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 7;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         // TODO: 4/21/20 reuse same instance if exist instead of instantiating one each time configuration changes
         textRecognitionML = new TapTextRecognitionML(this);
         textRecognitionML.addTapScannerCallback(this);
-        textRecognitionML.setFrameColor(Color.BLUE);
+        textRecognitionML.setFrameColor(Color.BLACK);
 
     }
 
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     public void openFullScreenScanner(View view) {
         removeInlineScanner();
         Map<String, String> parameters = new HashMap<String, String>();
-       // parameters.put("sdk", BuildConfig.VERSION_NAME);
+        // parameters.put("sdk", BuildConfig.VERSION_NAME);
         AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_FULLSCREEN_CALLED, parameters, true);
         Intent intent = new ScanCardIntent.Builder(this).build();
         startActivityForResult(intent, SCAN_CARD_ID);
@@ -104,9 +105,9 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
      */
     public void openInlineScanner(View view) {
         Map<String, String> parameters = new HashMap<String, String>();
-       // parameters.put("sdk", BuildConfig.VERSION_NAME);
+        // parameters.put("sdk", BuildConfig.VERSION_NAME);
         AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_INLINE_CALLED, parameters, true);
-        setTapCountDownTimer();
+      //  setTapCountDownTimer();
         FrameManager.getInstance().setFrameColor(Color.YELLOW);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -121,9 +122,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
      */
     public void openImagePicker(View view) {
         removeInlineScanner();
-
-
-       Intent chooseImageIntent = new Intent(this, CameraActivity.class);
+        Intent chooseImageIntent = new Intent(this, CameraActivity.class);
         startActivity(chooseImageIntent);
     }
 
@@ -147,8 +146,8 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
                 break;
             case PICK_IMAGE_ID:
                 Bitmap bitmap = ImagePicker.getImageFromResult(this, resultCode, data);
-                if(bitmap!=null)
-                textRecognitionML.decodeImage(bitmap);
+                if (bitmap != null)
+                    textRecognitionML.decodeImage(bitmap);
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -169,6 +168,11 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     @Override
     public void onRecognitionFailure(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onScanCardCanceled() {
+
     }
 
     @Override
@@ -369,6 +373,11 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
             btncustomCamerar.setVisibility(View.VISIBLE);
 
         }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
     }
 }
 
