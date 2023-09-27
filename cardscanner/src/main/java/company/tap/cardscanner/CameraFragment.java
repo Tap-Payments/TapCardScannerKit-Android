@@ -198,7 +198,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
               //  System.out.println("bitmap frag is"+bitmap);
                 //initializing FirebaseVisionTextRecognizer object
-                FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceObjectDetector()
+                FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
                 //Passing FirebaseVisionImage Object created from the cropped bitmap
                 Task<FirebaseVisionText> result = detector.processImage(images5)
                         .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
