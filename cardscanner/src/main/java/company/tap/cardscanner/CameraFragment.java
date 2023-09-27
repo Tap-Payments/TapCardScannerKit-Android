@@ -200,7 +200,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 //initializing FirebaseVisionTextRecognizer object
                 FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
                 //Passing FirebaseVisionImage Object created from the cropped bitmap
-                Task<FirebaseVisionText> result = detector.processImage(images5)
+                Task<FirebaseVisionText> result = detector.processImage(FirebaseVisionImage.fromBitmap(bmp))
                         .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
                             @Override
                             public void onSuccess(FirebaseVisionText firebaseVisionText) {
