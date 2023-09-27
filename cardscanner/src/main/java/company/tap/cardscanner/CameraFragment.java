@@ -134,7 +134,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                 .build();
 
-        preview.setSurfaceProvider(mCameraView.createSurfaceProvider());
+        preview.setSurfaceProvider(mCameraView.getSurfaceProvider());
         mCameraView.setScaleType(PreviewView.ScaleType.FILL_CENTER);
         DisplayMetrics metrics = this.getResources().getDisplayMetrics();
 

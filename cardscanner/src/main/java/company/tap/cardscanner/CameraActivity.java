@@ -128,7 +128,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
                         .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                         .build();
 
-                preview.setSurfaceProvider(mCameraView.createSurfaceProvider());
+                preview.setSurfaceProvider(mCameraView.getSurfaceProvider());
 
                 //Image Analysis Function
                 //Set static size according to your device or write a dynamic function for it
