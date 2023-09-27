@@ -45,6 +45,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
+import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
@@ -161,6 +162,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 FirebaseVisionImage images = FirebaseVisionImage.fromMediaImage(mediaImage, rotationDegrees);
                 //Getting bitmap from FirebaseVisionImage Object
                 Bitmap bmp = images.getBitmap();  System.out.println("bmp"+bmp);
+                FirebaseVisionImage images5 = FirebaseVisionImage.fromBitmap(bmp);
                 //Getting the values for cropping
                 DisplayMetrics displaymetrics = new DisplayMetrics();
                 if(getActivity()!=null)
@@ -196,10 +198,9 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
               //  System.out.println("bitmap frag is"+bitmap);
                 //initializing FirebaseVisionTextRecognizer object
-                FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
-                        .getOnDeviceTextRecognizer();
+                FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceObjectDetector()
                 //Passing FirebaseVisionImage Object created from the cropped bitmap
-                Task<FirebaseVisionText> result = detector.processImage(FirebaseVisionImage.fromBitmap(bmp))
+                Task<FirebaseVisionText> result = detector.processImage(images5)
                         .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
                             @Override
                             public void onSuccess(FirebaseVisionText firebaseVisionText) {
