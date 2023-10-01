@@ -1,13 +1,22 @@
 package company.tap.cardscanner;
 
+import static android.content.Context.CAMERA_SERVICE;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.ImageFormat;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.YuvImage;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,7 +40,9 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -48,7 +59,15 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
+
+import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -74,6 +93,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     private static final String TAG = "CameraActivity";
     private Preview preview;
     private int displayMetrics ;
+    TextRecognizer recognizer;
     Camera camera;
     public void setCallBack(TapScannerCallback tapScannerCallback) {
         this.tapScannerCallback = tapScannerCallback;
@@ -94,8 +114,9 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
             case 270:
                 return FirebaseVisionImageMetadata.ROTATION_270;
             default:
-                throw new IllegalArgumentException(
-                        "Rotation must be 0, 90, 180, or 270.");
+                /*throw new IllegalArgumentException(
+                        "Rotation must be 0, 90, 180, or 270.");*/
+                return FirebaseVisionImageMetadata.ROTATION_0;
         }
     }
 
@@ -138,115 +159,60 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         preview.setSurfaceProvider(mCameraView.getSurfaceProvider());
         mCameraView.setScaleType(PreviewView.ScaleType.FILL_CENTER);
         DisplayMetrics metrics = this.getResources().getDisplayMetrics();
-
+        recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
         //Image Analysis Function
         //Set static size according to your device or write a dynamic function for it
         ImageAnalysis imageAnalysis =
                 new ImageAnalysis.Builder()
-                        .setTargetResolution(new Size(metrics.widthPixels, metrics.heightPixels))
+                      //  .setTargetResolution(new Size(metrics.widthPixels, metrics.heightPixels))
                         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                         .build();
 
-
         imageAnalysis.setAnalyzer(executor, new ImageAnalysis.Analyzer() {
-            @SuppressLint("UnsafeExperimentalUsageError")
+
+
             @Override
-            public void analyze(@NonNull ImageProxy image) {
-                //changing normal degrees into Firebase rotation
-                int rotationDegrees = degreesToFirebaseRotation(image.getImageInfo().getRotationDegrees());
-                if (image == null || image.getImage() == null) {
-                    return;
-                }
-//Getting a FirebaseVisionImage object using the Image object and rotationDegrees
-                final Image mediaImage = image.getImage();
-                FirebaseVisionImage images = FirebaseVisionImage.fromMediaImage(mediaImage, rotationDegrees);
-                //Getting bitmap from FirebaseVisionImage Object
-                Bitmap bmp = images.getBitmap();  System.out.println("bmp"+bmp);
-                FirebaseVisionImage images5 = FirebaseVisionImage.fromBitmap(bmp);
-                //Getting the values for cropping
-                DisplayMetrics displaymetrics = new DisplayMetrics();
-                if(getActivity()!=null)
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-                int height = bmp.getHeight();
-                int width = bmp.getWidth();
-
-                int left, right, top, bottom, diameter;
-
-                diameter = width;
-                if (height < width) {
-                    diameter = height;
-                }
-
-                int offset = (int) (0.5 * diameter);
-                diameter -= offset;
-
-                left = (int) (width / 2 - diameter /2.5);
-                top = (int) (height / 2 - diameter / 2.5);
-                right = (int) (width / 2 + diameter / 2.5);
-                bottom = (int) (height / 2 + diameter /2.5);
-
-                xOffset = left;
-                yOffset = top;
+            public void analyze(@NonNull ImageProxy imageProxy) {
+                Image mediaImage = imageProxy.getImage();
 
 
-                //Creating new cropped bitmap
-            //    Bitmap bitmap = Bitmap.createBitmap(bmp, left, top, boxWidth, boxHeight);
-             //   Rect rectCrop = new Rect(left,top,right,bottom); // TRial below lines
-              //  Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
-              //  Bitmap bitmap = Bitmap.createBitmap(bmp, rectCrop.left, rectCrop.top, rectCrop.width(), rectCrop.height() );
-               // Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
+                if (mediaImage != null) {
+                    InputImage image =
+                          //  InputImage.fromMediaImage(imageProxy.getImage(), imageProxy.getImageInfo().getRotationDegrees());
+                            InputImage.fromBitmap(toBitmap(mediaImage),  imageProxy.getImageInfo().getRotationDegrees());
+                    // Pass image to an ML Kit Vision API
+                    System.out.println("image bb"+image);
 
-              //  System.out.println("bitmap frag is"+bitmap);
-                //initializing FirebaseVisionTextRecognizer object
-                FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
-                //Passing FirebaseVisionImage Object created from the cropped bitmap
-                Task<FirebaseVisionText> result = detector.processImage(FirebaseVisionImage.fromBitmap(bmp))
-                        .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
-                            @Override
-                            public void onSuccess(FirebaseVisionText firebaseVisionText) {
-                                // Task completed successfully
-                                // ...
-                                textView = view.findViewById(R.id.text);
-                                //getting decoded text
-                                String text = firebaseVisionText.getText();
-                                //Setting the decoded text in the texttview
-                               // textView.setText(text); // stopped detect text
-                                // textRecognitionML.decodeImage(bitmap);
-                                //for getting blocks and line elements
-                                for (FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks()) {
-                                    String blockText = block.getText();
-                                    // System.out.println("blockText ll are"+blockText.length());
-                                   //   System.out.println("blockText are"+blockText);
-                                    // textRecognitionML.processText(blockText);
-                                   // textRecognitionML.processScannedCardDetails(blockText);
-                                    for (FirebaseVisionText.Line line : block.getLines()) {
-                                        String lineText = line.getText();
-                                        for (FirebaseVisionText.Element element : line.getElements()) {
-                                            String elementText = element.getText();
-                                         //   System.out.println("elementText are"+elementText);
+                    Task<Text> result = recognizer.process(image)
+                                    .addOnSuccessListener(new OnSuccessListener<Text>() {
+                                        @Override
+                                        public void onSuccess(Text visionText) {
+                                            // Task completed successfully
+                                            System.out.println("visionText val"+visionText.getText());
+                                            for (Text.TextBlock element : visionText.getTextBlocks()) {
+                                                String elementText = element.getText();
+                                                textRecognitionML.processScannedCardDetails(elementText);
+                                                   System.out.println("elementText are"+ elementText);
 
+                                            }
+               //   mediaImage.close();
                                         }
-                                        textRecognitionML.processScannedCardDetails(lineText);
 
-                                        System.out.println("lineText are"+lineText);
-                                    }
-                                }
-                                image.close();
-                            }
-                        })
-                        .addOnFailureListener(
-                                new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // Task failed with an exception
-                                        // ...
-                                        Log.e("Error", e.toString());
-                                        image.close();
-                                    }
-                                });
+                                    })
+                                    .addOnFailureListener(
+                                            new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    // Task failed with an exception
+
+                                                }
+                                            }) .addOnCompleteListener(results -> mediaImage.close());
+
+
+                }
+
+
             }
-
-
         });
          camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
 
@@ -276,6 +242,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         holder.setFormat(PixelFormat.TRANSPARENT);
         holder.addCallback(this);
         textRecognitionML = new TapTextRecognitionML(this);
+
         return view;
     }
 
@@ -390,14 +357,14 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     @Override
     public void onRecognitionSuccess(TapCard card) {
         if(card!=null){
-            if(card.getCardNumber()!=null && card.getCardHolder()!=null &&  card.getExpirationDate()!=null){
+           // if(card.getCardNumber()!=null && card.getCardHolder()!=null &&  card.getExpirationDate()!=null){
                 TapTextRecognitionML.getListener().onReadSuccess(card);
                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardNumber());
                 Log.e(TAG, "onRecognitionSuccess: "+card.getExpirationDate());
                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardHolder());
 //finish();
 
-            }
+          //  }
         }
 
 
@@ -432,6 +399,154 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
             preview = null;
 
         }
+    }
+
+   /* @SuppressLint("UnsafeExperimentalUsageError")
+    @Override
+    public void analyze(@NonNull ImageProxy image) {
+        //changing normal degrees into Firebase rotation
+        int rotationDegrees = degreesToFirebaseRotation(image.getImageInfo().getRotationDegrees());
+        if (image == null || image.getImage() == null) {
+            return;
+        }
+//Getting a FirebaseVisionImage object using the Image object and rotationDegrees
+        final Image mediaImage = image.getImage();
+        FirebaseVisionImage images = FirebaseVisionImage.fromMediaImage(mediaImage, rotationDegrees);
+        //Getting bitmap from FirebaseVisionImage Object
+        Bitmap bmp = images.getBitmap();  System.out.println("bmp"+bmp);
+        FirebaseVisionImage images5 = FirebaseVisionImage.fromBitmap(bmp);
+        //Getting the values for cropping
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        if(getActivity()!=null)
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = bmp.getHeight();
+        int width = bmp.getWidth();
+
+        int left, right, top, bottom, diameter;
+
+        diameter = width;
+        if (height < width) {
+            diameter = height;
+        }
+
+        int offset = (int) (0.5 * diameter);
+        diameter -= offset;
+
+        left = (int) (width / 2 - diameter /2.5);
+        top = (int) (height / 2 - diameter / 2.5);
+        right = (int) (width / 2 + diameter / 2.5);
+        bottom = (int) (height / 2 + diameter /2.5);
+
+        xOffset = left;
+        yOffset = top;
+
+
+        //initializing FirebaseVisionTextRecognizer object
+        FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
+        //Passing FirebaseVisionImage Object created from the cropped bitmap
+        Task<FirebaseVisionText> result = detector.processImage(FirebaseVisionImage.fromBitmap(bmp))
+                .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+                    @Override
+                    public void onSuccess(FirebaseVisionText firebaseVisionText) {
+                        // Task completed successfully
+                        // ...
+                        textView = view.findViewById(R.id.text);
+                        //getting decoded text
+                        String text = firebaseVisionText.getText();
+                        //Setting the decoded text in the texttview
+                        // textView.setText(text); // stopped detect text
+                        // textRecognitionML.decodeImage(bitmap);
+                        //for getting blocks and line elements
+                        for (FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks()) {
+                            String blockText = block.getText();
+                            // System.out.println("blockText ll are"+blockText.length());
+                            //   System.out.println("blockText are"+blockText);
+                            // textRecognitionML.processText(blockText);
+                            // textRecognitionML.processScannedCardDetails(blockText);
+                            for (FirebaseVisionText.Line line : block.getLines()) {
+                                String lineText = line.getText();
+                                for (FirebaseVisionText.Element element : line.getElements()) {
+                                    String elementText = element.getText();
+                                    //   System.out.println("elementText are"+elementText);
+
+                                }
+                                textRecognitionML.processScannedCardDetails(lineText);
+
+                                System.out.println("lineText are"+lineText);
+                            }
+                        }
+                        image.close();
+                    }
+                })
+                .addOnFailureListener(
+                        new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Task failed with an exception
+                                // ...
+                                Log.e("Error", e.toString());
+                                image.close();
+                            }
+                        });
+    }*/
+
+    private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
+    static {
+        ORIENTATIONS.append(Surface.ROTATION_0, 0);
+        ORIENTATIONS.append(Surface.ROTATION_90, 90);
+        ORIENTATIONS.append(Surface.ROTATION_180, 180);
+        ORIENTATIONS.append(Surface.ROTATION_270, 270);
+    }
+
+    /**
+     * Get the angle by which an image must be rotated given the device's current
+     * orientation.
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private int getRotationCompensation(String cameraId, Activity activity, boolean isFrontFacing)
+            throws CameraAccessException {
+        // Get the device's current rotation relative to its "native" orientation.
+        // Then, from the ORIENTATIONS table, look up the angle the image must be
+        // rotated to compensate for the device's rotation.
+        int deviceRotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
+        int rotationCompensation = ORIENTATIONS.get(deviceRotation);
+
+        // Get the device's sensor orientation.
+        CameraManager cameraManager = (CameraManager) getActivity().getSystemService(CAMERA_SERVICE);
+        int sensorOrientation = cameraManager
+                .getCameraCharacteristics(cameraId)
+                .get(CameraCharacteristics.SENSOR_ORIENTATION);
+
+        if (isFrontFacing) {
+            rotationCompensation = (sensorOrientation + rotationCompensation) % 360;
+        } else { // back-facing
+            rotationCompensation = (sensorOrientation - rotationCompensation + 360) % 360;
+        }
+        return rotationCompensation;
+    }
+
+    private Bitmap toBitmap(Image image) {
+        Image.Plane[] planes = image.getPlanes();
+        ByteBuffer yBuffer = planes[0].getBuffer();
+        ByteBuffer uBuffer = planes[1].getBuffer();
+        ByteBuffer vBuffer = planes[2].getBuffer();
+
+        int ySize = yBuffer.remaining();
+        int uSize = uBuffer.remaining();
+        int vSize = vBuffer.remaining();
+
+        byte[] nv21 = new byte[ySize + uSize + vSize];
+        //U and V are swapped
+        yBuffer.get(nv21, 0, ySize);
+        vBuffer.get(nv21, ySize, vSize);
+        uBuffer.get(nv21, ySize + vSize, uSize);
+
+        YuvImage yuvImage = new YuvImage(nv21, ImageFormat.NV21, image.getWidth(), image.getHeight(), null);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        yuvImage.compressToJpeg(new Rect(0, 0, yuvImage.getWidth(), yuvImage.getHeight()), 75, out);
+
+        byte[] imageBytes = out.toByteArray();
+        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 
 }
