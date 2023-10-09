@@ -1,6 +1,7 @@
 package company.tap.cardscanner;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -75,6 +76,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     private static final String TAG = "CameraActivity";
     private Preview preview;
     private int displayMetrics ;
+
+    private Context _context;
     Camera camera;
     public void setCallBack(TapScannerCallback tapScannerCallback) {
         this.tapScannerCallback = tapScannerCallback;
@@ -256,7 +259,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     }
     public CameraFragment() {
         // Required empty public constructor
-        FirebaseApp.initializeApp(getContext());
+
     }
 
     @Override
@@ -280,7 +283,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         holder.setFormat(PixelFormat.TRANSPARENT);
         holder.addCallback(this);
         textRecognitionML = new TapTextRecognitionML(this);
-
+        FirebaseApp.initializeApp(_context);
         return view;
     }
 
@@ -439,4 +442,9 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         }
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+       this. _context = context;
+    }
 }
