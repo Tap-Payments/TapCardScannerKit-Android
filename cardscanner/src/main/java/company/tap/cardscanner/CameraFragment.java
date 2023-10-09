@@ -108,7 +108,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     void startCamera(View view) {
         mCameraView = view.findViewById(R.id.previewView);
         cameraProviderFuture = ProcessCameraProvider.getInstance(getContext());
-        FirebaseApp.initializeApp(getContext());
+
         cameraProviderFuture.addListener(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -159,6 +159,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 if (image == null || image.getImage() == null) {
                     return;
                 }
+                if(getContext()!=null) FirebaseApp.initializeApp(getContext());
 //Getting a FirebaseVisionImage object using the Image object and rotationDegrees
                 final Image mediaImage = image.getImage();
                 FirebaseVisionImage images = FirebaseVisionImage.fromMediaImage(mediaImage, rotationDegrees);
