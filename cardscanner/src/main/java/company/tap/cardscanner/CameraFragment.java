@@ -52,6 +52,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.odml.image.MlImage;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
@@ -59,7 +60,9 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
+import com.google.mlkit.common.MlKitException;
 import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.common.internal.ImageConvertUtils;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
@@ -169,7 +172,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                         .build();
 
         imageAnalysis.setAnalyzer(executor, new ImageAnalysis.Analyzer() {
-
+            Bitmap bitmap;
 
             @Override
             public void analyze(@NonNull ImageProxy imageProxy) {
@@ -178,24 +181,33 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
                 if (mediaImage != null) {
                     InputImage image =
-                          //  InputImage.fromMediaImage(imageProxy.getImage(), imageProxy.getImageInfo().getRotationDegrees());
-                            InputImage.fromBitmap(toBitmap(mediaImage),  imageProxy.getImageInfo().getRotationDegrees());
+                           InputImage.fromMediaImage(imageProxy.getImage(), imageProxy.getImageInfo().getRotationDegrees());
+                    try {
+                       bitmap = ImageConvertUtils.getInstance().getUpRightBitmap(image);
+                    } catch (MlKitException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    InputImage bitmapImage =
+                            InputImage.fromBitmap(bitmap, imageProxy.getImageInfo().getRotationDegrees());
+
                     // Pass image to an ML Kit Vision API
                     System.out.println("image bb"+image);
 
-                    Task<Text> result = recognizer.process(image)
+                    Task<Text> result = recognizer.process(bitmapImage)
                                     .addOnSuccessListener(new OnSuccessListener<Text>() {
                                         @Override
                                         public void onSuccess(Text visionText) {
                                             // Task completed successfully
-                                            System.out.println("visionText val"+visionText.getText());
-                                            for (Text.TextBlock element : visionText.getTextBlocks()) {
-                                                String elementText = element.getText();
-                                                textRecognitionML.processScannedCardDetails(elementText);
-                                                   System.out.println("elementText are"+ elementText);
+
+                                            for (Text.TextBlock block : visionText.getTextBlocks()) {
+
+                                                textRecognitionML.processScannedCardDetails(block.getText());
+
+                                                    System.out.println("lineText are"+block.getText());
 
                                             }
-               //   mediaImage.close();
+                                        mediaImage.close();
                                         }
 
                                     })
@@ -364,7 +376,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardHolder());
 //finish();
 
-          //  }
+          // }
         }
 
 
@@ -548,5 +560,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         byte[] imageBytes = out.toByteArray();
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
+
+
+
 
 }
