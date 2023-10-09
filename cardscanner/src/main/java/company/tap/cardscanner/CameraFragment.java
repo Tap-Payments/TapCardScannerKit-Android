@@ -42,6 +42,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
@@ -77,6 +78,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     Camera camera;
     public void setCallBack(TapScannerCallback tapScannerCallback) {
         this.tapScannerCallback = tapScannerCallback;
+
     }
 
     /**
@@ -106,7 +108,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     void startCamera(View view) {
         mCameraView = view.findViewById(R.id.previewView);
         cameraProviderFuture = ProcessCameraProvider.getInstance(getContext());
-
+        FirebaseApp.initializeApp(getContext());
         cameraProviderFuture.addListener(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
