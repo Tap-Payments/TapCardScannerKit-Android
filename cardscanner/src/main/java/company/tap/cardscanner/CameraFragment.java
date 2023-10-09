@@ -198,7 +198,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
               //  Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
               //  Bitmap bitmap = Bitmap.createBitmap(bmp, rectCrop.left, rectCrop.top, rectCrop.width(), rectCrop.height() );
                // Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
-                
+
               //  System.out.println("bitmap frag is"+bitmap);
                 //initializing FirebaseVisionTextRecognizer object
                 FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
@@ -256,6 +256,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     }
     public CameraFragment() {
         // Required empty public constructor
+        FirebaseApp.initializeApp(getContext());
     }
 
     @Override
