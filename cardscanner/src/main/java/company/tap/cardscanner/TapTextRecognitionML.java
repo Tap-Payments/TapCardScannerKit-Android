@@ -2,6 +2,7 @@ package company.tap.cardscanner;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Handler;
 
 import com.google.android.gms.common.util.NumberUtils;
 import com.google.firebase.ml.vision.FirebaseVision;
@@ -125,7 +126,8 @@ public class TapTextRecognitionML {
 
     public void processScannedCardDetails(String word){
 
-     //   System.out.println("processScannedCardDetails>>>>"+word);
+       System.out.println("processScannedCardDetails ll>>>>"+word.length());
+       System.out.println("processScannedCardDetails>>>>"+word);
       //      System.out.println("check words has newline>>>>"+word.contains(NEW_LINE));
 
         if (isHolderName(word))
@@ -158,14 +160,18 @@ public class TapTextRecognitionML {
             }
         }
 
+
+
         if (card != null){
-            if(card.getCardNumber()!=null && card.getCardHolder()!=null &&  card.getExpirationDate()!=null) {
+
+            if(card.getCardNumber()!=null  &&  card.getExpirationDate()!=null ) {
+
                 textRecognitionCallBack.onRecognitionSuccess(card);
             }
-        }
 
-        else
+        }else
             textRecognitionCallBack.onRecognitionFailure("No data founded");
+
     }
 
     private boolean isHolderName(String text) {

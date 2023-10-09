@@ -167,8 +167,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         //Set static size according to your device or write a dynamic function for it
         ImageAnalysis imageAnalysis =
                 new ImageAnalysis.Builder()
-                      //  .setTargetResolution(new Size(metrics.widthPixels, metrics.heightPixels))
-                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                       .setTargetResolution(new Size(metrics.widthPixels, metrics.heightPixels))
+                       .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                         .build();
 
         imageAnalysis.setAnalyzer(executor, new ImageAnalysis.Analyzer() {
@@ -176,10 +176,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
             @Override
             public void analyze(@NonNull ImageProxy imageProxy) {
-                Image mediaImage = imageProxy.getImage();
 
-
-                if (mediaImage != null) {
                     InputImage image =
                            InputImage.fromMediaImage(imageProxy.getImage(), imageProxy.getImageInfo().getRotationDegrees());
                     try {
@@ -188,26 +185,27 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                         throw new RuntimeException(e);
                     }
 
-                    InputImage bitmapImage =
-                            InputImage.fromBitmap(bitmap, imageProxy.getImageInfo().getRotationDegrees());
+                  //  InputImage bitmapImage =
+                        //   InputImage.fromBitmap(bitmap, imageProxy.getImageInfo().getRotationDegrees());
 
                     // Pass image to an ML Kit Vision API
-                    System.out.println("image bb"+image);
+                   // System.out.println("image bb"+image);
 
-                    Task<Text> result = recognizer.process(bitmapImage)
+                    Task<Text> result = recognizer.process(image)
                                     .addOnSuccessListener(new OnSuccessListener<Text>() {
                                         @Override
                                         public void onSuccess(Text visionText) {
                                             // Task completed successfully
+                                           // System.out.println("visionText are"+visionText.getText());
 
                                             for (Text.TextBlock block : visionText.getTextBlocks()) {
-
                                                 textRecognitionML.processScannedCardDetails(block.getText());
-
-                                                    System.out.println("lineText are"+block.getText());
+                                               // System.out.println("block are"+block.getText());
 
                                             }
-                                        mediaImage.close();
+
+
+                                            imageProxy.close();
                                         }
 
                                     })
@@ -218,13 +216,13 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                                                     // Task failed with an exception
 
                                                 }
-                                            }) .addOnCompleteListener(results -> mediaImage.close());
+                                            }) ;
 
 
                 }
 
 
-            }
+
         });
          camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
 
@@ -369,14 +367,14 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     @Override
     public void onRecognitionSuccess(TapCard card) {
         if(card!=null){
-           // if(card.getCardNumber()!=null && card.getCardHolder()!=null &&  card.getExpirationDate()!=null){
+            if(card.getCardNumber()!=null  &&  card.getExpirationDate()!=null || card.getCardHolder()!=null){
                 TapTextRecognitionML.getListener().onReadSuccess(card);
                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardNumber());
                 Log.e(TAG, "onRecognitionSuccess: "+card.getExpirationDate());
                 Log.e(TAG, "onRecognitionSuccess: "+card.getCardHolder());
 //finish();
 
-          // }
+           }
         }
 
 
