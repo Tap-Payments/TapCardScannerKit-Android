@@ -352,6 +352,11 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
                 .beginTransaction()
                 .replace(R.id.inline_container, new CameraFragment())
                 .commit();
+       /* btnImagedecoder.setVisibility(View.GONE);
+        btnFullscreen.setVisibility(View.GONE);
+        btnInline.setVisibility(View.GONE);
+        btncustomCamerar.setVisibility(View.GONE);*/
+
         isInlineCameraOpened = true;
     }
 
