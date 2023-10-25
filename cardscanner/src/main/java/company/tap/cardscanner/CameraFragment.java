@@ -23,7 +23,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.camera.core.Camera;
+import androidx.camera.core.CameraControl;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
@@ -98,6 +100,10 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     private int displayMetrics ;
     TextRecognizer recognizer;
     Camera camera;
+
+    AppCompatButton flashButton;
+
+    boolean lightOn = false;
     public void setCallBack(TapScannerCallback tapScannerCallback) {
         this.tapScannerCallback = tapScannerCallback;
     }
@@ -129,7 +135,27 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
      */
     void startCamera(View view) {
         mCameraView = view.findViewById(R.id.previewView);
+        flashButton = view.findViewById(R.id.flash_button);
         cameraProviderFuture = ProcessCameraProvider.getInstance(getContext());
+
+        flashButton.setOnClickListener(view1 -> {
+            if (!lightOn) {
+                lightOn = true;
+                if(camera!=null) {
+                    CameraControl cameraControl = camera.getCameraControl();
+                    cameraControl.enableTorch(true);
+                    flashButton.setBackgroundResource(R.drawable.flash_on_icon);
+                }
+            } else {
+                lightOn = false;
+                if(camera!=null) {
+                    CameraControl cameraControl = camera.getCameraControl();
+                    cameraControl.enableTorch(false);
+                    flashButton.setBackgroundResource(R.drawable.flash_off_icon);
+                }
+            }
+
+        });
 
         cameraProviderFuture.addListener(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -158,6 +184,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         CameraSelector cameraSelector = new CameraSelector.Builder()
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                 .build();
+
+
 
         preview.setSurfaceProvider(mCameraView.getSurfaceProvider());
         mCameraView.setScaleType(PreviewView.ScaleType.FILL_CENTER);

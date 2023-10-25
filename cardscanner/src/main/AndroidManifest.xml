@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="company.tap.cardscanner">
     <uses-feature android:name="android.hardware.camera" />
+    <!-- Features -->
+    <uses-feature android:name="android.hardware.camera.flash" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <application>
         <activity
             android:name=".CameraActivity"
