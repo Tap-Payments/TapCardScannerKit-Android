@@ -27,9 +27,12 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraControl;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.FocusMeteringAction;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
+import androidx.camera.core.MeteringPoint;
 import androidx.camera.core.Preview;
+import androidx.camera.core.SurfaceOrientedMeteringPointFactory;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
@@ -44,6 +47,7 @@ import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -156,6 +160,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
             }
 
         });
+        setUpTapToFocus();
 
         cameraProviderFuture.addListener(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -588,6 +593,23 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     }
 
 
-
+    private void setUpTapToFocus() {
+        mCameraView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() != MotionEvent.ACTION_UP) {
+                /* Original post returns false here, but in my experience this makes
+                onTouch not being triggered for ACTION_UP event */
+                    return true;
+                }
+                SurfaceOrientedMeteringPointFactory factory = new SurfaceOrientedMeteringPointFactory(mCameraView.getWidth(),mCameraView.getHeight());
+                MeteringPoint point = factory.createPoint(event.getX(), event.getY());
+              //  FocusMeteringAction action = FocusMeteringAction.Builder.from(point).build();
+                FocusMeteringAction action = new FocusMeteringAction.Builder(point).build();
+               if(camera!=null) camera.getCameraControl().startFocusAndMetering(action);
+                return true;
+            }
+        });
+    }
 
 }
