@@ -3,17 +3,13 @@ package company.tap.cardscanner;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-import com.google.android.gms.common.util.NumberUtils;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**

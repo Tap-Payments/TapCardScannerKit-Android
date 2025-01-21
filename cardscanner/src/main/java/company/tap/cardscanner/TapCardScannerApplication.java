@@ -1,7 +1,6 @@
 package company.tap.cardscanner;
 
 import android.app.Application;
-import android.util.Log;
 
 
 

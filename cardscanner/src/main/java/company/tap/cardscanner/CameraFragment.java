@@ -14,9 +14,11 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.annotation.RequiresApi;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
@@ -154,7 +156,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
 
         imageAnalysis.setAnalyzer(executor, new ImageAnalysis.Analyzer() {
-            @SuppressLint("UnsafeExperimentalUsageError")
+            @OptIn(markerClass = ExperimentalGetImage.class)
             @Override
             public void analyze(@NonNull ImageProxy image) {
                 //changing normal degrees into Firebase rotation
@@ -164,15 +166,14 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 }
 
 //Getting a FirebaseVisionImage object using the Image object and rotationDegrees
-                final Image mediaImage = image.getImage();
+                @SuppressLint("UnsafeOptInUsageError") final Image mediaImage = image.getImage();
                 FirebaseVisionImage images = FirebaseVisionImage.fromMediaImage(mediaImage, rotationDegrees);
                 //Getting bitmap from FirebaseVisionImage Object
                 Bitmap bmp = images.getBitmap();  System.out.println("bmp"+bmp);
                 FirebaseVisionImage images5 = FirebaseVisionImage.fromBitmap(bmp);
                 //Getting the values for cropping
                 DisplayMetrics displaymetrics = new DisplayMetrics();
-                if(getActivity()!=null)
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                if(getActivity()!=null) getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
                 int height = bmp.getHeight();
                 int width = bmp.getWidth();
 

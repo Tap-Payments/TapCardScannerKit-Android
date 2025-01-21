@@ -1,24 +1,9 @@
 package company.tap.cardscanner;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.Camera;
-import androidx.camera.core.CameraSelector;
-import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageProxy;
-import androidx.camera.core.Preview;
-import androidx.camera.lifecycle.ProcessCameraProvider;
-import androidx.camera.view.PreviewView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LifecycleOwner;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -37,6 +22,21 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.Camera;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ExperimentalGetImage;
+import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.ImageProxy;
+import androidx.camera.core.Preview;
+import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.camera.view.PreviewView;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -140,7 +140,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
 
                 imageAnalysis.setAnalyzer(executor, new ImageAnalysis.Analyzer() {
-                        @SuppressLint("UnsafeExperimentalUsageError")
+                        @OptIn(markerClass = ExperimentalGetImage.class)
                         @Override
                         public void analyze(@NonNull ImageProxy image) {
                                 //changing normal degrees into Firebase rotation
