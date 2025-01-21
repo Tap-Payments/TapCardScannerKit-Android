@@ -13,10 +13,10 @@ import java.io.IOException;
 /** A basic Camera preview class */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
-    private SurfaceHolder surfaceHolder;
-    private Context context;
-    private android.hardware.Camera camera;
-    private int cameraType;
+    private final SurfaceHolder surfaceHolder;
+    private final Context context;
+    private final android.hardware.Camera camera;
+    private final int cameraType;
 
     public CameraPreview(Context context, android.hardware.Camera camera,int cameraType) {
         super(context);

@@ -63,7 +63,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         int cameraHeight, cameraWidth, xOffset, yOffset, boxWidth, boxHeight;
         private TapTextRecognitionML textRecognitionML;
         private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
-        private ExecutorService executor = Executors.newSingleThreadExecutor();
+        private final ExecutorService executor = Executors.newSingleThreadExecutor();
         private TapScannerCallback tapScannerCallback ;
         private static final String TAG = "CameraActivity";
 
@@ -232,7 +232,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
 
                 });
-                Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
+                Camera camera = cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
 
         }
 

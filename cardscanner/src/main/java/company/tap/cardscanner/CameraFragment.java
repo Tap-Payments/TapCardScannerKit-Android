@@ -73,7 +73,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     int cameraHeight, cameraWidth, xOffset, yOffset, boxWidth, boxHeight;
     private TapTextRecognitionML textRecognitionML;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private TapScannerCallback tapScannerCallback ;
     private static final String TAG = "CameraActivity";
     private Preview preview;
@@ -255,7 +255,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
 
         });
-         camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
+         camera = cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
 
     }
     public CameraFragment() {

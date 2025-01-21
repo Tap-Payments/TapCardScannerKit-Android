@@ -23,10 +23,11 @@ final class BlurFilter {
             "    gl_Position = vec4 ( vPosition.x, vPosition.y, 0.0, 1.0 );\n" +
             "}";
 
-    private static FloatBuffer VERTEX_BUF, TEXTURE_COORD_BUF;
+    private static final FloatBuffer VERTEX_BUF;
+    private static final FloatBuffer TEXTURE_COORD_BUF;
 
     static {
-        final float SQUARE_COORDS[] = {
+        final float[] SQUARE_COORDS = {
                 1.0f, -1.0f,
                 -1.0f, -1.0f,
                 1.0f, 1.0f,
@@ -39,7 +40,7 @@ final class BlurFilter {
         VERTEX_BUF.position(0);
 
 
-        final float TEXTURE_COORDS[] = {
+        final float[] TEXTURE_COORDS = {
                 1.0f, 1.0f,
                 0.0f, 1.0f,
                 1.0f, 0.0f,
@@ -52,7 +53,7 @@ final class BlurFilter {
         TEXTURE_COORD_BUF.position(0);
     }
 
-    private int program;
+    private final int program;
 
     BlurFilter(Context context) {
         program = buildProgram(VERTEX_SHADER, getStringFromRaw(context, R.raw.blur));

@@ -41,7 +41,7 @@ To integrate TapCardScannerKit into your project add it in your **root** `build.
 ```java
 	allprojects {
 		repositories {
-			...
+			
 			maven { url 'https://jitpack.io' }
 		}
 	}

@@ -12,8 +12,8 @@ import android.content.Context;
 public class TapCountDownTimer extends Thread {
     private long milliSeconds, timeInterval;
     private OnCounterFinishedListener mCounterFinishedListener;
-    private Thread t;
-    private Activity activity;
+    private final Thread t;
+    private final Activity activity;
 
 
     public TapCountDownTimer(Context context) {

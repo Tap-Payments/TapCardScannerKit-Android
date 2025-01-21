@@ -23,13 +23,13 @@ public class TapTextRecognitionML {
      * which you can use to increase accessibility of documents.
      *
      */
-    private TapTextRecognitionCallBack textRecognitionCallBack;
+    private final TapTextRecognitionCallBack textRecognitionCallBack;
     private static TapScannerCallback _tapScannerCallback;
     private static int frameColor = Color .WHITE;
     TapCard card = new TapCard();
     public static final String NEW_LINE = System.getProperty("line.separator");
 
-    private Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+    private final Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
     StringBuffer text =new StringBuffer();
     public TapTextRecognitionML(TapTextRecognitionCallBack textRecognitionCallBack) {
         this.textRecognitionCallBack = textRecognitionCallBack;

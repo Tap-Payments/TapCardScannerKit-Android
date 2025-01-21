@@ -14,7 +14,7 @@ import android.view.View;
  * All rights reserved.
  **/
 public class Frame extends View {
-    private Paint paint = new Paint();
+    private final Paint paint = new Paint();
     Frame(Context context) {
         super(context);
     }

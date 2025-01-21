@@ -10,7 +10,7 @@ def getVersionName = { ->
         return stdout.toString().trim()
     }
     catch (ignored) {
-        return "1.0";
+        return "1.0"
     }
 }
 android {

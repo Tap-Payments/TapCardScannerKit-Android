@@ -30,7 +30,7 @@ public class BlurringTextureView extends TextureView implements TextureView.Surf
     private static final int EGL_OPENGL_ES2_BIT = 4;
     private static final int EGL_CONTEXT_CLIENT_VERSION = 0x3098;
     private static final int DRAW_INTERVAL = 1000 / 60;
-    private float downsampleSize = 4;
+    private final float downsampleSize = 4;
 
     private Surface backgroundSurface;
     private int backgroundColor;
@@ -194,7 +194,7 @@ public class BlurringTextureView extends TextureView implements TextureView.Surf
     }
 
     private class RenderThread extends Thread {
-        private SurfaceTexture surfaceTexture;
+        private final SurfaceTexture surfaceTexture;
 
         RenderThread(SurfaceTexture surfaceTexture) {
             this.surfaceTexture = surfaceTexture;
