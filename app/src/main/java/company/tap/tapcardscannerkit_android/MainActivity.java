@@ -29,13 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 
-import cards.pay.paycardsrecognizer.sdk.Card;
-import cards.pay.paycardsrecognizer.sdk.FrameManager;
-import cards.pay.paycardsrecognizer.sdk.ScanCardIntent;
-import cards.pay.paycardsrecognizer.sdk.ui.InlineViewCallback;
-import cards.pay.paycardsrecognizer.sdk.ui.InlineViewFragment;
 import company.tap.cardscanner.AnalyticsHelper;
-import company.tap.cardscanner.BuildConfig;
 import company.tap.cardscanner.CameraActivity;
 import company.tap.cardscanner.CameraFragment;
 import company.tap.cardscanner.TapCard;
@@ -44,7 +38,7 @@ import company.tap.cardscanner.TapScannerCallback;
 import company.tap.cardscanner.TapTextRecognitionCallBack;
 import company.tap.cardscanner.TapTextRecognitionML;
 
-public class MainActivity extends AppCompatActivity implements TapTextRecognitionCallBack, InlineViewCallback ,TapScannerCallback , Serializable {
+public class MainActivity extends AppCompatActivity implements TapTextRecognitionCallBack ,TapScannerCallback , Serializable {
 
     private EditText cardNumber, cardHolder, expirationDate;
     private boolean isInlineOpened = false;
@@ -93,9 +87,9 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         Map<String, String> parameters = new HashMap<String, String>();
        // parameters.put("sdk", BuildConfig.VERSION_NAME);
         AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_FULLSCREEN_CALLED, parameters, true);
-        Intent intent = new ScanCardIntent.Builder(this).build();
-        startActivityForResult(intent, SCAN_CARD_ID);
-        setTapCountDownTimer();
+       // Intent intent = new ScanCardIntent.Builder(this).build();
+      //  startActivityForResult(intent, SCAN_CARD_ID);
+      //  setTapCountDownTimer();
     }
 
     /***
@@ -107,11 +101,11 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
        // parameters.put("sdk", BuildConfig.VERSION_NAME);
         AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_INLINE_CALLED, parameters, true);
         setTapCountDownTimer();
-        FrameManager.getInstance().setFrameColor(Color.YELLOW);
+       /* FrameManager.getInstance().setFrameColor(Color.YELLOW);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.inline_container, new InlineViewFragment())
-                .commit();
+                .commit();*/
         isInlineOpened = true;
     }
 
@@ -133,16 +127,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         switch (requestCode) {
             case SCAN_CARD_ID:
                 if (resultCode == Activity.RESULT_OK) {
-                    Card card = data.getParcelableExtra(ScanCardIntent.RESULT_PAYCARDS_CARD);
-                    if (card != null) {
-                        cardNumber.setText(card.getCardNumber());
-                        cardHolder.setText(card.getCardHolderName());
-                        expirationDate.setText(card.getExpirationDate());
-                        cardLayout.setVisibility(View.VISIBLE);
-                        btnImagedecoder.setVisibility(View.GONE);
-                        btnFullscreen.setVisibility(View.GONE);
-                        btnInline.setVisibility(View.GONE);
-                    }
+
                 }
                 break;
             case PICK_IMAGE_ID:
@@ -171,24 +156,8 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onScanCardFailed(Exception e) {
-        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void onScanCardFinished(Card card, byte[] cardImage) {
-        removeInlineScanner();
-        if (card != null) {
-            cardNumber.setText(card.getCardNumber());
-            cardHolder.setText(card.getCardHolderName());
-            expirationDate.setText(card.getExpirationDate());
-            cardLayout.setVisibility(View.VISIBLE);
-            btnImagedecoder.setVisibility(View.GONE);
-            btnFullscreen.setVisibility(View.GONE);
-            btnInline.setVisibility(View.GONE);
-        }
-    }
+
 
     private void removeInlineScanner() {
         if (isInlineOpened) {
