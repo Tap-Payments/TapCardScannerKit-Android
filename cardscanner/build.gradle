@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin:  'maven-publish'
 def getVersionName = { ->
     try {
         def stdout = new ByteArrayOutputStream()
