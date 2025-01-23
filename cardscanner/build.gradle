@@ -1,5 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin:  'maven-publish'
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
 def getVersionName = { ->
     try {
         def stdout = new ByteArrayOutputStream()
@@ -50,6 +52,16 @@ android {
     }
 
 
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            afterEvaluate {
+                from components.findByName('release')
+            }
+        }
+    }
 }
 
 dependencies {

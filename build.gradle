@@ -33,7 +33,10 @@ allprojects {
             url = uri("https://jitpack.io")
         }
 
+
     }
+
+
 
 }
 
