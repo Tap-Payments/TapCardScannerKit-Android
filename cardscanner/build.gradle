@@ -51,18 +51,15 @@ android {
         tasks.lint.enabled = false
     }
 
-
-}
-
-publishing {
-    publications {
-        release(MavenPublication) {
-            afterEvaluate {
-                from components.findByName('release')
-            }
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
         }
+
     }
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
