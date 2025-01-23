@@ -1,7 +1,5 @@
-plugins {
-    id 'com.android.library'
-    id 'maven-publish'
-}
+apply plugin: 'com.android.library'
+apply plugin:  'maven-publish'
 def getVersionName = { ->
     try {
         def stdout = new ByteArrayOutputStream()
@@ -51,15 +49,27 @@ android {
         tasks.lint.enabled = false
     }
 
-    publishing {
-        singleVariant('release') {
-            withSourcesJar()
-            withJavadocJar()
-        }
 
-    }
 }
 
+/*publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.findByName('release')
+        }
+    }
+}*/
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.findByName('release')
+
+
+            }
+        }
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
