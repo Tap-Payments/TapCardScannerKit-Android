@@ -1,5 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin:  'maven-publish'
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
 def getVersionName = { ->
     try {
         def stdout = new ByteArrayOutputStream()
@@ -69,7 +71,7 @@ afterEvaluate {
                 // Maven coordinates
                 groupId = 'company.tap.cardscanner'
                 artifactId = 'TapCardScannerKit-Android'
-                version = '0.0.7.5'
+                version = '0.0.7.6'
 
             }
         }
