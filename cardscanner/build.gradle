@@ -91,7 +91,7 @@ publishing {
                 artifactId = 'TapCardScannerKit-Android'
                 version = '0.0.7.8'
             }
-            artifact("$buildDir/outputs/aar/TapCardScannerKit-Android-release.aar")
+            artifact("$buildDir/outputs/aar/cardscanner-release.aar")
         }
     }
 }
