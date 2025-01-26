@@ -68,7 +68,7 @@ afterEvaluate {
                 artifact sourcesJar
                 // Maven coordinates
                 groupId = 'company.tap.cardscanner'
-                artifactId = 'your-library'
+                artifactId = 'TapCardScannerKit-Android'
                 version = '0.0.7.4'
 
             }
