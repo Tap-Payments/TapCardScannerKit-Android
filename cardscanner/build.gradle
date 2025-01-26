@@ -87,11 +87,11 @@ publishing {
                 from components.findByName('release')
                 artifact sourcesJar
                 // Maven coordinates
-                groupId = 'company.tap.cardscanner'
-                artifactId = 'TapCardScannerKit-Android'
-                version = '0.0.7.8'
+               // groupId = 'company.tap.cardscanner'
+              //  artifactId = 'TapCardScannerKit-Android'
+               // version = '0.0.7.8'
             }
-            artifact("$buildDir/outputs/aar/cardscanner-release.aar")
+
         }
     }
 }
