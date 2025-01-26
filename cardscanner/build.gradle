@@ -69,7 +69,7 @@ afterEvaluate {
                 // Maven coordinates
                 groupId = 'company.tap.cardscanner'
                 artifactId = 'TapCardScannerKit-Android'
-                version = '0.0.7.4'
+                version = '0.0.7.5'
 
             }
         }
