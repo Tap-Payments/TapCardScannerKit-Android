@@ -29,7 +29,6 @@ allprojects {
         jcenter()
         mavenCentral()
         maven {
-            name = "jitpack"
             url = uri("https://jitpack.io")
         }
 
