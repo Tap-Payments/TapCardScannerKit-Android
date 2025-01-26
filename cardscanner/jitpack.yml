@@ -1,0 +1,8 @@
+jdk:
+  - openjdk17
+before_install:
+  - ./scripts/prepareJitpackEnvironment.sh
+install:
+  - FILE="-Dfile=TapCardScannerKit-Android.aar" 
+  - mvn install:install-file $FILE -DgroupId=https://github.com/Tap-Payments -DartifactId=yourArtifactId -Dversion=yourVersion -Dpackaging=aar -DgeneratePom=true
+  #com.github.geek-atif
