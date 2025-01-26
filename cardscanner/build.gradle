@@ -62,14 +62,14 @@ android {
 afterEvaluate {
     publishing {
         publications {
-            maven(MavenPublication) {
+            mavenAar(MavenPublication) {
                 from components.findByName('release')
                 // Include additional artifacts (sources, javadoc, etc.)
                 artifact sourcesJar
                 // Maven coordinates
                 groupId = 'company.tap.cardscanner'
-                artifactId = 'tap.cardscanner'
-                version = '0.0.7.3'
+                artifactId = 'your-library'
+                version = '0.0.7.4'
 
             }
         }
