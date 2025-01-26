@@ -62,7 +62,7 @@ android {
         }
     }
 }*/
-afterEvaluate {
+/*afterEvaluate {
     publishing {
         publications {
             mavenAar(MavenPublication) {
@@ -75,6 +75,23 @@ afterEvaluate {
                 version = '0.0.7.6'
 
             }
+        }
+    }
+}*/
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            // Include the release AAR
+            afterEvaluate {
+                from components.findByName('release')
+                artifact sourcesJar
+                // Maven coordinates
+                groupId = 'company.tap.cardscanner'
+                artifactId = 'TapCardScannerKit-Android'
+                version = '0.0.7.8'
+            }
+            artifact("$buildDir/outputs/aar/TapCardScannerKit-Android-release.aar")
         }
     }
 }
@@ -93,8 +110,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:19.0.1'
     implementation 'com.google.firebase:firebase-ml-vision-barcode-model:16.1.1'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+
     implementation 'com.google.android.gms:play-services-base:17.2.1'
 
     implementation "androidx.camera:camera-core:1.4.1"
