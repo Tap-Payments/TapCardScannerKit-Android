@@ -61,7 +61,7 @@ android {
         }
     }
 }*/
-publishing {
+/*publishing {
     publications {
         release(MavenPublication) {
             // Include the .aar file in the publication
@@ -82,7 +82,7 @@ afterEvaluate {
             }
         }
     }
-}
+}*/
 tasks.register('sourcesJar', Jar) {
     archiveClassifier.set('sources')
     from android.sourceSets.main.java.srcDirs
