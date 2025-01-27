@@ -447,5 +447,6 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
        this. _context = context;
+      if(context!=null) FirebaseApp.initializeApp(context);
     }
 }
