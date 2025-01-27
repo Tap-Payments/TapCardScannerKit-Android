@@ -53,13 +53,17 @@ android {
 
 }
 
-/*publishing {
+publishing {
     publications {
-        mavenJava(MavenPublication) {
-            from components.findByName('release')
+        maven(MavenPublication) {
+            // Include the release AAR
+            afterEvaluate {
+                from components.findByName('release')
+            }
         }
     }
-}*/
+}
+
 /*publishing {
     publications {
         release(MavenPublication) {
