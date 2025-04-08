@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     public void openInhouseCameraFragment(View view) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.inline_container, new CameraFragment())
+                .replace(R.id.inline_container, new CameraFragment(this))
                 .commit();
         isInlineCameraOpened = true;
     }

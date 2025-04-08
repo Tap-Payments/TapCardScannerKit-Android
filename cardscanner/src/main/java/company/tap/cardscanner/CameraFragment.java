@@ -258,7 +258,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
          camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
 
     }
-    public CameraFragment() {
+    public CameraFragment(Context __context) {
+        _context = __context;
         // Required empty public constructor
 
     }
