@@ -274,6 +274,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_camera, container, false);
+        FirebaseApp.initializeApp(_context);
         startCamera(view);
         // blurView(this);
 
@@ -284,7 +285,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         holder.setFormat(PixelFormat.TRANSPARENT);
         holder.addCallback(this);
         textRecognitionML = new TapTextRecognitionML(this);
-        FirebaseApp.initializeApp(_context);
+
         return view;
     }
 
