@@ -203,7 +203,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                // Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
 
               //  System.out.println("bitmap frag is"+bitmap);
-               if(_context!=null) FirebaseApp.initializeApp(_context);
+             //  if(_context!=null) FirebaseApp.initializeApp(_context);
                 //initializing FirebaseVisionTextRecognizer object
                 FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
                 //Passing FirebaseVisionImage Object created from the cropped bitmap
@@ -260,7 +260,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     }
     public CameraFragment(Context __context) {
         _context = __context;
-        // Required empty public constructor
+        FirebaseApp.initializeApp(__context);
 
     }
 
@@ -275,7 +275,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_camera, container, false);
-        FirebaseApp.initializeApp(_context);
+      //  FirebaseApp.initializeApp(_context);
         startCamera(view);
         // blurView(this);
 
