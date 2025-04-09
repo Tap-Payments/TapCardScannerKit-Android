@@ -85,6 +85,10 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         this.tapScannerCallback = tapScannerCallback;
 
     }
+    public static void init(Context context) {
+        FirebaseInitializer.initFirebase(context);
+        _context = context;
+    }
 
     /**
      * Responsible for converting the rotation degrees from CameraX into the one compatible with Firebase ML
@@ -264,11 +268,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
 
     }
-    public static void init(Context context) {
-        FirebaseInitializer.initFirebase(context);
-        _context = context;
-        // Add other SDK setup code here
-    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
