@@ -14,9 +14,11 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.annotation.RequiresApi;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
@@ -77,7 +79,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     private Preview preview;
     private int displayMetrics ;
 
-    private Context _context;
+    private static Context _context;
     Camera camera;
     public void setCallBack(TapScannerCallback tapScannerCallback) {
         this.tapScannerCallback = tapScannerCallback;
@@ -154,7 +156,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
 
         imageAnalysis.setAnalyzer(executor, new ImageAnalysis.Analyzer() {
-            @SuppressLint("UnsafeExperimentalUsageError")
+            @OptIn(markerClass = ExperimentalGetImage.class) @SuppressLint("UnsafeExperimentalUsageError")
             @Override
             public void analyze(@NonNull ImageProxy image) {
                 //changing normal degrees into Firebase rotation
@@ -258,12 +260,15 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
          camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
 
     }
-    public CameraFragment(Context __context) {
-        _context = __context;
-        FirebaseApp.initializeApp(__context);
+    public CameraFragment() {
+
 
     }
-
+    public static void init(Context context) {
+        FirebaseInitializer.initFirebase(context);
+        _context = context;
+        // Add other SDK setup code here
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
