@@ -123,7 +123,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
             public void run() {
                 try {
                     ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                   bindPreview(cameraProvider ,view);
+                    bindPreview(cameraProvider ,view);
                 } catch (ExecutionException | InterruptedException e) {
                     // No errors need to be handled for this Future.
                     // This should never be reached.
@@ -157,12 +157,17 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                         .build();
 
+        ensureFirebaseInitialized();
 
         imageAnalysis.setAnalyzer(executor, new ImageAnalysis.Analyzer() {
             @OptIn(markerClass = ExperimentalGetImage.class) @SuppressLint("UnsafeExperimentalUsageError")
             @Override
             public void analyze(@NonNull ImageProxy image) {
                 //changing normal degrees into Firebase rotation
+                // Check if Firebase is initialized, if not initialize it
+                if (FirebaseApp.getApps(_context).isEmpty()) {
+                    FirebaseApp.initializeApp(_context);
+                }
                 int rotationDegrees = degreesToFirebaseRotation(image.getImageInfo().getRotationDegrees());
                 if (image == null || image.getImage() == null) {
                     return;
@@ -177,7 +182,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                 //Getting the values for cropping
                 DisplayMetrics displaymetrics = new DisplayMetrics();
                 if(getActivity()!=null)
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                    getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
                 int height = bmp.getHeight();
                 int width = bmp.getWidth();
 
@@ -201,14 +206,14 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
 
                 //Creating new cropped bitmap
-            //    Bitmap bitmap = Bitmap.createBitmap(bmp, left, top, boxWidth, boxHeight);
-             //   Rect rectCrop = new Rect(left,top,right,bottom); // TRial below lines
-              //  Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
-              //  Bitmap bitmap = Bitmap.createBitmap(bmp, rectCrop.left, rectCrop.top, rectCrop.width(), rectCrop.height() );
-               // Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
+                //    Bitmap bitmap = Bitmap.createBitmap(bmp, left, top, boxWidth, boxHeight);
+                //   Rect rectCrop = new Rect(left,top,right,bottom); // TRial below lines
+                //  Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
+                //  Bitmap bitmap = Bitmap.createBitmap(bmp, rectCrop.left, rectCrop.top, rectCrop.width(), rectCrop.height() );
+                // Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
 
-              //  System.out.println("bitmap frag is"+bitmap);
-              if(_context!=null) FirebaseApp.initializeApp(_context);
+                //  System.out.println("bitmap frag is"+bitmap);
+                if(_context!=null) FirebaseApp.initializeApp(_context);
                 //initializing FirebaseVisionTextRecognizer object
                 FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
                 //Passing FirebaseVisionImage Object created from the cropped bitmap
@@ -222,20 +227,20 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                                 //getting decoded text
                                 String text = firebaseVisionText.getText();
                                 //Setting the decoded text in the texttview
-                               // textView.setText(text); // stopped detect text
+                                // textView.setText(text); // stopped detect text
                                 // textRecognitionML.decodeImage(bitmap);
                                 //for getting blocks and line elements
                                 for (FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks()) {
                                     String blockText = block.getText();
                                     // System.out.println("blockText ll are"+blockText.length());
-                                   //   System.out.println("blockText are"+blockText);
+                                    //   System.out.println("blockText are"+blockText);
                                     // textRecognitionML.processText(blockText);
-                                   // textRecognitionML.processScannedCardDetails(blockText);
+                                    // textRecognitionML.processScannedCardDetails(blockText);
                                     for (FirebaseVisionText.Line line : block.getLines()) {
                                         String lineText = line.getText();
                                         for (FirebaseVisionText.Element element : line.getElements()) {
                                             String elementText = element.getText();
-                                         //   System.out.println("elementText are"+elementText);
+                                            //   System.out.println("elementText are"+elementText);
 
                                         }
                                         textRecognitionML.processScannedCardDetails(lineText);
@@ -260,7 +265,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
 
         });
-         camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
+        camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
 
     }
     public CameraFragment() {
@@ -279,7 +284,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_camera, container, false);
-        FirebaseApp.initializeApp(_context);
+        // FirebaseApp.initializeApp(_context);
         startCamera(view);
         // blurView(this);
 
@@ -292,6 +297,16 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         textRecognitionML = new TapTextRecognitionML(this);
 
         return view;
+    }
+
+    private void ensureFirebaseInitialized() {
+        try {
+            if (FirebaseApp.getApps(_context).isEmpty()) {
+                FirebaseApp.initializeApp(_context);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error initializing Firebase: " + e.getMessage(), e);
+        }
     }
 
     /**
@@ -337,20 +352,20 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         // System.out.println("left"+left +"\n"+ "right"+right +"\n"+"top"+top +"\n"+"bottom"+bottom +"\n");
         xOffset = left;
         yOffset = top;
-       // boxHeight = bottom - top - 400;
+        // boxHeight = bottom - top - 400;
         boxHeight = bottom - top;
         boxWidth = right - left;
         //Changing the value of x in diameter/x will change the size of the box ; inversely proportionate to x
-       //  canvas.drawRect(left, top, right, bottom, paint);
-       //  canvas.drawPath(createCornersPath(left, top/2, right, bottom/2, 50), paint);
+        //  canvas.drawRect(left, top, right, bottom, paint);
+        //  canvas.drawPath(createCornersPath(left, top/2, right, bottom/2, 50), paint);
         // canvas.drawPath(createCornersPath(left/2 - 500, top/2 - 500, right/2  +500, bottom/2 + 500, 150), paint);
-       // canvas.drawPath(createCornersPath(width/2 - 450, height/2 - 350, width/2  +450, height/2 + 350, 100), paint);
-     if (displayMetrics == DisplayMetrics.DENSITY_280||displayMetrics == DisplayMetrics.DENSITY_260||displayMetrics == DisplayMetrics.DENSITY_300||displayMetrics == DisplayMetrics.DENSITY_XHIGH || displayMetrics == DisplayMetrics.DENSITY_340||displayMetrics == DisplayMetrics.DENSITY_360) {
-          canvas.drawPath(createCornersPath(width/2-300, height/2 - 160, width/2+300 , height/2 + 160, 50), paint);
+        // canvas.drawPath(createCornersPath(width/2 - 450, height/2 - 350, width/2  +450, height/2 + 350, 100), paint);
+        if (displayMetrics == DisplayMetrics.DENSITY_280||displayMetrics == DisplayMetrics.DENSITY_260||displayMetrics == DisplayMetrics.DENSITY_300||displayMetrics == DisplayMetrics.DENSITY_XHIGH || displayMetrics == DisplayMetrics.DENSITY_340||displayMetrics == DisplayMetrics.DENSITY_360) {
+            canvas.drawPath(createCornersPath(width/2-300, height/2 - 160, width/2+300 , height/2 + 160, 50), paint);
 
-    } else canvas.drawPath(createCornersPath(width/2-450, height/2 - 300, width/2+450  , height/2 + 300, 100), paint);
+        } else canvas.drawPath(createCornersPath(width/2-450, height/2 - 300, width/2+450  , height/2 + 300, 100), paint);
 
-     //   canvas.drawPath(createCornersPath(left,top,right,bottom, 100), paint);
+        //   canvas.drawPath(createCornersPath(left,top,right,bottom, 100), paint);
         holder.unlockCanvasAndPost(canvas);
     }
 
@@ -452,7 +467,13 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-       this. _context = context;
-      if(context!=null) FirebaseApp.initializeApp(context);
+        this. _context = context;
+        if(context!=null){
+            try {
+                FirebaseApp.initializeApp(context);
+            } catch (IllegalStateException e) {
+                // Firebase already initialized, ignore
+            }
+        }
     }
 }
