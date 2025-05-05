@@ -2,377 +2,202 @@ package company.tap.cardscanner;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
-import android.graphics.Rect;
+import android.graphics.*;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.Size;
+import android.view.*;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
 import androidx.annotation.RequiresApi;
+import androidx.camera.core.*;
 import androidx.camera.core.Camera;
-import androidx.camera.core.CameraSelector;
-import androidx.camera.core.ExperimentalGetImage;
-import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageProxy;
-import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.Size;
-import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.common.util.concurrent.ListenableFuture;
+import com.google.android.gms.tasks.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
-import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions;
-import com.google.firebase.ml.vision.text.FirebaseVisionText;
-import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
+import com.google.firebase.ml.vision.common.*;
+import com.google.firebase.ml.vision.text.*;
+import com.google.common.util.concurrent.ListenableFuture;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
-/**
- * A simple {@link Fragment} subclass.
+public class CameraFragment extends Fragment implements SurfaceHolder.Callback, TapTextRecognitionCallBack {
 
- * create an instance of this fragment.
- *
- */
-public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,TapTextRecognitionCallBack{
-    TextView textView;
-    PreviewView mCameraView;
-    SurfaceHolder holder;
-    SurfaceView surfaceView;
-    Canvas canvas;
-    Paint paint;
-    int cameraHeight, cameraWidth, xOffset, yOffset, boxWidth, boxHeight;
+    private static final String TAG = "CameraFragment";
+    private TextView textView;
+    private PreviewView mCameraView;
+    private SurfaceHolder holder;
+    private SurfaceView surfaceView;
+    private Canvas canvas;
+    private Paint paint;
+    private int displayMetrics;
+
     private TapTextRecognitionML textRecognitionML;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
-    private TapScannerCallback tapScannerCallback ;
-    private static final String TAG = "CameraActivity";
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private TapScannerCallback tapScannerCallback;
     private Preview preview;
-    private int displayMetrics ;
+    private Camera camera;
+    private static Context appContext;
 
-    private static Context _context;
-    Camera camera;
-    public void setCallBack(TapScannerCallback tapScannerCallback, Context context) {
-        this.tapScannerCallback = tapScannerCallback;
-        FirebaseInitializer.initFirebase(context);
-        _context = context;
-
+    public void setCallBack(TapScannerCallback callback, Context context) {
+        this.tapScannerCallback = callback;
+        appContext = context.getApplicationContext();
+        FirebaseInitializer.initFirebase(appContext);
     }
 
+    public CameraFragment() {}
 
-    /**
-     * Responsible for converting the rotation degrees from CameraX into the one compatible with Firebase ML
-     */
-
-    private int degreesToFirebaseRotation(int degrees) {
-        switch (degrees) {
-            case 0:
-                return FirebaseVisionImageMetadata.ROTATION_0;
-            case 90:
-                return FirebaseVisionImageMetadata.ROTATION_90;
-            case 180:
-                return FirebaseVisionImageMetadata.ROTATION_180;
-            case 270:
-                return FirebaseVisionImageMetadata.ROTATION_270;
-            default:
-                throw new IllegalArgumentException(
-                        "Rotation must be 0, 90, 180, or 270.");
-        }
-    }
-
-    /**
-     * Starting Camera
-     * @param view
-     */
-    void startCamera(View view) {
-        mCameraView = view.findViewById(R.id.previewView);
-        cameraProviderFuture = ProcessCameraProvider.getInstance(getContext());
-
-        cameraProviderFuture.addListener(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void run() {
-                try {
-                    ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                    bindPreview(cameraProvider ,view);
-                } catch (ExecutionException | InterruptedException e) {
-                    // No errors need to be handled for this Future.
-                    // This should never be reached.
-                }
-            }
-        }, ContextCompat.getMainExecutor(getContext()));
-
-    }
-
-    /**
-     * Binding to camera
-     */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void bindPreview(ProcessCameraProvider cameraProvider, View view) {
-        preview = new Preview.Builder()
-                .build();
-
-        CameraSelector cameraSelector = new CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                .build();
-
-        preview.setSurfaceProvider(mCameraView.getSurfaceProvider());
-        mCameraView.setScaleType(PreviewView.ScaleType.FILL_CENTER);
-        DisplayMetrics metrics = this.getResources().getDisplayMetrics();
-
-        //Image Analysis Function
-        //Set static size according to your device or write a dynamic function for it
-        ImageAnalysis imageAnalysis =
-                new ImageAnalysis.Builder()
-                        .setTargetResolution(new Size(metrics.widthPixels, metrics.heightPixels))
-                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                        .build();
-
-        ensureFirebaseInitialized();
-
-        imageAnalysis.setAnalyzer(executor, new ImageAnalysis.Analyzer() {
-            @OptIn(markerClass = ExperimentalGetImage.class) @SuppressLint("UnsafeExperimentalUsageError")
-            @Override
-            public void analyze(@NonNull ImageProxy image) {
-                //changing normal degrees into Firebase rotation
-                // Check if Firebase is initialized, if not initialize it
-                if (FirebaseApp.getApps(_context).isEmpty()) {
-                    FirebaseApp.initializeApp(_context);
-                }
-                int rotationDegrees = degreesToFirebaseRotation(image.getImageInfo().getRotationDegrees());
-                if (image == null || image.getImage() == null) {
-                    return;
-                }
-
-//Getting a FirebaseVisionImage object using the Image object and rotationDegrees
-                final Image mediaImage = image.getImage();
-                FirebaseVisionImage images = FirebaseVisionImage.fromMediaImage(mediaImage, rotationDegrees);
-                //Getting bitmap from FirebaseVisionImage Object
-                Bitmap bmp = images.getBitmap();  System.out.println("bmp"+bmp);
-                FirebaseVisionImage images5 = FirebaseVisionImage.fromBitmap(bmp);
-                //Getting the values for cropping
-                DisplayMetrics displaymetrics = new DisplayMetrics();
-                if(getActivity()!=null)
-                    getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-                int height = bmp.getHeight();
-                int width = bmp.getWidth();
-
-                int left, right, top, bottom, diameter;
-
-                diameter = width;
-                if (height < width) {
-                    diameter = height;
-                }
-
-                int offset = (int) (0.5 * diameter);
-                diameter -= offset;
-
-                left = (int) (width / 2 - diameter /2.5);
-                top = (int) (height / 2 - diameter / 2.5);
-                right = (int) (width / 2 + diameter / 2.5);
-                bottom = (int) (height / 2 + diameter /2.5);
-
-                xOffset = left;
-                yOffset = top;
-
-
-                //Creating new cropped bitmap
-                //    Bitmap bitmap = Bitmap.createBitmap(bmp, left, top, boxWidth, boxHeight);
-                //   Rect rectCrop = new Rect(left,top,right,bottom); // TRial below lines
-                //  Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
-                //  Bitmap bitmap = Bitmap.createBitmap(bmp, rectCrop.left, rectCrop.top, rectCrop.width(), rectCrop.height() );
-                // Bitmap bitmap = Bitmap.createBitmap(bmp, 0, rectCrop.top, rectCrop.width(), rectCrop.height() );
-
-                //  System.out.println("bitmap frag is"+bitmap);
-                if(_context!=null) FirebaseApp.initializeApp(_context);
-                //initializing FirebaseVisionTextRecognizer object
-                FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
-                //Passing FirebaseVisionImage Object created from the cropped bitmap
-                Task<FirebaseVisionText> result = detector.processImage(FirebaseVisionImage.fromBitmap(bmp))
-                        .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
-                            @Override
-                            public void onSuccess(FirebaseVisionText firebaseVisionText) {
-                                // Task completed successfully
-                                // ...
-                                textView = view.findViewById(R.id.text);
-                                //getting decoded text
-                                String text = firebaseVisionText.getText();
-                                //Setting the decoded text in the texttview
-                                // textView.setText(text); // stopped detect text
-                                // textRecognitionML.decodeImage(bitmap);
-                                //for getting blocks and line elements
-                                for (FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks()) {
-                                    String blockText = block.getText();
-                                    // System.out.println("blockText ll are"+blockText.length());
-                                    //   System.out.println("blockText are"+blockText);
-                                    // textRecognitionML.processText(blockText);
-                                    // textRecognitionML.processScannedCardDetails(blockText);
-                                    for (FirebaseVisionText.Line line : block.getLines()) {
-                                        String lineText = line.getText();
-                                        for (FirebaseVisionText.Element element : line.getElements()) {
-                                            String elementText = element.getText();
-                                            //   System.out.println("elementText are"+elementText);
-
-                                        }
-                                        textRecognitionML.processScannedCardDetails(lineText);
-
-                                        System.out.println("lineText are"+lineText);
-                                    }
-                                }
-                                image.close();
-                            }
-                        })
-                        .addOnFailureListener(
-                                new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // Task failed with an exception
-                                        // ...
-                                        Log.e("Error", e.toString());
-                                        image.close();
-                                    }
-                                });
-            }
-
-
-        });
-        camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
-
-    }
-    public CameraFragment() {
-
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        appContext = context.getApplicationContext();
+        FirebaseApp.initializeApp(appContext);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseApp.initializeApp(_context);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_camera, container, false);
-        // FirebaseApp.initializeApp(_context);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_camera, container, false);
+        initViews(view);
         startCamera(view);
-        // blurView(this);
+        return view;
+    }
 
-        //Create the bounding box
+    private void initViews(View view) {
+        mCameraView = view.findViewById(R.id.previewView);
         surfaceView = view.findViewById(R.id.overlay);
         surfaceView.setZOrderOnTop(true);
         holder = surfaceView.getHolder();
         holder.setFormat(PixelFormat.TRANSPARENT);
         holder.addCallback(this);
         textRecognitionML = new TapTextRecognitionML(this);
-
-        return view;
     }
 
-    private void ensureFirebaseInitialized() {
-        try {
-            if (FirebaseApp.getApps(_context).isEmpty()) {
-                FirebaseApp.initializeApp(_context);
+    private void startCamera(View view) {
+        cameraProviderFuture = ProcessCameraProvider.getInstance(appContext);
+        cameraProviderFuture.addListener(() -> {
+            try {
+                ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+                bindPreview(cameraProvider);
+            } catch (ExecutionException | InterruptedException e) {
+                Log.e(TAG, "Error starting camera: ", e);
             }
-        } catch (Exception e) {
-            Log.e(TAG, "Error initializing Firebase: " + e.getMessage(), e);
+        }, ContextCompat.getMainExecutor(appContext));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
+        preview = new Preview.Builder().build();
+        CameraSelector cameraSelector = new CameraSelector.Builder()
+                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                .build();
+
+        preview.setSurfaceProvider(mCameraView.getSurfaceProvider());
+        mCameraView.setScaleType(PreviewView.ScaleType.FILL_CENTER);
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
+                .setTargetResolution(new Size(metrics.widthPixels, metrics.heightPixels))
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .build();
+
+        imageAnalysis.setAnalyzer(executor, image -> analyzeImage(image));
+
+        camera = cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
+    }
+
+    @OptIn(markerClass = ExperimentalGetImage.class)
+    private void analyzeImage(ImageProxy image) {
+        if (!isAdded() || getContext() == null) return;
+
+        Image mediaImage = image.getImage();
+        if (mediaImage == null) {
+            image.close();
+            return;
+        }
+
+        FirebaseVisionImage firebaseImage = FirebaseVisionImage.fromMediaImage(mediaImage,
+                degreesToFirebaseRotation(image.getImageInfo().getRotationDegrees()));
+        Bitmap bitmap = firebaseImage.getBitmap();
+
+        FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
+        detector.processImage(FirebaseVisionImage.fromBitmap(bitmap))
+                .addOnSuccessListener(firebaseVisionText -> {
+                    for (FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks()) {
+                        for (FirebaseVisionText.Line line : block.getLines()) {
+                            textRecognitionML.processScannedCardDetails(line.getText());
+                        }
+                    }
+                    image.close();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Detection failed", e);
+                    image.close();
+                });
+    }
+
+    private int degreesToFirebaseRotation(int degrees) {
+        switch (degrees) {
+            case 0: return FirebaseVisionImageMetadata.ROTATION_0;
+            case 90: return FirebaseVisionImageMetadata.ROTATION_90;
+            case 180: return FirebaseVisionImageMetadata.ROTATION_180;
+            case 270: return FirebaseVisionImageMetadata.ROTATION_270;
+            default: throw new IllegalArgumentException("Invalid rotation degree: " + degrees);
         }
     }
 
-    /**
-     * For drawing the rectangular box
-     */
-    private void DrawFocusRect(int color) {
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int height = mCameraView.getHeight();
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {}
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        drawFocusRect(TapTextRecognitionML.getFrameColor());
+    }
+
+    private void drawFocusRect(int color) {
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
         int width = mCameraView.getWidth();
-        this.displayMetrics =displaymetrics.densityDpi;
-        //cameraHeight = height;
-        //cameraWidth = width;
+        int height = mCameraView.getHeight();
+        displayMetrics = metrics.densityDpi;
 
-        int left, right, top, bottom, diameter;
-
-        diameter = width;
-        if (height < width) {
-            diameter = height;
-        }
-
-        int offset = (int) (0.05 * diameter);
-        diameter -= offset;
+        int diameter = Math.min(width, height) - (int) (0.05 * Math.min(width, height));
+        int left = width / 2 - diameter / 2;
+        int top = height / 2 - diameter / 2;
+        int right = width / 2 + diameter / 2;
+        int bottom = height / 2 + diameter / 2;
 
         canvas = holder.lockCanvas();
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
-        //border's properties
+
         paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(color);
         paint.setStrokeWidth(5);
 
-        left = (int) (width / 2 - diameter / 2.5);
-        top = (int) (height / 2 - diameter /2.5);
-        right = (int) (width / 2 + diameter / 2.5);
-        bottom = (int) (height / 2 + diameter / 2.5);
-/*
-                left = width / 2 - 500;
-                top = height / 2 - 500;
-                right = width / 2 + 500;
-                bottom = height / 2 + 500;*/
+        Path path = createCornersPath(left, top, right, bottom,
+                (displayMetrics <= DisplayMetrics.DENSITY_360) ? 50 : 100);
+        canvas.drawPath(path, paint);
 
-        // System.out.println("left"+left +"\n"+ "right"+right +"\n"+"top"+top +"\n"+"bottom"+bottom +"\n");
-        xOffset = left;
-        yOffset = top;
-        // boxHeight = bottom - top - 400;
-        boxHeight = bottom - top;
-        boxWidth = right - left;
-        //Changing the value of x in diameter/x will change the size of the box ; inversely proportionate to x
-        //  canvas.drawRect(left, top, right, bottom, paint);
-        //  canvas.drawPath(createCornersPath(left, top/2, right, bottom/2, 50), paint);
-        // canvas.drawPath(createCornersPath(left/2 - 500, top/2 - 500, right/2  +500, bottom/2 + 500, 150), paint);
-        // canvas.drawPath(createCornersPath(width/2 - 450, height/2 - 350, width/2  +450, height/2 + 350, 100), paint);
-        if (displayMetrics == DisplayMetrics.DENSITY_280||displayMetrics == DisplayMetrics.DENSITY_260||displayMetrics == DisplayMetrics.DENSITY_300||displayMetrics == DisplayMetrics.DENSITY_XHIGH || displayMetrics == DisplayMetrics.DENSITY_340||displayMetrics == DisplayMetrics.DENSITY_360) {
-            canvas.drawPath(createCornersPath(width/2-300, height/2 - 160, width/2+300 , height/2 + 160, 50), paint);
-
-        } else canvas.drawPath(createCornersPath(width/2-450, height/2 - 300, width/2+450  , height/2 + 300, 100), paint);
-
-        //   canvas.drawPath(createCornersPath(left,top,right,bottom, 100), paint);
         holder.unlockCanvasAndPost(canvas);
     }
 
-    /**
-     * Create borders for corner
-     * **/
-    private Path createCornersPath(int left, int top, int right, int bottom, int cornerWidth){
+    private Path createCornersPath(int left, int top, int right, int bottom, int cornerWidth) {
         Path path = new Path();
 
         path.moveTo(left, top + cornerWidth);
@@ -381,7 +206,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
 
         path.moveTo(right - cornerWidth, top);
         path.lineTo(right, top);
-        path.lineTo(right , top + cornerWidth);
+        path.lineTo(right, top + cornerWidth);
 
         path.moveTo(left, bottom - cornerWidth);
         path.lineTo(left, bottom);
@@ -391,89 +216,39 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback ,
         path.lineTo(right, bottom);
         path.lineTo(right, bottom - cornerWidth);
 
-
         return path;
     }
-    /**
-     * Callback functions for the surface Holder
-     */
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        //Drawing rectangle
-        DrawFocusRect(TapTextRecognitionML.getFrameColor());
-    }
-
-    @SuppressLint("RestrictedApi")
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        holder.getSurface().release();
         holder.removeCallback(this);
-
     }
 
     @Override
     public void onRecognitionSuccess(TapCard card) {
-        if(card!=null){
-            if(card.getCardNumber()!=null && card.getCardHolder()!=null &&  card.getExpirationDate()!=null){
-                TapTextRecognitionML.getListener().onReadSuccess(card);
-                Log.e(TAG, "onRecognitionSuccess: "+card.getCardNumber());
-                Log.e(TAG, "onRecognitionSuccess: "+card.getExpirationDate());
-                Log.e(TAG, "onRecognitionSuccess: "+card.getCardHolder());
-//finish();
-
-            }
+        if (card != null && card.getCardNumber() != null && card.getCardHolder() != null && card.getExpirationDate() != null) {
+            TapTextRecognitionML.getListener().onReadSuccess(card);
         }
-
-
-
     }
 
     @Override
     public void onRecognitionFailure(String error) {
         TapTextRecognitionML.getListener().onReadFailure(error);
-        //finish();
     }
-
 
     @Override
     public void onPause() {
         super.onPause();
-        // if you are using MediaRecorder, release it first
-        mCameraView.removeAllViews();
+        if (mCameraView != null) mCameraView.removeAllViews();
     }
 
-    @SuppressLint("RestrictedApi")
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (preview != null && preview.getCamera()!=null) {
-
-            preview.getCamera().close();
-            preview.getCamera().release();
-
+        if (mCameraView != null) {
             mCameraView.removeAllViews();
             mCameraView.clearAnimation();
-            preview = null;
-
         }
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        this. _context = context;
-        if(context!=null){
-            try {
-                FirebaseApp.initializeApp(context);
-            } catch (IllegalStateException e) {
-                // Firebase already initialized, ignore
-            }
-        }
+        if (executor != null) executor.shutdown();
     }
 }
