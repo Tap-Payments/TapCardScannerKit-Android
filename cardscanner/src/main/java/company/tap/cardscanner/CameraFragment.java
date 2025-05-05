@@ -89,17 +89,28 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         textRecognitionML = new TapTextRecognitionML(this);
     }
 
-    private void startCamera(View view) {
-        cameraProviderFuture = ProcessCameraProvider.getInstance(appContext);
+    void startCamera(View view) {
+        mCameraView = view.findViewById(R.id.previewView);
+        cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext());
+
         cameraProviderFuture.addListener(() -> {
+            if (!isAdded()) return; // 🛡️ Prevent using detached fragment
+
             try {
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                bindPreview(cameraProvider);
+                requireActivity().runOnUiThread(() -> {
+                    if (!isAdded() || getContext() == null) return;
+                    if (isAdded()) {
+
+                        bindPreview(cameraProvider);
+                    }
+                });
             } catch (ExecutionException | InterruptedException e) {
-                Log.e(TAG, "Error starting camera: ", e);
+                e.printStackTrace();
             }
-        }, ContextCompat.getMainExecutor(appContext));
+        }, ContextCompat.getMainExecutor(requireContext()));
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
