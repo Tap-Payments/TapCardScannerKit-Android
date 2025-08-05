@@ -1,4 +1,8 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
+
 def getVersionName = { ->
     try {
         def stdout = new ByteArrayOutputStream()
@@ -84,4 +88,26 @@ dependencies {
     }
     implementation 'jp.wasabeef:blurry:4.0.1'
 
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                // This must be inside afterEvaluate
+                from components.findByName("release")
+
+                groupId = 'com.github.Tap-Payments'
+                artifactId = 'gosellapi'
+                version = android.defaultConfig.versionName ?: "0.0.10.4"
+
+                // Declare dependency on AAR task
+                artifact("$buildDir/outputs/aar/${project.getName()}-release.aar") {
+                    builtBy tasks.named("bundleReleaseAar")
+                }
+
+
+            }
+        }
+    }
 }
