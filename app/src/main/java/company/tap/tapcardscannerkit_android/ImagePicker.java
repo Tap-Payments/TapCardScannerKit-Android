@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import company.tap.cardscanner.AnalyticsHelper;
-import company.tap.cardscanner.BuildConfig;
+
 
 /**
  * Author: Mario Velasco Casquero

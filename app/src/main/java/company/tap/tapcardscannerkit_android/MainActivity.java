@@ -31,7 +31,7 @@ import java.util.Map;
 
 
 import company.tap.cardscanner.AnalyticsHelper;
-import company.tap.cardscanner.BuildConfig;
+
 import company.tap.cardscanner.CameraActivity;
 import company.tap.cardscanner.CameraFragment;
 import company.tap.cardscanner.TapCard;

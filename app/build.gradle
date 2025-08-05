@@ -2,13 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 34
-  //  buildToolsVersion "29.0.3"
+    compileSdkVersion 35
 
+    buildToolsVersion "34.0.0"
     defaultConfig {
         applicationId "company.tap.tapcardscannerkit_android"
+        namespace "company.tap.tapcardscannerkit_android"
         minSdkVersion 24
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 1
         versionName "1.0"
 
