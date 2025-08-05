@@ -1,218 +1,161 @@
 package company.tap.cardscanner;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.util.Log;
 
-import com.google.android.gms.common.util.NumberUtils;
-import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.text.FirebaseVisionText;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Mario Gamal on 4/1/20
- * Copyright © 2020 Tap Payments. All rights reserved.
- */
 public class TapTextRecognitionML {
-    /***
-     * TapTextRecognitionML uses FirebaseML kit
-     * Text recognition can automate reading of credit cards, you can also extract text from pictures of documents,
-     * which you can use to increase accessibility of documents.
-     *
-     */
+
     private TapTextRecognitionCallBack textRecognitionCallBack;
     private static TapScannerCallback _tapScannerCallback;
-    private static int frameColor = Color .WHITE;
-    TapCard card = new TapCard();
+    private static int frameColor = 0xFFFFFFFF; // White
+
+    private TapCard card = new TapCard();
+    private final Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+    private final StringBuilder textBuffer = new StringBuilder();
+
     public static final String NEW_LINE = System.getProperty("line.separator");
 
-    private Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
-    StringBuffer text =new StringBuffer();
     public TapTextRecognitionML(TapTextRecognitionCallBack textRecognitionCallBack) {
         this.textRecognitionCallBack = textRecognitionCallBack;
-
     }
-
 
     public void decodeImage(Bitmap imageBitmap) {
-        // Capture image & SDK version
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("bitmap", String.valueOf(imageBitmap));
-     //   parameters.put("sdk", BuildConfig.VERSION_NAME);
-     //   parameters.put("appId", BuildConfig.LIBRARY_PACKAGE_NAME);
-      //  AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_DECODE_IMAGE, parameters, true);
-        /*
-         public class FirebaseVisionImage extends Object
-         Represents an image object that can be used for both on-device and cloud API detectors.
-         */
+        try {
+            InputImage image = InputImage.fromBitmap(imageBitmap, 0);
 
-        FirebaseVisionImage firebaseImage = FirebaseVisionImage.fromBitmap(imageBitmap);
-        /*
-         FirebaseVisionTextRecognizer  is a Text recognizer for performing optical character
-         recognition(OCR) on an input image.
-         */
-        FirebaseVision.getInstance().getOnDeviceTextRecognizer().processImage(firebaseImage)
-                .addOnSuccessListener(this::processText)
-                .addOnFailureListener(e -> textRecognitionCallBack.onRecognitionFailure(e.getMessage()));
+            TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
+            recognizer.process(image)
+                    .addOnSuccessListener(this::processText)
+                    .addOnFailureListener(e -> textRecognitionCallBack.onRecognitionFailure(e.getMessage()));
+
+        } catch (Exception e) {
+            textRecognitionCallBack.onRecognitionFailure("Failed to process image: " + e.getMessage());
+        }
     }
 
+    private void processText(Text visionText) {
+        List<Text.TextBlock> blocks = visionText.getTextBlocks();
+        TapCard detectedCard = new TapCard();
 
-    /*
-     public class FirebaseVisionText extends Object
-     A hierarchical representation of texts.A FirebaseVisionText contains a list of FirebaseVisionText.TextBlock,
-     and a FirebaseVisionText.TextBlock contains a list of FirebaseVisionText.Line which is composed of a list of
-     FirebaseVisionText.Element.
-     */
+        for (Text.TextBlock block : blocks) {
+            String blockText = block.getText();
 
-    private void processText(FirebaseVisionText firebaseVisionText) {
-        List<FirebaseVisionText.TextBlock> blocks = firebaseVisionText.getTextBlocks();
-        TapCard card = new TapCard();
-        for (FirebaseVisionText.TextBlock word : blocks
-        ) {
-            System.out.println("word is leght>>"+word.getText().length());
-            System.out.println("word is"+word.getText());
-            System.out.println("word is ss"+ word.getLines().size());
+            if (isHolderName(blockText))
+                detectedCard.setCardHolder(blockText);
 
-            if (isHolderName(word.getText()))
-                card.setCardHolder(word.getText());
+            if (blockText.matches("^(0[1-9]|1[0-2]|[1-9])/(1[4-9]|[2-9][0-9]|20[1-9][1-9])$"))
+                detectedCard.setExpirationDate(blockText);
 
-            if (word.getText().matches("^(0[1-9]|1[0-2]|[1-9])/(1[4-9]|[2-9][0-9]|20[1-9][1-9])$"))
-                card.setExpirationDate(word.getText());
+            // Card number pattern (Visa, MasterCard, Amex, etc)
+            String cardNumberRegex = "^(?:4[0-9]{12}(?:[0-9]{3})?" +
+                    "|[25][1-7][0-9]{14}" +
+                    "|6(?:011|5[0-9]{2})[0-9]{12}" +
+                    "|3[47][0-9]{13}" +
+                    "|3(?:0[0-5]|[68][0-9])[0-9]{11}" +
+                    "|(?:2131|1800|35\\d{3})\\d{11})$";
 
-         //   if (word.getText().contains(" ")) {
-                if (word.getText().replace(" ", "")
-                        .matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$"))
-                    card.setCardNumber(word.getText());
-
-         //   }
-               /*if (isNumeric(word.getText()) && word.getText().length()>=4){
-                   String rere = "";
-                    rere = rere.concat(word.getText());
-                   card.setCardNumber(rere);
-               }
-
-*/
-
-/*
-       String regex = "^(?:4[0-9]\\w+\n{12}(?:[0-9]\\w+\n{3}))$";
-            if (word.getText().replace(")","").replace("|","").matches(regex) )
-                card.setCardNumber(word.getText());*/
-          /*  if (word.getText().contains(")")||word.getText().contains("|")){
-                card.setCardNumber(word.getText().replace(")","").replace("|",""));
-            }*/
-          //  card.setCardNumber(word.getText().replace(")","").replace("|",""));
-
-        }
-        if (card != null){
-            textRecognitionCallBack.onRecognitionSuccess(card);
-           // TapTextRecognitionML.getListener().onReadSuccess(card);
-          // _tapScannerCallback.onReadSuccess(card);
+            if (blockText.replace(" ", "").matches(cardNumberRegex))
+                detectedCard.setCardNumber(blockText);
         }
 
-        else
-            textRecognitionCallBack.onRecognitionFailure("No data founded");
+        if (detectedCard != null &&
+                detectedCard.getCardHolder() != null &&
+                detectedCard.getCardNumber() != null &&
+                detectedCard.getExpirationDate() != null) {
 
+            textRecognitionCallBack.onRecognitionSuccess(detectedCard);
+        } else {
+            textRecognitionCallBack.onRecognitionFailure("No valid card data found");
+        }
     }
 
-
-    public void processScannedCardDetails(String word){
-
-     //   System.out.println("processScannedCardDetails>>>>"+word);
-      //      System.out.println("check words has newline>>>>"+word.contains(NEW_LINE));
-
+    public void processScannedCardDetails(String word) {
         if (isHolderName(word))
             card.setCardHolder(word);
 
-        if (word.matches("^(0[1-9]|1[0-2]|[1-9])/(1[4-9]|[2-9][0-9]|20[1-9][1-9])$")){
-            card.setExpirationDate(word);
-        }else if (word.matches("^(0[1-9]|1[0-2]|[1-9])-(1[4-9]|[2-9][0-9]|20[1-9][1-9])$")){
+        if (word.matches("^(0[1-9]|1[0-2]|[1-9])/(1[4-9]|[2-9][0-9]|20[1-9][1-9])$")
+                || word.matches("^(0[1-9]|1[0-2]|[1-9])-(1[4-9]|[2-9][0-9]|20[1-9][1-9])$")) {
             card.setExpirationDate(word);
         }
 
+        String cardNumberRegex = "^(?:4[0-9]{12}(?:[0-9]{3})?" +
+                "|[25][1-7][0-9]{14}" +
+                "|6(?:011|5[0-9][0-9])[0-9]{12}" +
+                "|3[47][0-9]{13}" +
+                "|3(?:0[0-5]|[68][0-9])[0-9]{11}" +
+                "|(?:2131|1800|35\\d{3})\\d{11})$";
 
-        if (word.replace(" ", "")
-                .matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$")){
+        if (word.replace(" ", "").matches(cardNumberRegex)) {
             card.setCardNumber(word);
-        }else if(word.contains("|") || word.contains(")")|| word.contains("(")|| word.length()<=5|| word.contains(System.lineSeparator()) && isNumeric(word)) {
-           // text = new StringBuffer();
+        } else if (word.contains("|") || word.contains(")") || word.contains("(") || word.length() <= 5
+                || (word.contains(System.lineSeparator()) && isNumeric(word))) {
 
-            text.append(word);
+            textBuffer.append(word);
 
-           // System.out.println("text is called"+text.toString().replace("\n","").matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$"));
-            System.out.println("text is called"+text);
+            String cardNumber = textBuffer.toString().replace("\n", "")
+                    .replace("|", "")
+                    .replace(")", "")
+                    .replace("(", "");
 
-            String cardNumber = text.toString().replace("\n", "").replace("|", "").replace(")","").replace("(","");
-            System.out.println("cardNumber is called"+cardNumber);
-
-            if (cardNumber.matches("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})|(?:124|124|35\\d{124})$")) {
-                System.out.println("text cardNumber is called"+text.toString().replace("\n", " "));
-                card.setCardNumber(text.toString().replace("\n", " ").replace("|", ""));
+            if (cardNumber.matches(cardNumberRegex)) {
+                card.setCardNumber(cardNumber);
             }
         }
 
-        if (card != null){
-            if(card.getCardNumber()!=null && card.getCardHolder()!=null &&  card.getExpirationDate()!=null) {
-                textRecognitionCallBack.onRecognitionSuccess(card);
-            }
+        if (card.getCardNumber() != null && card.getCardHolder() != null && card.getExpirationDate() != null) {
+            textRecognitionCallBack.onRecognitionSuccess(card);
+        } else {
+            textRecognitionCallBack.onRecognitionFailure("No valid card data found");
         }
-
-        else
-            textRecognitionCallBack.onRecognitionFailure("No data founded");
     }
 
     private boolean isHolderName(String text) {
         if (text == null) return false;
-        else {
-            return isUpperCase(text)
-                    && text.length() > 9
-                    && text.split("\\s+").length > 1;
-        }
+        return isUpperCase(text) && text.length() > 9 && text.trim().split("\\s+").length > 1;
     }
 
     private boolean isUpperCase(String text) {
-        if (text != null) {
-            char[] characters = text.replace(" ", "").toCharArray();
-            for (Character character : characters) {
-                if (!Character.isUpperCase(character) && !character.equals('\'') && !character.equals('.'))
-                    return false;
-            }
+        if (text == null) return false;
+        char[] characters = text.replace(" ", "").toCharArray();
+        for (char c : characters) {
+            if (!Character.isUpperCase(c) && c != '\'' && c != '.') return false;
         }
         return true;
     }
 
-    public void addTapScannerCallback(TapScannerCallback tapScannerCallback){
+    public void addTapScannerCallback(TapScannerCallback tapScannerCallback) {
         _tapScannerCallback = tapScannerCallback;
     }
 
-    public static TapScannerCallback getListener(){
+    public static TapScannerCallback getListener() {
         return _tapScannerCallback;
     }
 
-    public void setFrameColor(int _frameColor){
+    public void setFrameColor(int _frameColor) {
         frameColor = _frameColor;
     }
 
-    public static int getFrameColor(){
+    public static int getFrameColor() {
         return frameColor;
     }
+
     public static boolean isNumeric(String str) {
-        return str.matches("\n?\\d+(\\|\\d+)?");  //match a number with optional '-' and decimal.
+        if (str == null) return false;
+        return str.matches("\\d+");  // simple numeric check
     }
 
     public boolean isNumerice(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
+        if (strNum == null) return false;
         return pattern.matcher(strNum).matches();
     }
-
-
 }

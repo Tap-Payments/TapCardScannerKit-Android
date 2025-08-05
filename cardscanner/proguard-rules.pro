@@ -19,3 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+# CameraX Video specific rules
+-keep class androidx.camera.video.** { *; }
+-keep class androidx.concurrent.futures.** { *; }
