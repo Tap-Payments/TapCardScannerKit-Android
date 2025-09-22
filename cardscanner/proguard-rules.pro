@@ -21,4 +21,8 @@
 #-renamesourcefileattribute SourceFile
 # CameraX Video specific rules
 -keep class androidx.camera.video.** { *; }
+-keep class androidx.camera.** { *; }
 -keep class androidx.concurrent.futures.** { *; }
+# Keep ML Kit classes
+-keep class com.google.mlkit.** { *; }
+-dontwarn com.google.mlkit.**
