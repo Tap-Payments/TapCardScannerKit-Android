@@ -21,16 +21,16 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 
-import com.google.android.gms.tasks.*;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.common.*;
-import com.google.firebase.ml.vision.text.*;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutionException;
 
 public class CameraFragment extends Fragment implements SurfaceHolder.Callback, TapTextRecognitionCallBack {
 
@@ -54,7 +54,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
     public void setCallBack(TapScannerCallback callback, Context context) {
         this.tapScannerCallback = callback;
         appContext = context.getApplicationContext();
-        FirebaseInitializer.initFirebase(appContext);
+        //FirebaseInitializer.initFirebase(appContext); // keep your logic
     }
 
     public CameraFragment() {}
@@ -63,7 +63,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         appContext = context.getApplicationContext();
-        FirebaseApp.initializeApp(appContext);
+        // FirebaseApp.initializeApp(appContext); // ❌ no longer needed for ML Kit
     }
 
     @Override
@@ -94,23 +94,19 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext());
 
         cameraProviderFuture.addListener(() -> {
-            if (!isAdded()) return; // 🛡️ Prevent using detached fragment
+            if (!isAdded()) return;
 
             try {
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
                 requireActivity().runOnUiThread(() -> {
                     if (!isAdded() || getContext() == null) return;
-                    if (isAdded()) {
-
-                        bindPreview(cameraProvider);
-                    }
+                    bindPreview(cameraProvider);
                 });
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
         }, ContextCompat.getMainExecutor(requireContext()));
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
@@ -128,14 +124,17 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build();
 
-        imageAnalysis.setAnalyzer(executor, image -> analyzeImage(image));
+        imageAnalysis.setAnalyzer(executor, this::analyzeImage);
 
         camera = cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
     }
 
     @OptIn(markerClass = ExperimentalGetImage.class)
     private void analyzeImage(ImageProxy image) {
-        if (!isAdded() || getContext() == null) return;
+        if (!isAdded() || getContext() == null) {
+            image.close();
+            return;
+        }
 
         Image mediaImage = image.getImage();
         if (mediaImage == null) {
@@ -143,15 +142,16 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
             return;
         }
 
-        FirebaseVisionImage firebaseImage = FirebaseVisionImage.fromMediaImage(mediaImage,
-                degreesToFirebaseRotation(image.getImageInfo().getRotationDegrees()));
-        Bitmap bitmap = firebaseImage.getBitmap();
+        InputImage inputImage = InputImage.fromMediaImage(mediaImage,
+                image.getImageInfo().getRotationDegrees());
 
-        FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
-        detector.processImage(FirebaseVisionImage.fromBitmap(bitmap))
+        com.google.mlkit.vision.text.TextRecognizer recognizer =
+                TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+
+        recognizer.process(inputImage)
                 .addOnSuccessListener(firebaseVisionText -> {
-                    for (FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks()) {
-                        for (FirebaseVisionText.Line line : block.getLines()) {
+                    for (Text.TextBlock block : firebaseVisionText.getTextBlocks()) {
+                        for (Text.Line line : block.getLines()) {
                             textRecognitionML.processScannedCardDetails(line.getText());
                         }
                     }
@@ -161,16 +161,6 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
                     Log.e(TAG, "Detection failed", e);
                     image.close();
                 });
-    }
-
-    private int degreesToFirebaseRotation(int degrees) {
-        switch (degrees) {
-            case 0: return FirebaseVisionImageMetadata.ROTATION_0;
-            case 90: return FirebaseVisionImageMetadata.ROTATION_90;
-            case 180: return FirebaseVisionImageMetadata.ROTATION_180;
-            case 270: return FirebaseVisionImageMetadata.ROTATION_270;
-            default: throw new IllegalArgumentException("Invalid rotation degree: " + degrees);
-        }
     }
 
     @Override
@@ -194,6 +184,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         int bottom = height / 2 + diameter / 2;
 
         canvas = holder.lockCanvas();
+        if (canvas == null) return;
+
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
 
         paint = new Paint();

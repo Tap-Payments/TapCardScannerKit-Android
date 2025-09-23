@@ -2,7 +2,7 @@ package company.tap.cardscanner;
 
 import android.content.Context;
 
-import com.google.firebase.FirebaseApp;
+/*import com.google.firebase.FirebaseApp;
 
 public class FirebaseInitializer {
 
@@ -13,4 +13,4 @@ public class FirebaseInitializer {
             FirebaseApp.initializeApp(context.getApplicationContext());
         }
     }
-}
+}*/
