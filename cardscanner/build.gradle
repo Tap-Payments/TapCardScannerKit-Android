@@ -101,7 +101,7 @@ afterEvaluate {
 
                 groupId = "com.github.Tap-Payments"
                 artifactId = "TapCardScannerKit-Android"
-                version = android.defaultConfig.versionName ?: "0.0.11.6"
+                version = android.defaultConfig.versionName ?: "0.0.11.8"
 
                 // Attach sources and javadoc
                 artifact(tasks.named("releaseJavadoc"))
