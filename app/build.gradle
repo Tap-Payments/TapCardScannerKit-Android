@@ -2,23 +2,24 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    namespace 'company.tap.tapcardscannerkit_android'
-    compileSdkVersion 34
+    compileSdkVersion 35
   //  buildToolsVersion "29.0.3"
 
     defaultConfig {
 
-        minSdkVersion 21
-        targetSdkVersion 34
+        namespace 'company.tap.tapcardscannerkit_android'
+        minSdkVersion 24
+        targetSdkVersion 35
         versionCode 1
         versionName "1.0"
-
+        consumerProguardFiles 'consumer-rules.pro'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -26,10 +27,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-    buildFeatures {
-        buildConfig true
-    }
-
 }
 
 dependencies {

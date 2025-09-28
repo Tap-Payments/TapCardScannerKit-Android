@@ -29,7 +29,9 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import company.tap.cardscanner.AnalyticsHelper;
+import company.tap.cardscanner.BuildConfig;
 import company.tap.cardscanner.CameraActivity;
 import company.tap.cardscanner.CameraFragment;
 import company.tap.cardscanner.TapCard;
@@ -87,9 +89,9 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         Map<String, String> parameters = new HashMap<String, String>();
        // parameters.put("sdk", BuildConfig.VERSION_NAME);
         AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_FULLSCREEN_CALLED, parameters, true);
-       // Intent intent = new ScanCardIntent.Builder(this).build();
-      //  startActivityForResult(intent, SCAN_CARD_ID);
-      //  setTapCountDownTimer();
+     //   Intent intent = new ScanCardIntent.Builder(this).build();
+     //   startActivityForResult(intent, SCAN_CARD_ID);
+     //   setTapCountDownTimer();
     }
 
     /***
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
        // parameters.put("sdk", BuildConfig.VERSION_NAME);
         AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_INLINE_CALLED, parameters, true);
         setTapCountDownTimer();
-       /* FrameManager.getInstance().setFrameColor(Color.YELLOW);
+      /*  FrameManager.getInstance().setFrameColor(Color.YELLOW);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.inline_container, new InlineViewFragment())
@@ -127,7 +129,16 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         switch (requestCode) {
             case SCAN_CARD_ID:
                 if (resultCode == Activity.RESULT_OK) {
-
+                   /* Card card = data.getParcelableExtra(ScanCardIntent.RESULT_PAYCARDS_CARD);
+                    if (card != null) {
+                        cardNumber.setText(card.getCardNumber());
+                        cardHolder.setText(card.getCardHolderName());
+                        expirationDate.setText(card.getExpirationDate());
+                        cardLayout.setVisibility(View.VISIBLE);
+                        btnImagedecoder.setVisibility(View.GONE);
+                        btnFullscreen.setVisibility(View.GONE);
+                        btnInline.setVisibility(View.GONE);
+                    }*/
                 }
                 break;
             case PICK_IMAGE_ID:
@@ -156,8 +167,24 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
+/*    @Override
+    public void onScanCardFailed(Exception e) {
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
 
-
+   @Override
+    public void onScanCardFinished(Card card, byte[] cardImage) {
+        removeInlineScanner();
+        if (card != null) {
+            cardNumber.setText(card.getCardNumber());
+            cardHolder.setText(card.getCardHolderName());
+            expirationDate.setText(card.getExpirationDate());
+            cardLayout.setVisibility(View.VISIBLE);
+            btnImagedecoder.setVisibility(View.GONE);
+            btnFullscreen.setVisibility(View.GONE);
+            btnInline.setVisibility(View.GONE);
+        }
+    }*/
 
     private void removeInlineScanner() {
         if (isInlineOpened) {
@@ -231,8 +258,7 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                                           String permissions[], int[] grantResults) {
         Log.d("in fragment on request", "Permission callback called-------");
         switch (requestCode) {
             case REQUEST_ID_MULTIPLE_PERMISSIONS: {
@@ -318,9 +344,12 @@ public class MainActivity extends AppCompatActivity implements TapTextRecognitio
     }
 
     public void openInhouseCameraFragment(View view) {
+
+        CameraFragment cameraFragment = new CameraFragment();
+        cameraFragment.setCallBack(this,this);
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.inline_container, new CameraFragment())
+                .replace(R.id.inline_container, cameraFragment)
                 .commit();
         isInlineCameraOpened = true;
     }
