@@ -49,7 +49,7 @@ To integrate TapCardScannerKit into your project add it in your **root** `build.
 Step 2. Add the dependency
 ```java
 	dependencies {
-
+   implementation 'com.github.Tap-Payments:TapCardScannerKit-Android:0.0.12'
           }
 ```
 ## Features
