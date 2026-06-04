@@ -9,10 +9,10 @@ A SDK that provides an interface to scan different types of payment cards with v
 
 To use the SDK the following requirements must be met:
 
-1. **Android Studio 3.6** or newer
+1. **Android Studio 2025.Patch.1** or newer
 2. **Android SDK Tools 29.0.0 ** or newer
-3. **Android Platform Version: API 29: Android 10.0 (Q)
-4. **Android targetSdkVersion: 29
+3. **Android Platform Version: API 35: Android 15
+4. **Android targetSdkVersion: 35
 
 # Installation
 ---
